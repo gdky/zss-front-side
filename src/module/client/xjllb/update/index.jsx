@@ -117,7 +117,7 @@ let Updatexjllb = React.createClass({
                 <tbody>
                     <tr>
                         <td>单位：</td>
-                        <td>大信税务师事务所（广州）有限公司</td>
+                        <td>{data.DWMC}</td>
                         <td>统计时间段：</td>    
                          <td>
                           <div>

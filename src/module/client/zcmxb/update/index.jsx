@@ -119,7 +119,7 @@ let Updatezcmxb = React.createClass({
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="2">单位： 大信税务师事务所（广州）有限公司</td>
+                        <td colSpan="2">单位： {data.DWMC}</td>
                         
                         <td colSpan="4">统计时间段：
                          <div>

@@ -99,7 +99,7 @@ let Addswsjbb = React.createClass({
          if(this.props.data2.length!=0){
               data = this.props.data2;
          };
-    
+   
         return <div className="swsjbb">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
@@ -116,7 +116,7 @@ let Addswsjbb = React.createClass({
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="3">单位： 大信税务师事务所（广州）有限公司</td>                                                                                              
+                        <td colSpan="3">{data[0].DWMC}</td>                                                                                              
                         <td  >  <Col 
                           label="年度：">
                             <SelectorYear  { ...getFieldProps('nd')}/>

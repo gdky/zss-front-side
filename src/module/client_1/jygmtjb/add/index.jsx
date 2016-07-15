@@ -95,7 +95,11 @@ let Addjygmtjb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
-         const data = this.props.data2;   
+           let data =[{}];
+         if(this.props.data2.length!=0){
+              data = this.props.data2;
+         };  
+        
      
         return <div className="swsjbb">
         <div className="fix-table table-bordered table-striped" >

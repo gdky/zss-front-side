@@ -120,7 +120,7 @@ let Updateswsjbb = React.createClass({
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="3">单位： 大信税务师事务所（广州）有限公司</td>                                                                                              
+                        <td colSpan="3">单位：{data.DWMC}</td>                                                                                              
                         <td  >  <Col 
                           label="年度：">
                             <SelectorYear  { ...getFieldProps('nd', { initialValue:data.ND})}/>

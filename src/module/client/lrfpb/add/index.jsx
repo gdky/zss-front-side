@@ -64,7 +64,10 @@ let Addlrfpb = React.createClass({
     render() {
         
          const { getFieldProps } = this.props.form;
-        const obj = this.props.data;  
+           let obj =[{}];
+         if(this.props.data.length!=0){
+              obj = this.props.data;
+         }; 
         return <div className="add">
         <div className="fix-table table-bordered table-striped" >
         <Form horizontal onSubmit={this.handleSubmit}>
