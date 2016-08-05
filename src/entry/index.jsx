@@ -1,11 +1,11 @@
 import '../common/lib';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute,useRouterHistory} from 'react-router';
+import {Router, Route, IndexRoute, useRouterHistory} from 'react-router';
 import { createHistory } from 'history'
 import App from '../component/App';
 import Signin from 'module/signin';
-import {cenHome,clientHome } from '../module/home';
+import {cenHome, clientHome } from '../module/home';
 import NotFound from 'module/404notfound'
 import auth from 'common/auth'
 
@@ -17,7 +17,7 @@ const history = useRouterHistory(createHistory)({
 const Index = React.createClass({
 
     /*登录校验*/
-    requireAuth(nextState, replace){
+    requireAuth(nextState, replace) {
         /*if (!auth.verifyPermission(nextState.location.pathname)) {
          replace({
          pathname: '/404',
@@ -27,17 +27,17 @@ const Index = React.createClass({
         if (!auth.verifyAuth()) {
             replace({
                 pathname: '/signin',
-                state: {nextPathname: nextState.location.pathname}
+                state: { nextPathname: nextState.location.pathname }
             })
         }
     },
 
-    render(){
+    render() {
         /*路由配置*/
         const routes = [{
             path: '/',
             component: App,
-            indexRoute: {component: auth.isClient() ? clientHome : cenHome},
+            indexRoute: { component: auth.isClient() ? clientHome : cenHome },
             ignoreScrollBehavior: true,
             breadcrumbName: '首页',
             onEnter: this.requireAuth,
@@ -59,18 +59,13 @@ const Index = React.createClass({
                 require('../module/xtgnsz/yhgl'),
 
                 //业务管理
-<<<<<<< HEAD
-              /*  require('../module/ywgl/ywbbgl'),
-
-=======
                 require('../module/ywgl/ywbbgl'),
->>>>>>> refs/remotes/origin/master
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
-                require('../module/ywgl/ywzlgl/cxbgyjgl'),*/
+                require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
-              /*  //会员会费管理
+                //会员会费管理
                 require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
                 require('../module/hyhfgl/fzyhyhfgl'),
@@ -81,7 +76,7 @@ const Index = React.createClass({
                 require('../module/cwbb/zcmxb'),
                 require('../module/cwbb/lrb'),
                 require('../module/cwbb/zcfzb'),
-              //  require('../module/cwbb/wsbbb'),
+                require('../module/cwbb/wsbbb'),
 
                 //手动上报报表
                 require('../module/sdsbbb/jzywtjb'),
@@ -130,10 +125,11 @@ const Index = React.createClass({
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
-                */
+
 
                 //系统业务报表(原报表管理-系统业务报表）
                 require('../module/xtywbb/ndjysrtj'),
+                require('../module/xtywbb/ndjzqktj'),
 
                 //系统数据分析
                 require('../module/xtsjfx/swsqktjA'),
@@ -141,13 +137,22 @@ const Index = React.createClass({
                 require('../module/njsjfx/rynjsjfx'),//年检数据分析
                 require('../module/xtsjfx/jgnjsjfxb'),//年检数据分析
 
+                //系统统计报表
+                require('../module/xttjbb/swsqktj_b'),
+                require('../module/xttjbb/swszttj'),
+
+                //机构数据分析
+                require('../module/jgsjfx/zyzzsjfx'),
+                require('../module/jgsjfx/hyxlsjfx'),
+                require('../module/jgsjfx/zjgmsjfx'),
+
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
                 require('../module/hyhf_new/fpdy'),
 
 
-                /*
+
                 //客户端
                 //机构管理
                 require('../module/client/jggl/swsbg'),
@@ -158,63 +163,29 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
 
                 //财务报表上传
-                 require('../module/client/cwbb/lrb'),
-                 require('../module/client/cwbb/lrfpb'),
-                 require('../module/client/cwbb/xjllb'),
-                 require('../module/client/cwbb/zcfzb'),
-                 require('../module/client/cwbb/zcmxb'),
+                require('../module/client/cwbb/lrb'),
+                require('../module/client/cwbb/lrfpb'),
+                require('../module/client/cwbb/xjllb'),
+                require('../module/client/cwbb/zcfzb'),
+                require('../module/client/cwbb/zcmxb'),
 
                 //手动上报报表
-<<<<<<< HEAD
                 require('../module/client/sdsb/swsqkb'),
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
                 require('../module/client/sdsb/jysrqkb'),
-*/
-                //系统统计报表
-                require('../module/xttjbb/swsqktj_b'),
-                require('../module/xttjbb/swszttj'),
-                //系统业务报表
-                
-                  require('../module/xtywbb/ndjzqktj'),
-                //机构数据分析
-                require('../module/jgsjfx/zyzzsjfx'),
-                require('../module/jgsjfx/hyxlsjfx'),
-                require('../module/jgsjfx/zjgmsjfx'),
-
-                //人员年检数据分析
-                require('../module/njsjfx/rynjsjfx'),
-
-                //系统数据分析
-                require('../module/xtsjfx/jgnjsjfxb'),
-                require('../module/xtsjfx/swsqktjA'),
-                require('../module/xtsjfx/hyryqktj'),
-
-/*
-                //会员会费缴纳
-                require('../module/hyhf_new/hyhfjnqk'),
-                require('../module/hyhf_new/fpdy'),
-=======
-                 require('../module/client/sdsb/swsqkb'),
-                 require('../module/client/sdsb/jygmtjb'),
-                 require('../module/client/sdsb/jzywqktjb'),
-                 require('../module/client/sdsb/hyryqktjb'),
-                 require('../module/client/sdsb/jysrqkb'),
-
->>>>>>> refs/remotes/origin/master
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl') //客户信息管理
-*/
             ]
         }, {
-            path: '/signin',
-            component: Signin
-        }, {
-            path: '*',
-            component: NotFound
-        }];
+                path: '/signin',
+                component: Signin
+            }, {
+                path: '*',
+                component: NotFound
+            }];
         return <Router history={history} routes={routes}/>
     }
 });
