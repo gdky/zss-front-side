@@ -1,11 +1,10 @@
-/*年度鉴证情况统计*/
+/*未上报报表查询*/
 module.exports = {
-    path: 'xtywbb/ndjzqktj(/)',
-    breadcrumbName:'系统业务报表/年度鉴证情况统计',
+    path: 'cwbb/wsbbb(/)',
+    breadcrumbName:'财务报表-未上报报表查询',
     getComponent(location, cb) {
         require.ensure([], (require) => {
             cb(null, require('./component'))
-            
         })
     }
 }

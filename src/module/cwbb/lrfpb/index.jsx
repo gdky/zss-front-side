@@ -4,6 +4,7 @@ module.exports = {
     breadcrumbName:'利润分配表',
     getComponent(location, cb) {
         require.ensure([], (require) => {
-d        })
+            cb(null, require('./component'))
+        })
     }
 }

@@ -30,7 +30,7 @@ const lrb = React.createClass({
                 pageSizeOptions: ['5', '10', '20']
 
             },
-           
+            searchToggle: false,
             detailViewToggle: false,
             where: '',
             helper: false,

@@ -1,24 +1,19 @@
-/*
-事务所情况统计表b
-*/
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,Select,Form} from 'antd'
-import CompPageHead from 'component/CompPageHead'
+import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
+import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
-import SelectorYear from './year'
 
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/swstj1';
+const API_URL = config.HOST + config.URI_API_PROJECT + '/wsbbb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 
-const swsqktj_b = React.createClass({
+const wsbbb = React.createClass({
     //初始化state
     getInitialState(){
         return {
@@ -29,14 +24,13 @@ const swsqktj_b = React.createClass({
                 pageSize: 5,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
-
-            },
-            searchToggle: false,
-            detailViewToggle: false,
+                 },
+            searchToggle: true,
             where: '',
-            helper: false,
+            helper: true,
             entity: '',
-            detailHide: true
+            detailHide: true,
+            tables:false,
         }
     },
 
@@ -46,7 +40,6 @@ const swsqktj_b = React.createClass({
         pager.current = pagination.current;
         pager.pageSize = pagination.pageSize;
         this.setState({pagination: pager});
-
         this.fetchData({
             page: pager.current,
             pageSize: pager.pageSize,
@@ -54,18 +47,6 @@ const swsqktj_b = React.createClass({
         })
     },
 
-    //查询按钮
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
-    },
-
-    //刷新按钮
-    handleRefresh(){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        this.setState({pagination: pager, where: ''});
-        this.fetchData();
-    },
 
     //帮助按钮
     handleHelper(){
@@ -86,45 +67,22 @@ const swsqktj_b = React.createClass({
             where: encodeURIComponent(JSON.stringify(value))
         };
         this.setState({pagination: pager, where: value});
-        this.fetchData(params);
-        this.setState({searchToggle: false})
+        this.fetchData(params)
     },
 
-    //点击某行
-    handleRowClick(record){
-        req({
-            url: API_URL + '/' + record.id,
-            type: 'json',
-            method: 'get'
-        }).then(resp=> {
-            let entity = entityFormat(resp,entityModel);
-            this.setState({entity: entity,detailHide:false});
-        }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-    //明细表关闭
-    handleDetailClose(){
-        this.setState({detailHide: true})
-    },
-    
+
     //通过API获取数据
-    fetchData(params = {year:this.state.year}){
+    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
             type: 'json',
             method: 'get',
             data: params,
+            headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
         }).then(resp=> {
+            console.log("zhi",resp)
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
@@ -133,7 +91,8 @@ const swsqktj_b = React.createClass({
             this.setState({
                 data: resp.data,
                 pagination: p,
-                loading: false
+                loading: false,
+                tables:true,
             })
         }).fail(err=> {
             this.setState({loading: false});
@@ -148,56 +107,47 @@ const swsqktj_b = React.createClass({
         })
     },
 
-    componentDidMount(){
-        const params={
-             year:2016
-        }
-        this.fetchData(params);
-    },
-    //下拉框选择日期执行的方法
-    handleYearChange(value){
-             const params={
-            year:value
-           };
-           
-       this.fetchData(params) 
-    },
+    // componentDidMount(){
+    //     this.fetchData();
+    // },
 
     render(){
-       //定义工具栏内容
-        let toolbar = <ToolBar><SelectorYear style={{width:'100px'}} onChange={this.handleYearChange}/>
+        //定义工具栏内容
+        let toolbar = <ToolBar>
 
+            <ButtonGroup>
+                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
+            </ButtonGroup>
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">下拉选择年份可以查看当年机构详细信息</p>);
-   
+        helper.push(<p key="helper-0">选择报表类型和年度，<b>点击查询按钮</b>，查看该类报表当年度未上报报表事务所及其信息</p>);
+        helper.push(<p key="helper-1">系统默认选择当前时间应上报报表年度，默认类型为利润表</p>);
 
-        return <div className="xttjbb-swsqktj_b">
+        return <div className="cwbb-wsbbb">
             <div className="wrap">
-                {<Alert message="操作提示"
-                                         description={helper}
+                {this.state.helper && <Alert message="未上报报表查询帮助"
+                                             description={helper}
                                              type="info"
-                                             />}
+                                             closable
+                                             onClose={this.handleHelperClose}/>}
 
-                <Panel title="事物所情况统计" toolbar={toolbar}> 
-               
+                <Panel title="事务所基本情况表" toolbar={toolbar}>
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                      {this.state.tables && <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
-                               onChange={this.handleSelectYear}
-                               onRowClick={this.handleRowClick}/>
+                               onChange={this.handleChange} />}
                     </div>
                 </Panel>
-               
             </div>
         </div>
     }
 });
 
-module.exports =swsqktj_b;
+module.exports = wsbbb;
+  

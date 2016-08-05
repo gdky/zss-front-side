@@ -1,0 +1,12 @@
+.cwbb-wsbbb .fix-table td {
+    text-align: center;
+}
+.cwbb-wsbbb .fix-table td:first-child {
+    text-align: left;
+}
+.sm {
+	padding: 20px;
+}
+.dt {
+	padding: 10px;
+}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 /*
 年度经营收入统计
@@ -97,5 +98,15 @@ const ndjysrtj = React.createClass({
 });
 
 module.exports =ndjysrtj;
+=======
+import React from 'react'
+import QueueAnim from 'rc-queue-anim'
+import KhxxList from './list'
+import './style.css'
+>>>>>>> refs/remotes/origin/master
 
 
+<<<<<<< HEAD
+=======
+module.exports = test;
+>>>>>>> refs/remotes/origin/master
