@@ -191,7 +191,7 @@ const swsqktj_b = React.createClass({
                                pagination={this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleSelectYear}
-                               onRowClick={this.handleRowClick}/>
+                               />
                     </div>
                 </Panel>
                

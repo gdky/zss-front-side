@@ -179,6 +179,7 @@ const zyzzsjfx = React.createClass({
                         <Table columns={columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
+                               rowKey={resp=>resp.ID}
                                loading={this.state.loading}
                                onChange={this.handleChange}
                                />

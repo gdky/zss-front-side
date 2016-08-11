@@ -60,7 +60,7 @@ const Index = React.createClass({
 
                 //业务管理
 
-                require('../module/ywgl/ywbbgl'),
+                /*require('../module/ywgl/ywbbgl'),
                 require('../module/ywgl/ywzlgl/sfjeyjgl'),
                 require('../module/ywgl/ywzlgl/ndbtyjgl'),
                 require('../module/ywgl/ywzlgl/ywwtyjgl'),
@@ -125,7 +125,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/20'),
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
-                require('../module/spsh/module/46'),
+                require('../module/spsh/module/46'),*/
 
                 //数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
@@ -158,7 +158,7 @@ const Index = React.createClass({
 
                 //客户端
                 //机构管理
-                require('../module/client/jggl/swsbg'),
+                /*require('../module/client/jggl/swsbg'),
                 require('../module/client/jggl/swszx'),
                 require('../module/client/jggl/swshb'),
 
@@ -181,7 +181,7 @@ const Index = React.createClass({
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理
-                require('../module/client/ywgl/ywbb') //事务所业务报备
+                require('../module/client/ywgl/ywbb') //事务所业务报备*/
             ]
         }, {
             path: '/signin',

@@ -166,6 +166,7 @@ const zyzzsjfx = React.createClass({
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}
+                               rowKey={resp=>resp.ID}
                                onChange={this.handleChange}
                                />
                     </div>
