@@ -2,6 +2,7 @@ import React from 'react'
 import {Table,Modal,Button,Spin,notification,Icon,Tab} from 'antd'
 import Panel from 'component/compPanel'
 import SearchForm from './searchForm.jsx'
+import req from 'reqwest'
 
 import {jsonCopy} from 'common/utils.js'
 
@@ -22,7 +23,6 @@ const list = React.createClass({
         this.props.onRefresh()
     },
     handleSearchToggle(){
-        console.log('search')
         this.setState({searchToggle: !this.state.searchToggle})
     },
 

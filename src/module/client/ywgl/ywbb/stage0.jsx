@@ -21,7 +21,8 @@ let stage = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            this.props.onSubmit({stage: 1, values: values});
+            this.props.onSubmit({stage: 1, values: values,customer:this.state.customer||this.props.customer});
+            console.log(this.state.customer)
         })
     },
     checkSssq(rule, value, callback){
@@ -40,6 +41,7 @@ let stage = React.createClass({
     handleOk(entity){
         this.setState({
             customerModal:false,
+            customer:entity
         });
         this.props.form.setFieldsValue({
             DWMC:entity.DWMC,

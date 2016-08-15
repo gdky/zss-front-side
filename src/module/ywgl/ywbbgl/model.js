@@ -1,6 +1,7 @@
 /**
  * Created by ming on 2016/4/11.
  */
+    import React from 'react'
 const model = {
     columns: [{
         title: '序号',
@@ -48,6 +49,12 @@ const model = {
         title: '验证码',
         key: 'yzm',
         dataIndex: 'yzm',
+    },{
+        id: 'caozuo',
+        name: '操作',
+        render(){
+            return <span><a>退回</a></span>
+        }
     }],
     entityModel:{
         colGroupNum:2,

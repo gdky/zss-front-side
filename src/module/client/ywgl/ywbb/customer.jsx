@@ -57,7 +57,7 @@ const customer = React.createClass({
         };
 
         return <Modal {...this.props} title="选择客户" width="300" onOk={this.handleOk}>
-            <div className="ant-search-input-wrapper" style={{ width: 200 }}>
+            <div className="ant-search-input-wrapper" style={{ width: 240 }}>
                 <InputGroup className="ant-search-input">
                     <Input placeholder="用单位名称查询"
                            onChange={this.handleInputChange}
@@ -71,9 +71,10 @@ const customer = React.createClass({
             <Spin spinning={this.state.loading}>
                 <Table pagination={false}
                        dataSource={this.state.data}
+                       size="small"
                        rowSelection={rowSelection}
                        columns={columns}
-                       useFixedHeader/>
+                       />
             </Spin>
         </Modal>
     }

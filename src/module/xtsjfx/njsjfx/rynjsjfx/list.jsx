@@ -83,8 +83,9 @@ const khxxList = React.createClass({
                     年度：<SelectorYear onChange={this.yearChange} style={{"width":"100px"}}/>             
                     <Table className="outer-border"
                            columns={model.columns}
-                           dataSource={this.state.customers}  
-                            />
+                           dataSource={this.state.customers}
+                           rowKey={record=>record.mc}
+                           pagination={false}/>
                  </Panel>
     }
 });
