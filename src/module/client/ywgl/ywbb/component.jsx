@@ -15,7 +15,7 @@ const jid = auth.getJgid();
 const token = auth.getToken();
 const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
 
-const fetchYwbb =function (param = {page: 1, pageSize: 10,jid:jid}) {
+const fetchYwbb =function (param = {page: 1, pageSize: 20,jid:jid}) {
     return req({
         url: LIST_URL,
         method: 'get',
@@ -51,15 +51,33 @@ const ywbb = React.createClass({
     handleSearchSubmit(){
 
     },
+    componentDidMount(){
+        fetchYwbb().then(resp=> {
+            this.setState({
+                pageLoading: false,
+                data: resp.data
+            })
+        }).catch(e=> {
+            this.setState({pageLoading: false});
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {e.status}</p>
+                    </div>  )
+            });
+        })
+    },
 
     render(){
         return <div className="client-ywbb">
             <div className="wrap">
                 <Tabs type="card">
                     <TabPane tab="业务报备记录" key="1">
-                        <List datasource={this.state.data}
+                        <List dataSource={this.state.data}
                               columns={model.columns}
-                              pagination={this.state.pagination}
+                              pagination={false}
                               onChange={this.handlePageChange}
                               onRefresh={this.handleListRefresh}
                               onSubmit={this.handleSearchSubmit}

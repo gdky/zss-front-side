@@ -6,18 +6,14 @@ const FormItem = Form.Item;
 const createForm = Form.create;
 
 let stage = React.createClass({
-    next(){
-        this.props.form.validateFields((errors, values) => {
-            if (!!errors) {
-                return;
-            }
-            values = utils.transEmpty2Null(values);
-            console.log(values);
-            //this.props.onSubmit({stage: 2, values: values});
-        })
+    save(){
+        this.props.onSave();
+    },
+    commit(){
+        this.props.onCommit();
     },
     back(){
-        this.props.onStageChange(0)
+        this.props.onStageChange(1)
     },
     render(){
         const { getFieldProps } = this.props.form;
@@ -83,15 +79,19 @@ let stage = React.createClass({
                 </Row>
 
                 <Row>
-                    <Col span="4" offset="10">
+                    <Col span="6" offset="10">
                         <Button
                           size="large"
                           style={{marginRight:'16px'}}
                           onClick={this.back}>上一步</Button>
                         <Button
                           size="large"
+                          style={{marginRight:'16px'}}
+                          onClick={this.save}>保存</Button>
+                        <Button
+                          size="large"
                           type="primary"
-                          onClick={this.next}>提交</Button>
+                          onClick={this.commit}>报备</Button>
 
                     </Col>
                 </Row>

@@ -90,7 +90,7 @@ module.exports = {
         for(let prop in obj){
             if(!obj[prop]){
                 entity[prop]=null;
-            }else if (obj[prop] && typeof obj[prop]=='String' && !(obj[prop].trim())){
+            }else if (typeof obj[prop]=='string' && !(obj[prop]=obj[prop].trim())){
                 entity[prop]=null;
             }else{
                 entity[prop]=obj[prop];

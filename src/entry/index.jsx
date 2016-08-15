@@ -67,7 +67,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywzlgl/cxbgyjgl'),
 
                //会员会费管理
-                require('../module/hyhfgl/hfjlqk'),
+                /*require('../module/hyhfgl/hfjlqk'),
                 require('../module/hyhfgl/grhyhfgl'),
                 require('../module/hyhfgl/fzyhyhfgl'),
 
@@ -177,7 +177,7 @@ const Index = React.createClass({
                 require('../module/client/sdsb/jygmtjb'),
                 require('../module/client/sdsb/jzywqktjb'),
                 require('../module/client/sdsb/hyryqktjb'),
-                require('../module/client/sdsb/jysrqkb'),
+                require('../module/client/sdsb/jysrqkb'),*/
            
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理

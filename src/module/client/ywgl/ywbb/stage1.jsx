@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
 
-//定义纳税人性质下拉
+//定义纳税方式人性质下拉
 const SelectNSRXZ = React.createClass({
     render(){
         return <Select {...this.props} >
@@ -18,7 +18,7 @@ const SelectNSRXZ = React.createClass({
         </Select>
     }
 });
-//定义征收方式
+//定义征收
 const SelectZSFS = React.createClass({
     render(){
         return <Select {...this.props} >
@@ -61,8 +61,7 @@ let stage = React.createClass({
                 return;
             }
             values = utils.transEmpty2Null(values);
-            console.log(values);
-            //this.props.onSubmit({stage: 2, values: values});
+            this.props.onSubmit({stage: 2, values: values});
         })
     },
     back(){
@@ -78,6 +77,7 @@ let stage = React.createClass({
     render(){
 
         const { getFieldProps } = this.props.form;
+        const ywlx = this.props.ywlx;
         const qmswsProps = getFieldProps('QMSWS', {
             rules: [
                 //{required: true, type: 'array',message},
@@ -119,6 +119,70 @@ let stage = React.createClass({
                 {required: true, type:'number',  message: '必填项'}
             ]
         });
+
+        const tzValue = new Object();
+        tzValue['2']=<Row>
+                <Col span="24">
+                    <FormItem
+                      labelCol={{span: 4}} wrapperCol={{span: 8}}
+                      label="所得税税前扣除项目鉴证金额" required>
+                        <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    </FormItem>
+                </Col>
+            </Row>;
+        tzValue['3']=<Row>
+                <Col span="12">
+                    <FormItem
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="纳税调整增加额" required>
+                        <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="纳税调整减少额" required>
+                        <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    </FormItem>
+                </Col>
+            </Row>;
+        tzValue['4']=<Row>
+                <Col span="12">
+                    <FormItem
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="应补税额" required>
+                        <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                    </FormItem>
+                </Col>
+                <Col span="12">
+                    <FormItem
+                      labelCol={{span: 8}} wrapperCol={{span: 12}}
+                      label="应退税额" required>
+                        <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                    </FormItem>
+                </Col>
+            </Row>;
+        tzValue['5']= tzValue['4'];
+        tzValue['6']= tzValue['4'];
+        tzValue['8']= tzValue['4'];
+        tzValue['9']= tzValue['4'];
+        tzValue['10']= <Row>
+            <Col span="12">
+                <FormItem
+                  labelCol={{span: 8}} wrapperCol={{span: 12}}
+                  label="调增应纳税额" required>
+                    <InputNumber style={{width:'75%'}} {...getFieldProps('TZVALUE1')}/>元
+                </FormItem>
+            </Col>
+            <Col span="12">
+                <FormItem
+                  labelCol={{span: 8}} wrapperCol={{span: 12}}
+                  label="调减应纳税额" required>
+                    <InputNumber style={{width:'75%'}} {...getFieldProps('TJVALUE2')}/>元
+                </FormItem>
+            </Col>
+        </Row>;
+
 
 
         return <Panel title="填写业务详细资料" className="stage">
@@ -162,6 +226,22 @@ let stage = React.createClass({
                           labelCol={{span: 8}} wrapperCol={{span: 12}}
                           label="委托企业增值税纳税人类型">
                             <SelectNSRXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="12">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 12}}
+                            label="委托企业征收方式">
+                            <SelectZSFS  {...getFieldProps('HY_ID', {initialValue: '0'})}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 12}}
+                            label="委托企业性质">
+                            <SelectWTDWXZ  {...getFieldProps('NSRXZ', {initialValue: '0'})}/>
                         </FormItem>
                     </Col>
 
@@ -216,7 +296,7 @@ let stage = React.createClass({
                         <FormItem
                           labelCol={{span: 4}} wrapperCol={{span: 6}}
                           label="签名注册税务师" required>
-                            <SelectZysws  data={this.props.zysws} {...qmswsProps}/>
+                            <SelectZysws labelInValue  data={this.props.zysws} {...qmswsProps}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -229,6 +309,7 @@ let stage = React.createClass({
                         </FormItem>
                     </Col>
                 </Row>
+                {tzValue[ywlx]}
                 <Row>
                     <Col span="24">
                         <FormItem
