@@ -100,8 +100,9 @@
 
 
 
-
 @media print{
+
+
 
 .noprint{
    display:none;
@@ -112,8 +113,6 @@
     position: absolute;
     left:-0.3cm;
     top:-0.1cm;
-    width:29.69cm;
-    height:21.59cm;
     font-size:13.5pt;
     font-weight: 600;
 }

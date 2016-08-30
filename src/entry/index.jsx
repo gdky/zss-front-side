@@ -166,7 +166,7 @@ const Index = React.createClass({
                 require('../module/hyhf_new/fzyhyhf'),
                 require('../module/hyhf_new/scgl'),
 
-                //证照打印管理
+               //  //证照打印管理
                 require('../module/zzdygl/zyglscdy'),
 
 

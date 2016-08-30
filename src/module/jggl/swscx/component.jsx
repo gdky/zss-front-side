@@ -139,9 +139,7 @@ const jgcx = React.createClass({
   },
 
   print(row,dylx){
-    
-    if (dylx) {
-       var mp={};
+    var mp={};
       mp.zsbh=row.zsbh;
       mp.ZJPZWH=row.ZJPZWH;
       mp.dwmc=row.dwmc;
@@ -150,17 +148,9 @@ const jgcx = React.createClass({
       mp.zczj=row.zczj;
       mp.YYZZHM=row.YYZZHM;
       mp.JYFW=row.JYFW;
+    if (dylx) {
       window.open("#/print/zzdygl/jgzyzzb?"+encodeURIComponent(JSON.stringify(mp)));
     }else{
-      var mp={};
-      mp.zsbh=row.zsbh;
-      mp.ZJPZWH=row.ZJPZWH;
-      mp.dwmc=row.dwmc;
-      mp.DZHI=row.DZHI;
-      mp.fddbr=row.fddbr;
-      mp.zczj=row.zczj;
-      mp.YYZZHM=row.YYZZHM;
-      mp.JYFW=row.JYFW;
       window.open("#/print/zzdygl/jgzyzfb?"+encodeURIComponent(JSON.stringify(mp)));
     };
   },
