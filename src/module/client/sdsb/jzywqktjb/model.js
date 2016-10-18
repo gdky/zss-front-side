@@ -1,67 +1,53 @@
 /**
  * Created by ming on 2016/4/11.
  */
-import React from 'react'
-import {Button ,Icon } from 'antd'
-import numeral from 'Numeral'
-var model = {
-    // handleRowButton(){},
 
-    columns: [
-        {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-       
-        {
-        title: '操作',
-    key: 'operation',
-     render(text,record,index) {
-        return (
-           <span>
-        <Button size="small" onClick={this.handleRowButton} >
-    <Icon type="edit" />编辑
-  </Button>
-  
-  <Button size="small" >
-    <Icon type="arrow-up" />提交
-  </Button>
-  
-   <Button size="small" >
-    <Icon type="book" />查看
-  </Button>
-        
-        
-      </span>
-      );
-     }
-}
-        
-     
-    ],
-    entityModel: [
-         {
-            id: 'JSSJ',
-            name: '结束时间',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-            {
-            id: 'SBRQ',
-            name: '上报日期',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-       
-    ]
-
+const model = {
+    columns: [{
+        title: '序号',
+        dataIndex: 'key',
+        key: 'key',
+        width: 60
+    }, {
+        title: '年度',
+        dataIndex: 'nd',
+        key: 'nd',
+        width: 50
+    },{
+        title: '状态',
+        key: 'ZTBJ',
+        dataIndex: 'ZTBJ',
+        width:80
+    },{
+        title: '法人',
+        key: 'FRDBXM',
+        dataIndex: 'FRDBXM',
+        width:80
+    }, {
+        title: '组织形式',
+        key: 'JGXZ',
+        dataIndex: 'JGXZ',
+        width: 130
+    }, {
+        title: '注册资金（单位：万元）',
+        key: 'ZCZJ',
+        dataIndex: 'ZCZJ',
+        width:180
+    }, {
+        title: '股东人数',
+        key: 'CZRS',
+        dataIndex: 'CZRS',
+        width: 100
+    }, {
+        title: '人员人数',
+        key: 'RYZS',
+        dataIndex: 'RYZS',
+        width:100
+    }, {
+        title: '执业人数',
+        key: 'ZYZCSWSRS',
+        dataIndex: 'ZYZCSWSRS'
+    }]
 };
 
 module.exports = model;

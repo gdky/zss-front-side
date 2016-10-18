@@ -7,7 +7,6 @@ import req from 'common/request'
 import utils from 'common/utils'
 import Success from './successScr'
 import FailScr from './failScr'
-import {mapKeys} from 'lodash'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
@@ -49,15 +48,6 @@ let Editfrom = React.createClass({
             callback()
         }
     },
-    checkZyzcswsrs(rule, value, callback){
-        if(value > this.props.zyzcswsrs){
-            callback('填报的执业人数不能多于'+this.props.zyzcswsrs+'人')
-        }else if (value > this.props.form.getFieldValue('ryzs')){
-            callback('执业人数不能大于人员总数')
-        }else {
-            callback()
-        }
-    },
     commit(){
         const {validateFields} = this.props.form;
         validateFields((errors, values) => {
@@ -72,11 +62,10 @@ let Editfrom = React.createClass({
         const {validateFields} = this.props.form;
         validateFields((errors, values) => {
             if (!!errors) {
-                console.log('error',errors)
                 return;
             }
             values = utils.transEmpty2Null(values);
-            //this.props.onSave(values);
+            this.props.onSave(values);
         })
     },
     render(){
@@ -110,8 +99,7 @@ let Editfrom = React.createClass({
         });
         const zyzcswsrsProps = getFieldProps('zyzcswsrs', {
             rules: [
-                {required: true, type: "number", message: '必填'},
-                {validator: this.checkZyzcswsrs}
+                {required: true, type: "number", message: '必填'}
             ]
         });
         const lrzeProps = getFieldProps('lrze', {
@@ -199,7 +187,7 @@ let Editfrom = React.createClass({
                         </td>
                         <td className="tg-031e">
                             <FormItem label="执业人数" {...layout}><InputNumber {...style}
-                              {...zyzcswsrsProps}/></FormItem>
+                              disabled {...zyzcswsrsProps}/></FormItem>
                         </td>
                     </tr>
                     <tr>
@@ -212,7 +200,7 @@ let Editfrom = React.createClass({
 
                         <td className="tg-031e">
                             <FormItem label="收入总额 万元" {...layout}><InputNumber step={0.01} {...style}
-                                                                               disabled   {...srzeProps}/></FormItem></td>
+                              disabled   {...srzeProps}/></FormItem></td>
                         <td className="tg-031e">
                             <FormItem label="委托户数" {...layout}><InputNumber {...style} {...wthsProps}/></FormItem>
                         </td>
@@ -275,7 +263,7 @@ Editfrom = Form.create({
 const c = React.createClass({
     getDefaultProps(){
         return {
-            title: '编辑事务所基本情况表',
+            title: '添加事务所基本情况表',
             url: config.HOST + config.URI_API_PROJECT + '/client/swsjbqk',
             initUrl: config.HOST + config.URI_API_PROJECT + '/client/swsjbqkinit'
         }
@@ -293,13 +281,13 @@ const c = React.createClass({
 
     //保存
     handleSave(values){
-        const {url,id} = this.props;
+        const {url} = this.props;
         values.ztbj = 0;
         values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
-            method:'put',
-            url:url+ `/${id}`,
+            method:'post',
+            url:url,
             data:values
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'save'})
@@ -323,13 +311,13 @@ const c = React.createClass({
     },
     //提交
     handleCommit(values){
-        const {url,id} = this.props;
+        const {url} = this.props;
         values.ztbj = 1;
         values.dwmc = this.state.data.dwmc;
         this.setState({loading:true,data:values});
         req({
-            method:'put',
-            url:url+ `/${id}`,
+            method:'post',
+            url:url,
             data:values
         }).then(resp=>{
             this.setState({loading:false,scr:'success',successType:'commit'})
@@ -352,35 +340,13 @@ const c = React.createClass({
         });
     },
 
-    //异步获取注册税务师人数和报表明细信息
-    async fetchData(){
-        const {url,initUrl,id} = this.props;
-        let fetch1 = req({
-            method: 'get',
-            url: initUrl,
-            data:{id:id}
-        });
-        let fetch2 =  req({
-            method: 'get',
-            url: url + `/${id}`
-        });
-        let [init, mx] = await Promise.all([fetch1, fetch2]);
-        return {init: init, mx: mx}
-    },
-
     componentDidMount(){
-        //const {url,id}  = this.props;
-        this.fetchData().then(resp=> {
-            //将明细对象的所有属性名转成小写
-            let values = mapKeys(resp.mx,function(value,key){
-                return key.toLowerCase()
-            });
-            values.srze = resp.init.srze;
-            values.zyzcswsrs = resp.init.zyzcswsrs;
-            //将机构性质和城市代码转为字符串，城市下拉由于labelInValue，所以需采用下面的赋值方式
-            values.jgxz_dm = ''+values.jgxz_dm;
-            values.cs_dm = {key:''+values.cs_dm};
-            this.setState({data: values, loading: false,zyzcswsrs:values.zyzcswsrs})
+        const {initUrl}  = this.props;
+        req({
+            method: 'get',
+            url: initUrl
+        }).then(resp=> {
+            this.setState({data: resp, loading: false})
         }).catch(e=> {
             if (e.status == 403) {
                 let res = JSON.parse(e.response);
@@ -394,17 +360,15 @@ const c = React.createClass({
 
     render(){
         const {title} = this.props;
-        let {data,loading,scr,failtext,successType,zyzcswsrs} = this.state;
+        let {data,loading,scr,failtext,successType} = this.state;
         const panelBar = <PanelBar>
             <Button onClick={this.back}>
                 <Icon type="rollback"/>返回
             </Button>
         </PanelBar>;
 
-
-
         let content = {
-            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} zyzcswsrs={zyzcswsrs}/>,
+            normal: <Editfrom data={data} onCommit={this.handleCommit} onSave={this.handleSave} />,
             fail: <FailScr text={failtext}/>,
             success: <Success type={successType}/>
         };

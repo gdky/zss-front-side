@@ -72,11 +72,10 @@ let Editfrom = React.createClass({
         const {validateFields} = this.props.form;
         validateFields((errors, values) => {
             if (!!errors) {
-                console.log('error',errors)
                 return;
             }
             values = utils.transEmpty2Null(values);
-            //this.props.onSave(values);
+            this.props.onSave(values);
         })
     },
     render(){
