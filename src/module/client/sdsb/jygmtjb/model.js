@@ -1,67 +1,49 @@
 /**
  * Created by ming on 2016/4/11.
  */
-import React from 'react'
-import {Button ,Icon } from 'antd'
-import numeral from 'Numeral'
-var model = {
-    // handleRowButton(){},
 
-    columns: [
-        {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-       
-        {
-        title: '操作',
-    key: 'operation',
-     render(text,record,index) {
-        return (
-           <span>
-        <Button size="small" onClick={this.handleRowButton} >
-    <Icon type="edit" />编辑
-  </Button>
-  
-  <Button size="small" >
-    <Icon type="arrow-up" />提交
-  </Button>
-  
-   <Button size="small" >
-    <Icon type="book" />查看
-  </Button>
-        
-        
-      </span>
-      );
-     }
-}
-        
-     
-    ],
-    entityModel: [
-         {
-            id: 'JSSJ',
-            name: '结束时间',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-            {
-            id: 'SBRQ',
-            name: '上报日期',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-       
-    ]
-
+const model = {
+    columns: [{
+        title: '序号',
+        dataIndex: 'key',
+        key: 'key',
+        width: 60
+    }, {
+        title: '机构名称',
+        dataIndex: 'DWMC',
+        key: 'DWMC',
+        width: 200
+    },{
+        title: '年度',
+        key: 'nd',
+        dataIndex: 'nd',
+        width:120
+    },{
+        title: '合计',
+        key: 'BNSRZE_HJ',
+        dataIndex: 'BNSRZE_HJ',
+        width:120
+    }, {
+        title: '涉税服务收入',
+        key: 'BNSRZE_SSFW',
+        dataIndex: 'BNSRZE_SSFW',
+        width: 120
+    }, {
+        title: '涉税鉴证收入',
+        key: 'BNSRZE_SSJZ',
+        dataIndex: 'BNSRZE_SSJZ',
+        width:120
+    }, {
+        title: '上年收入总额',
+        key: 'SNSRZE',
+        dataIndex: 'SNSRZE',
+        width: 120
+    }, {
+        title: '状态',
+        key: 'ZTDM',
+        dataIndex: 'ZTDM',
+        width:120
+    }, ]
 };
 
 module.exports = model;
