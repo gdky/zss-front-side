@@ -8,20 +8,22 @@ import './style.css'
 
 const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
 const API_URL2 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj2';
+const CheckNd_URL = config.HOST + config.URI_API_PROJECT + '/checkzyswsnjnd';
+
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
-let Addswsnj = React.createClass({
+let Addzyswsnj = React.createClass({
     getDefaultProps() {
         return {
             onSubmit: {},
         }
     },
-    handleSubmit(e) {
-        e.preventDefault();
+
+    handleSubmit(ztdm) {
+
         var mp = {};
         let value = this.props.form.getFieldsValue()
-
         var date = new Date(value['SWSFZRSJ']);
         value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         let arr = []
@@ -44,15 +46,16 @@ let Addswsnj = React.createClass({
         } else {
             value['wg'] = wg;
         }
+        value.ztdm = ztdm;
         //验证表单，若通过就保存
-        this.props.form.validateFields((errors, values) => {
-            if (!!errors) {
-                return;
-            } else {
-                this.props.onSubmit(value);
-            }
-        });
-
+         this.props.form.validateFields((errors, values) => {
+              if (!!errors) {
+                  return;
+              } else {
+                  this.props.onSubmit(value);
+              }
+          });
+        this.props.onSubmit(value);
     },
 
     handleReset(e) {
@@ -69,61 +72,46 @@ let Addswsnj = React.createClass({
     },
     showModal(e) {
         e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-        var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        let arr = []
-        for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
-                value[key] = null
-            };
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
-
-                }
-            }
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-
-        //验证表单，若通过就打开确定提交对话框
-        this.props.form.validateFields((errors, values) => {
-            if (!!errors) {
-                return;
-            } else {
-                this.setState({
-                    visible: true,
-                    okValue: value,
-                });
-            }
+        var that = this;
+        Modal.confirm({
+            title: '是否确定提交？',
+            content: '提交后就不能修改了！！！',
+            onOk() {
+                that.handleSubmit(2);
+            },
         });
-
-
     },
 
     //执业税务师选择年度是否已做年检的校验（传姓名及年度过去）
-
-
-
-    handleOk(e) {
-        this.props.handleOk(this.state.okValue)
-        this.setState({
-            visible: false
-        });
-    },
-    handleCancel(e) {
-
-        this.setState({
-            visible: false
-        });
+    checkNdIfExit(rule, value, callback) {
+        let sws_id = this.props.form.getFieldValue("sws_id");
+        const params = { where: encodeURIComponent(JSON.stringify({ nd: value, sws_id: sws_id })) }
+        req({
+            url: CheckNd_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            //obj（）里面的内容是：{data=[{nd=2012},],jg_id=1}，其中
+            console.log(resp.data[0]);
+            if (value == resp) {
+                callback('该税务师该年度已做年检，请选择其他年度');
+            } else {
+                callback();
+            }
+        }).fail(err => {
+            this.setState({ loading: false });
+            Modal.error({
+                title: '数据获取错误',
+                content: (
+                    <div>
+                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
+                        <p>Status: {err.status}</p>
+                    </div>)
+            });
+        })
     },
     //处理姓名下拉框改变事件
     handleXmChange(value) {
@@ -160,8 +148,6 @@ let Addswsnj = React.createClass({
 
     //时间范围校验
     checkBirthday(rule, value, callback) {
-
-
         if (value && value.getTime() >= Date.now()) {
             callback(new Error('请不要选择一个未来的时间！'));
         } else {
@@ -234,11 +220,11 @@ let Addswsnj = React.createClass({
                 { required: true, type: 'integer', whitespace: true, message: '请选择一个人进行年检' },
             ],
         });
-
+ 
         //年度校验
         const ndProps = getFieldProps('ND', {
             rules: [
-                { required: true, type: 'string', whitespace: true, message: '请选择一个年检年度' },
+                { required: true, type: 'string', whitespace: true, message: '请选择一个年检年度' },{validator:this.checkNdIfExit}
             ],
         });
 
@@ -453,56 +439,52 @@ let Addswsnj = React.createClass({
 
                                 <tr>
                                     <td>年检总结: </td>
-                                    <td colSpan="4"><FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
+                                    <td colSpan="4">  <FormItem><Input {...njzjProps} type="textarea" autosize /></FormItem></td>
                                 </tr>
 
                                 <tr>
                                     <td rowSpan="2">事务所负责人意见</td>
-                                    <td colSpan="2"><FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
-                                    <td colSpan="2"><FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} /></FormItem>
-                                        <FormItem>负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /> </FormItem></td>
+                                    <td colSpan="2">  <FormItem><Input {...swsfzryjProps } type="textarea" autosize /></FormItem></td>
+                                    <td colSpan="2"> <FormItem>时间：<DatePicker {...sjProps} style={{ width: "30%" }} />
+                                        负责人签名：<Input {...swsfzrqmProps} style={{ width: "30%" }} /></FormItem></td>
 
                                 </tr>
+
+
+
                             </tbody>
+
                         </table >
+
+
+
+                        <Row>
+                            <Col>
+                                <FormItem></FormItem>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col span="3">
+                                <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
+                            </Col>
+                            <Col span="3">
+                                <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
+                            </Col>
+                            <Col span="3">
+                                <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
+                            </Col>
+                        </Row>
+
+
                     </div>
-                    <Row>
-                        <Col>
-                            <FormItem></FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="4">
-                            <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
-
-
-                        </Col>
-
-                        <Col span="4">
-                            <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
-                            <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                onOk={this.handleOk} onCancel={this.handleCancel}>
-                                <p>提交后就不能修改了！！！</p>
-
-
-                            </Modal>
-                        </Col>
-
-                        <Col span="4">
-                            <Button type="primary" onClick={this.handleReset}><Icon type="cross" />重置</Button>
-
-
-
-                        </Col>
-
-                    </Row>
                 </Form>
 
             </div>
         </div>
     }
 });
-Addswsnj = Form.create({
+Addzyswsnj = Form.create({
     mapPropsToFields(props) {
         let result = {};
         for (let prop in props.data) {
@@ -510,7 +492,7 @@ Addswsnj = Form.create({
         }
         return result;
     }
-})(Addswsnj);
+})(Addzyswsnj);
 
 
 
@@ -519,4 +501,4 @@ Addswsnj = Form.create({
 
 
 
-module.exports = Addswsnj;
+module.exports = Addzyswsnj;

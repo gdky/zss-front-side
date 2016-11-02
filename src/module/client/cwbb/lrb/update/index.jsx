@@ -392,6 +392,7 @@ let Updatelrb = React.createClass({
             wrapperCol: { span: 12 },
         };
         const data = this.props.data;
+        console.log(data);
         return <div className="add">
             {this.state.helper && <Alert message="利润表检索查询帮助"
                 description={helper}

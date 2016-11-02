@@ -13,6 +13,7 @@ var model = {
         {title: '年度', dataIndex: 'nd', key: 'nd'},
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
         {title: '性质', key: 'TIMEVALUE', dataIndex: 'TIMEVALUE'},
+        {title:'处理结果',key:'NJCL',dataIndex:'NJCL'},
         {
         title: '操作',
     key: 'operation',

@@ -18,9 +18,8 @@ let Updateswsnjb = React.createClass({
             onSubmit: {}
         }
     },
-    handleSubmit(e) {
-        const obj = this.props.data1;
-        e.preventDefault();
+    handleSubmit(ztdm) {
+        const obj = this.props.data;
         var mp = {};
         let value = this.props.form.getFieldsValue()
         var date = new Date(value['SWSFZRSJ']);
@@ -45,6 +44,7 @@ let Updateswsnjb = React.createClass({
         } else {
             value['wg'] = wg;
         }
+        value.ztdm=ztdm;
         value['id'] = obj.ID;
 
         this.props.onSubmit(value);
@@ -58,66 +58,33 @@ let Updateswsnjb = React.createClass({
     getInitialState() {
         return {
             visible: false, swsdata: {
-                sws_id: this.props.data1.sws_id,
-                xb: this.props.data1.xb,
-                xl: this.props.data1.xl,
-                SRI: this.props.data1.SRI,
-                SFZH: this.props.data1.SFZH,
-                DWMC: this.props.data1.dwmc,
-                ZYZSBH: this.props.data1.ZYZSBH,
-                DHHM: this.props.data1.DHHM,
-                ZYZGZSBH: this.props.data1.ZYZGZSBH,
-                BAFS: this.props.data1.BAFS,
-                CZBL: this.props.data1.CZBL,
+                sws_id: this.props.data.sws_id,
+                xb: this.props.data.xb,
+                xl: this.props.data.xl,
+                SRI: this.props.data.SRI,
+                SFZH: this.props.data.SFZH,
+                DWMC: this.props.data.dwmc,
+                ZYZSBH: this.props.data.ZYZSBH,
+                DHHM: this.props.data.DHHM,
+                ZYZGZSBH: this.props.data.ZYZGZSBH,
+                BAFS: this.props.data.BAFS,
+                CZBL: this.props.data.CZBL,
 
 
 
             }
         };
     },
+    
     showModal(e) {
         e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue()
-        var date = new Date(value['SWSFZRSJ']);
-        value['SWSFZRSJ'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        let arr = []
-        for (var key in value) {
-            if (!value[key]) {
-                value[key] = null;
-
-
-            }
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
-
-                }
-            }
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-        this.setState({
-            visible: true,
-            okValue: value,
-
-        });
-        const obj = this.props.data1;
-        value.id = obj.ID;
-        value.jg_id = obj.JG_ID;
-
-    },
-    handleOk(e) {
-
-        this.props.handleOk(this.state.okValue)
-        this.setState({
-            visible: false
+        var that = this;
+        Modal.confirm({
+            title: '是否确定提交？',
+            content: '提交后就不能修改了！！！',
+            onOk() {
+                that.handleSubmit(2);
+            },
         });
     },
 
@@ -161,7 +128,7 @@ let Updateswsnjb = React.createClass({
 
 
         const { getFieldProps } = this.props.form;
-        const data = this.props.data1;
+        const data = this.props.data;
         const obj1 = this.state.swsdata;
 
 
@@ -196,7 +163,7 @@ let Updateswsnjb = React.createClass({
                                 <td>姓名：</td>
                                 <td><SelectorXm {...getFieldProps('sws_id', { initialValue: data.sws_id }) } onChange={this.handleXmChange}></SelectorXm></td>
                                 <td>性别：{obj1.xb}</td>
-                                <td>年度：<label {...getFieldProps('nd', { initialValue: data.nd }) }>{data.nd}</label></td>
+                                <td>年度：<label {...getFieldProps('nd', {initialValue: data.nd }) }>{data.nd}</label></td>
                                 <td rowSpan="6">照片</td>
                             </tr>
                             <tr>
@@ -222,7 +189,7 @@ let Updateswsnjb = React.createClass({
                                 <td>执业注册日期：</td>
                                 <td>{data.ZYZCRQ}</td>
                                 <td>出资比率：   </td>
-                                <td>{obj1.CZBL}%</td>
+                                <td>{data.CZBL}%</td>
                             </tr>
                             <tr>
                                 <td>资格证书编号：</td>
@@ -395,7 +362,7 @@ let Updateswsnjb = React.createClass({
                                 <td rowSpan="2">事务所负责人意见</td>
                                 <td colSpan="2"><Input {...getFieldProps('SWSFZRYJ', { initialValue: data.SWSFZRYJ }) } type="textarea" autosize /></td>
                                 <td colSpan="2">时间：<DatePicker {...getFieldProps('SWSFZRSJ', { initialValue: data.SWSFZRSJ }) } />
-                                    负责人签名：<Input {...getFieldProps('SWSFZR', { initialValue: data.SWSFZR }) } style={{ width: "30%" }} /> </td>
+                                    负责人签名：<Input {...getFieldProps('SWSFZR', { initialValue: data.SWSFZR}) } style={{ width: "30%" }} /> </td>
 
                             </tr>
 
@@ -407,32 +374,17 @@ let Updateswsnjb = React.createClass({
 
 
                         <tbody>
-                            <tr >
-                                <td></td>
-
-
-                                <td>
-                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
-                                </td>
-
-                                <td style={{ textAlign: 'center' }}>
-
-                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
-                                    <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                        onOk={this.handleOk} onCancel={this.handleCancel}>
-                                        <p>提交后就不能修改了！！！</p>
-
-
-                                    </Modal>
-                                </td>
-
-                                <td>
-
-
-                                </td>
-
-                            </tr>
-                        </tbody>
+                                        <tr >
+                                            <td></td>
+                                            <td>
+                                                <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
+                                            </td>
+                                            <td>
+                                                <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
+                                            </td>
+                    
+                                        </tr>
+                                    </tbody>
 
                     </table>
                 </Form>

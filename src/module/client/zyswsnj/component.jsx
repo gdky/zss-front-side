@@ -1,8 +1,8 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert,message} from 'antd'
+import { Table, Modal, Row, Col, Button, Icon, Alert, message } from 'antd'
 import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
-import {handleRowButton, columns, entityModel} from './model'
+import { handleRowButton, columns, entityModel } from './model'
 import req from 'reqwest';
 import SearchForm from './searchForm'
 import Add from './Add'
@@ -10,9 +10,16 @@ import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
-import {entityFormat} from 'common/utils'
+import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
+import cloneDeep from 'lodash/cloneDeep'
 
+
+
+/*const API_URL = config.HOST + config.URI_API_PROJECT + '/add/swsnj';
+const URL = config.HOST + config.URI_API_PROJECT + '/addswsnjb';
+const edit_URL = config.HOST + config.URL_API_PROJECT + '/addswsnjb1'
+const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/swsnjb1';*/
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj';
 const URL = config.HOST + config.URI_API_PROJECT + '/addzyswsnjb';
@@ -26,6 +33,7 @@ const zyswsnj = React.createClass({
     getInitialState() {
         return {
             data: [],
+            data1: [],
             pagination: {
                 current: 1,
                 showSizeChanger: true,
@@ -36,14 +44,14 @@ const zyswsnj = React.createClass({
 
             },
             searchToggle: false,
-            detailViewToggle: false,
             where: '',
             helper: false,
             entity: '',
-
-            detailHide: true,
-            add: true,
-            update: true,
+            fileds: {},
+            views: 0,
+            viewTitle: '执业税务师年检表',
+            dataLoading: false,
+            btnLoading: false
 
         }
     },
@@ -90,57 +98,13 @@ const zyswsnj = React.createClass({
         this.setState({ update: !this.state.update, detailHide: true });
 
     },
+
+
     //手动关闭帮助提示
     handleHelperClose() {
         this.setState({ helper: false })
     },
-
-    //点击提交
-    handleOk(e) {
-        let vv = e;
-        vv.ztbj = '2'
-        this.fetchHandle(vv);
-        this.handleAdd();
-    },
-    fetchHandle(value) {
-        req({
-            url: URL,
-            type: 'json',
-            method: 'post',
-            data: JSON.stringify(value),
-            headers: { 'x-auth-token': auth.getToken() },
-            contentType: 'application/json',
-
-
-        }).then(resp => {
-            Modal.success({
-                title: '操作成功',
-                content: (
-                    <div>
-                        <p>操作成功！</p>
-                    </div>)
-            });
-        }).fail(err => {
-            message.error('Status Code:' + err.status + '  api错误 ')
-        })
-    },
-
-    //点击保存
-    handleSubmit(value) {
-        let vv = value;
-        vv.ztbj = '1'
-        this.fetchHandle(vv);
-        this.handleAdd();
-    },
-
-    //点击编辑提交
-    handleOk1(e) {
-        let vv = e;
-        vv.ztbj = '2'
-        this.fetchHandle1(vv);
-        this.handleUpdate();
-
-    },
+    //添加执业税务师年检表
     fetchHandle1(value) {
         req({
             url: URL + '/' + value.id,
@@ -149,6 +113,8 @@ const zyswsnj = React.createClass({
             data: JSON.stringify(value),
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
+
+
         }).then(resp => {
             Modal.success({
                 title: '操作成功',
@@ -160,14 +126,6 @@ const zyswsnj = React.createClass({
         }).fail(err => {
             message.error('Status Code:' + err.status + '  api错误 ')
         })
-    },
-
-    //点击编辑保存
-    handleSubmit1(value) {
-        let vv = value;
-        vv.ztbj = '1'
-        this.fetchHandle1(vv);
-        this.handleUpdate();
     },
 
     //提交条件查询
@@ -184,9 +142,8 @@ const zyswsnj = React.createClass({
         this.setState({ searchToggle: false })
     },
 
-    //点击某行
-    fetchData2(record) {
-
+fetchDetail(record) {
+        this.setState({ dataLoading: true });
         req({
             url: API_URL + '/' + record.id,
             type: 'json',
@@ -194,8 +151,18 @@ const zyswsnj = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            let entity = entityFormat(resp, entityModel);
-            this.setState({ entity: entity, detailHide: false });
+            let entity = cloneDeep(resp);
+            entity = entityFormat(entity, entityModel);
+            let fs = {};
+            for (var key in resp) {
+                let num = resp[key];
+                if (key == "ND") {
+                    num = num + "";
+                }
+                fs[key] = num;
+            }
+            console.log(fs);
+            this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -207,9 +174,59 @@ const zyswsnj = React.createClass({
             });
         })
     },
+
+
     //明细表关闭
     handleDetailClose() {
         this.setState({ detailHide: true })
+    },
+
+    handleViewChange(e) {
+        let tl = this.state.viewTitle;
+        switch (e) {
+            case 0: tl = "执业税务师年检表"; this.setState({ fileds: {} }); break;
+            case 1: tl = "添加执业税务师年检表"; break;
+            case 2: tl = "执业税务师年检表修改"; break;
+            case 3: tl = "执业税务师年检表查看"; break;
+        }
+        this.setState({ views: e, viewTitle: tl });
+    },
+
+
+    //点击保存或提交
+    handleSubmit(lx, value) {
+        if (lx == 'add') {
+            this.fetchHandle(value, '', 'post');
+        } else if (lx == 'update') {
+            this.fetchHandle(value, ("/" + value.id), 'put');
+        };
+    },
+
+    //修改或新增
+    fetchHandle(value, ur, met) {
+        this.setState({ btnLoading: true });
+        req({
+            url: URL + ur,
+            type: 'json',
+            method: met,
+            data: JSON.stringify(value),
+            headers: { 'x-auth-token': auth.getToken() },
+            contentType: 'application/json',
+        }).then(resp => {
+            Modal.success({
+                title: '系统消息',
+                content: (
+                    <div>
+                        <p>操作成功</p>
+                    </div>),
+            });
+            this.setState({ btnLoading: false });
+            this.fetchData();
+            this.handleViewChange(0);
+        }).fail(err => {
+            this.setState({ btnLoading: false });
+            message.error('Status Code:' + err.status + '  api错误 ')
+        })
     },
 
 
@@ -251,136 +268,104 @@ const zyswsnj = React.createClass({
         this.fetchData();
     },
 
-
-    testee(text, record, index) {
-
+    rowRender(text, record, index) {
         var that = this;
-        function ddd() {
-
-            req({
-                url: API_URL + '/' + record.id,
-                type: 'json',
-                method: 'get',
-                headers: { 'x-auth-token': auth.getToken() },
-                contentType: 'application/json'
-            }).then(resp => {
-
-
-                that.setState({ update: !that.state.update, detailHide: true, entity: resp, });
-
-            }).fail(err => {
-                Modal.error({
-                    title: '数据获取错误',
-                    content: (
-                        <div>
-                            <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                            <p>Status: {err.status}</p>
-                        </div>)
-                });
-            })
-
+        function showDetail(lx) {
+            that.fetchDetail(record);
+            that.handleViewChange(lx);
         }
-        function look() {
 
-            that.fetchData2(record)
-            that.setState({ update: true })
-        }
-        if (record.ZTDM == "保存") {
-            return (<span>
-                <Button size="small" onClick={ddd} >
-                    <Icon type="edit" />编辑
-                </Button>
-                <Button size="small" onClick={look} >
-                    <Icon type="book" />查看
-                </Button>
+        return (
+            <span>
+                <Button disabled={(record.ZTDM== "自检"||record.ZTDM=="年检") ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
+                <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
-            )
-        } else {
-            return (<span>
-                <Button disabled size="small" onClick={ddd} >
-                    <Icon type="edit" />编辑
-                </Button>
-                <Button size="small" onClick={look} >
-                    <Icon type="book" />查看
-                </Button>
-            </span>
-            )
-        }
-
+        )
     },
-
-
     render() {
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'ND', key: 'ND' },
             { title: '姓名', dataIndex: 'XMING', key: 'XMING' },
             { title: '状态', key: 'ZTDM', dataIndex: 'ZTDM' },
-            { title: '处理结果', dataIndex: 'njcl', key: 'njcl' },
+            { title: '处理结果', dataIndex: 'NJCL', key: 'NJCL' },
             {
                 title: '操作',
                 key: 'operation',
-                render: this.testee,
+                render: this.rowRender,
             }];
         //定义工具栏内容
         let toolbar = <ToolBar>
-            { this.state.add && <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>}
-
-            {  this.state.add && <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
+            {this.state.views == 0 ?
+                <Button onClick={this.handleViewChange.bind(this, 1)}>添加<Icon className="toggle-tip" type="plus-square" /></Button>
+                :
+                <ButtonGroup>
+                    <Button onClick={this.handleViewChange.bind(this, 0)}>返回<Icon className="toggle-tip" type="arrow-left" /></Button>
+                    <Button type="primary" onClick={this.handleHelper}><Icon type="question" /></Button>
+                </ButtonGroup>
             }
-
-
-            <Button onClick={this.handleAdd}>
-                <Icon type="primary"/>{this.state.add ? "添加" : "返回"}
-                { this.state.add ? <Icon className="toggle-tip" type="plus-square"/> :
-                    <Icon className="toggle-tip" type="arrow-left"/>}
-            </Button>
-
-
+            {this.state.views == 0 &&
+                <Button onClick={this.handleSearchToggle}><Icon type="search" />查询
+                 {this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up" /> : <Icon className="toggle-tip" type="circle-o-down" />}
+                </Button>
+            }
+            {this.state.views == 0 &&
+                <ButtonGroup>
+                    <Button type="primary" onClick={this.handleHelper}><Icon type="question" /></Button>
+                    <Button type="primary" onClick={this.handleRefresh}><Icon type="reload" /></Button>
+                </ButtonGroup>
+            }
         </ToolBar>;
 
         //定义提示内容
         let helper = [];
-        helper.push(<p key="helper-0">点击选择按钮，选择需要年检的执业税务师</p>);
-        return <div className="cwbb-lrb">
+        helper.push(<p key="helper-0">点击查询结果查看注册税务师年检表明细</p>);
+        helper.push(<p key="helper-1">也可以添加修改和提交注册税务师年检表</p>);
+        return <div className="client-swsnjb">
             <div className="wrap">
                 {this.state.helper && <Alert message="注册税务师年检表检索查询帮助"
                     description={helper}
                     type="info"
                     closable
-                    onClose={this.handleHelperClose}/>}
+                    onClose={this.handleHelperClose} />}
 
-
-                <Panel title="注册税务师年检表" toolbar={toolbar}>
-                    {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
-                    { this.state.add && <div className="h-scroll-table">
-
-                        <Table columns={column1}
-                            dataSource={this.state.data}
-                            pagination={this.state.pagination}
-                            loading={this.state.loading}
-                            onChange={this.handleChange}
-                            onRowClick={this.handleRowClick}/>
-                    </div>}
-                    {!this.state.add && <Add onSubmit={this.handleSubmit} handleOk={this.handleOk} data={this.state.data} />}
-                    {!this.state.update && <Panel title="修改"  onClose={this.handleDetailClose}
-                        closable>
-                        <Update onSubmit={this.handleSubmit1} handleOk={this.handleOk1} data1={this.state.entity} />
-                    </Panel>}
-                </Panel>
-                {this.state.detailHide ? null : <Panel title="注册税务师年检表明细"
-                    onClose={this.handleDetailClose}
-                    closable>
-                    <DetailBox data={this.state.entity}/>
-                </Panel>}
+                {(this.state.views == 0 || this.state.views == 3) &&
+                    <Panel title={this.state.viewTitle} toolbar={toolbar}>
+                        {this.state.views == 0 && this.state.searchToggle &&
+                            <SearchForm onSubmit={this.handleSearchSubmit} />
+                        }
+                        {this.state.views == 0 &&
+                            <div className="h-scroll-table">
+                                <Table columns={column1}
+                                    dataSource={this.state.data}
+                                    pagination={this.state.pagination}
+                                    loading={this.state.loading}
+                                    onChange={this.handleChange}
+                                    onRowClick={this.handleRowClick} />
+                            </div>
+                        }
+                        {this.state.views == 3 &&
+                            <DetailBox
+                                data={this.state.entity}
+                                loading={this.state.dataLoading} />
+                        }
+                    </Panel>
+                }
+                {this.state.views == 1 &&
+                    <Add
+                        onSubmit={this.handleSubmit.bind(this, 'add')}
+                        data={this.state.data}
+                        btnloading={this.state.btnLoading}
+                        toback={this.handleViewChange.bind(this, 0)} />
+                }
+                {this.state.views == 2 &&
+                    <Update
+                        onSubmit={this.handleSubmit.bind(this, 'update')}
+                        data={this.state.fileds}
+                        loading={this.state.dataLoading}
+                        btnloading={this.state.btnLoading}
+                        toback={this.handleViewChange.bind(this, 0)} />
+                }
             </div>
         </div>
     }

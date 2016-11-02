@@ -55,8 +55,6 @@ const selectorXm = React.createClass({
 
     handleChange(value){
         this.props.onChange(value);//此value即getJgOptions()里面的value（即item.id）
-        
-        alert(value);
     },
 
     render() {

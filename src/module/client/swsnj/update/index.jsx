@@ -19,9 +19,8 @@ let Updatejgnjb = React.createClass({
             onSubmit: {}
         }
     },
-    handleSubmit(e) {
+    handleSubmit(ztdm) {
         const obj = this.props.data1;
-        e.preventDefault();
         var mp = {};
         let value = this.props.form.getFieldsValue()
         var id = this.state.entity.ID;
@@ -46,7 +45,7 @@ let Updatejgnjb = React.createClass({
             value['wg'] = wg;
         }
         // value.id = obj.ID;
-
+        value.ztdm = ztdm;
         this.props.onSubmit(value);
     },
 
@@ -63,37 +62,16 @@ let Updatejgnjb = React.createClass({
     },
     showModal(e) {
         e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue();
-        var id = this.state.entity.ID;
-        value['id'] = id;
-        let arr = [];
-        for (var key in value) {
-            if (Object.prototype.toString.call(value[key]) == "[object Undefined]") {
-                value[key] = null
-            };
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
-
-                }
-            }
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-        this.setState({
-            visible: true,
-            okValue: value,
-
+        var that = this;
+        Modal.confirm({
+            title: '是否确定提交？',
+            content: '提交后就不能修改了！！！',
+            onOk() {
+                that.handleSubmit(2);
+            },
         });
     },
-
+    
     //年度下拉框数据显示
     handleNdChange(value) {
 
@@ -280,20 +258,20 @@ let Updatejgnjb = React.createClass({
                             <tr>
 
                                 <td>注册税务师变动情况：</td>
-                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') } style={{ width: "50%" }}/></FormItem></td>
-                                <td  ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') } style={{ width: "50%" }}/></FormItem></td>
+                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('ZCSWSBZJ') } style={{ width: "50%" }} /></FormItem></td>
+                                <td  ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('ZCSWSBJS') } style={{ width: "50%" }} /></FormItem></td>
                                 <td> 分所数: </td>
-                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="" ><Input{...getFieldProps('FSS') }  style={{ width: "50%" }}/></FormItem></td>
-                                
+                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="" ><Input{...getFieldProps('FSS') } style={{ width: "50%" }} /></FormItem></td>
+
                             </tr>
                             <tr >
 
                                 <td>股东变动情况：</td>
                                 <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="增加：" ><Input {...getFieldProps('GDBDQKZJ') } style={{ width: "50%" }} /></FormItem></td>
-                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('GDBDQKJS') }  style={{ width: "50%" }}/></FormItem></td>
+                                <td ><FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} label="减少：" ><Input {...getFieldProps('GDBDQKJS') } style={{ width: "50%" }} /></FormItem></td>
                                 <td colSpan="2"></td>
                             </tr>
-                            
+
                             <tr>
                                 <td>自检选项：</td>
                                 <td colSpan="3">违规条款</td>
@@ -596,28 +574,15 @@ let Updatejgnjb = React.createClass({
                         <tbody>
                             <tr >
                                 <td></td>
-
-
                                 <td>
-                                    <Button type="primary" onClick={this.handleSubmit}> <Icon type="check" />保存</Button>
+                                    <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
                                 </td>
-
-                                <td style={{ textAlign: 'center' }}>
-
-                                    <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up" />提交</Button>
-                                    <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                        onOk={this.handleOk} onCancel={this.handleCancel}>
-                                        <p>提交后就不能修改了！！！</p>
-
-
-                                    </Modal>
-                                </td>
-
                                 <td>
-
-
+                                    <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
                                 </td>
-
+                                <td>
+                                    <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
+                                </td>
                             </tr>
                         </tbody>
 

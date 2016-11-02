@@ -2,8 +2,8 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import {Col, Input, Row, Button, Icon, Form, Modal, Checkbox ,DatePicker,InputNumber} from 'antd'
-import {SelectorYear, SelectorXZ, SelectorXm} from 'component/compSelector'
+import { Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker, InputNumber } from 'antd'
+import { SelectorYear, SelectorXZ, SelectorXm } from 'component/compSelector'
 import './style.css'
 
 
@@ -19,13 +19,18 @@ let Addswsnj = React.createClass({
             onSubmit: {}
         }
     },
-    handleSubmit(e) {
-        e.preventDefault();
+
+
+
+
+    handleSubmit(ztdm) {
+
         var mp = {};
         let value = this.props.form.getFieldsValue()
-        let arr = []; 
+        let arr = [];
         var date = new Date(value['qzrq']);
-        value['qzrq']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); 
+        value['qzrq'] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+        console.log(value);
         for (var key in value) {
             if (key.indexOf('wg') != -1) {
                 if (value[key]) {
@@ -43,17 +48,17 @@ let Addswsnj = React.createClass({
         } else {
             value['wg'] = wg;
         }
-      
+        value.ztdm = ztdm;
         //验证表单，若通过就保存
         this.props.form.validateFields((errors, values) => {
-      if (!!errors) {  
-        return;
-      }else{
-          this.props.onSubmit(value);
+            if (!!errors) {
+                return;
+            } else {
+                this.props.onSubmit(value);
 
-      }
-    });
-        
+            }
+        });
+
     },
 
     handleReset(e) {
@@ -64,53 +69,25 @@ let Addswsnj = React.createClass({
     getInitialState() {
         return { visible: false, nd1: new Date().getFullYear() };
     },
+
+
+
+
+
+
     showModal(e) {
         e.preventDefault();
-        var mp = {};
-        let value = this.props.form.getFieldsValue();
-        var date = new Date(value['qzrq']);
-        value['qzrq']=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-        let arr = [];
-        for (var key in value) {
-            if (key.indexOf('wg') != -1) {
-                if (value[key]) {
-                    let length = key.length - 2;
-                    let str = key.substr(2, length);
-                    arr.push(str);
-
-                }
-            }
-
-
-        }
-        let wg = arr.join(',');
-        if (wg == '') {
-            value['wg'] = null;
-        } else {
-            value['wg'] = wg;
-        }
-
-      //验证表单，若通过就打开确定提交对话框
-        this.props.form.validateFields((errors, values) => {
-      if (!!errors) {  
-        return;
-      }else{
-          this.setState({
-            visible: true,
-            okValue: value,
-        });
-      }
-    });
-
-       
-    },
-    handleOk(e) {
-        // console.log('点击了确定',this.state.okValue);
-        this.props.handleOk(this.state.okValue)
-        this.setState({
-            visible: false
+        var that = this;
+        Modal.confirm({
+            title: '是否确定提交？',
+            content: '提交后就不能修改了！！！',
+            onOk() {
+                that.handleSubmit(2);
+            },
         });
     },
+
+   
     handleCancel(e) {
 
         this.setState({
@@ -119,7 +96,7 @@ let Addswsnj = React.createClass({
     },
     //年检年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
-        const rs=true;
+        const rs = true;
         const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
         req({
             url: CheckNd_URL,
@@ -129,9 +106,9 @@ let Addswsnj = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json',
         }).then(resp => {
-            if(value==resp.data){
+            if (value == resp.data) {
                 callback('同一年度不能做两次年检，请选择其他年度');
-            }else{
+            } else {
                 callback();
             }
         }).fail(err => {
@@ -148,21 +125,21 @@ let Addswsnj = React.createClass({
     },
     //时间范围校验
     checkBirthday(rule, value, callback) {
-       
 
-    if (value && value.getTime() >= Date.now()) {
-      callback(new Error('请不要选择一个未来的时间！'));
-    } else {
-      callback();
-    }
-  },
+
+        if (value && value.getTime() >= Date.now()) {
+            callback(new Error('请不要选择一个未来的时间！'));
+        } else {
+            callback();
+        }
+    },
 
 
 
 
     //年度下拉框数据显示
     handleNdChange(value) {
-        
+
         this.props.form.setFieldsValue({ nd: value });
         this.props.form.validateFields(['nd'], { force: true });
         const params = { where: encodeURIComponent(JSON.stringify({ nd: value })), }
@@ -228,74 +205,81 @@ let Addswsnj = React.createClass({
         //年检总结意见校验
         const textareaProps = getFieldProps('ZJ', {
             rules: [
-                { required: true,type:'string', message: '请填写年检总结' },
+                { required: true, type: 'string', message: '请填写年检总结' },
             ],
         });
         //应教育人数校验
-        const yjyrsProps = getFieldProps('yjyrs', {initialValue: 0,
+        const yjyrsProps = getFieldProps('yjyrs', {
+            initialValue: 0,
             rules: [
-                { required: true,type:'integer', message: '请填写应教育人数' },
+                { required: true, type: 'integer', message: '请填写应教育人数' },
             ],
         });
         //实际教育人数校验
-        const sjjyrsProps = getFieldProps('sjjyrs', {initialValue:0,
+        const sjjyrsProps = getFieldProps('sjjyrs', {
+            initialValue: 0,
             rules: [
-                { required: true,type:'integer', message: '请填写实际教育人数' },
+                { required: true, type: 'integer', message: '请填写实际教育人数' },
             ],
         });
         //未教育人数校验
-        const wjyrsProps = getFieldProps('wjyrs', {initialValue:0,
+        const wjyrsProps = getFieldProps('wjyrs', {
+            initialValue: 0,
             rules: [
-                { required: true,type:'integer', message: '请填写未教育人数' },
+                { required: true, type: 'integer', message: '请填写未教育人数' },
             ],
         });
         //注册税务师变动情况增加校验
-        const zcswsbzjProps = getFieldProps('ZCSWSBZJ', {initialValue:0,
+        const zcswsbzjProps = getFieldProps('ZCSWSBZJ', {
+            initialValue: 0,
             rules: [
-                { required: true, type:'integer', message: '请填写注册增加人数' },
+                { required: true, type: 'integer', message: '请填写注册增加人数' },
             ],
         });
         //注册税务师变动情况减少校验
-        const zcswsbjsProps = getFieldProps('ZCSWSBJS', {initialValue:0,
+        const zcswsbjsProps = getFieldProps('ZCSWSBJS', {
+            initialValue: 0,
             rules: [
-                { required: true,type:'integer', whitespace: true, message: '请填写注册税务师减少人数' },
+                { required: true, type: 'integer', whitespace: true, message: '请填写注册税务师减少人数' },
             ],
         });
         //股东变动情况增加校验
-        const gdbdqkzjProps = getFieldProps('GDBDQKZJ', {initialValue:0,
+        const gdbdqkzjProps = getFieldProps('GDBDQKZJ', {
+            initialValue: 0,
             rules: [
-                { required: true, type:'integer',whitespace: true, message: '请填写股东增加人数' },
+                { required: true, type: 'integer', whitespace: true, message: '请填写股东增加人数' },
             ],
         });
         //股东变动情况减少校验
-        const gdbdqkjsProps = getFieldProps('GDBDQKJS', {initialValue:0,
+        const gdbdqkjsProps = getFieldProps('GDBDQKJS', {
+            initialValue: 0,
             rules: [
-                { required: true,type:'integer', whitespace: true, message: '请填写股东减少人数' },
+                { required: true, type: 'integer', whitespace: true, message: '请填写股东减少人数' },
             ],
         });
 
         //事务所负责人意见修改校验
         const fzryjProps = getFieldProps('NJZJ', {
             rules: [
-                { required: true,type:'string', whitespace: true, message: '请填写负责人意见' },
+                { required: true, type: 'string', whitespace: true, message: '请填写负责人意见' },
             ],
         });
 
         //签证时间校验
         const sjProps = getFieldProps('qzrq', {
             rules: [
-                { required: true, type: 'date',whitespace: true,message: '请选择一个时间'},
-                {validator: this.checkBirthday},
+                { required: true, type: 'date', whitespace: true, message: '请选择一个时间' },
+                { validator: this.checkBirthday },
             ],
         });
         //负责人签名验证
         const qmProps = getFieldProps('FZR', {
             rules: [
-                { required: true,type:'string', whitespace: true, message: '负责人签名不能为空' },
+                { required: true, type: 'string', whitespace: true, message: '负责人签名不能为空' },
             ],
         });
 
-    const obj = this.props.data[0];
+        const obj = this.props.data[0];
 
 
         let nd = new Date().getFullYear() - 1;
@@ -315,20 +299,21 @@ let Addswsnj = React.createClass({
                                 rules: [{
                                     require: true,
                                     message: '选择一个年度做自检',
-                                }, {  validator: this.checkNdIfExit,
-                                    }]
+                                }, {
+                                    validator: this.checkNdIfExit,
+                                }]
                             }) }
-                                onChange={this.handleNdChange}/>
+                                onChange={this.handleNdChange} />
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="事务所名称">
-                            <Input {...getFieldProps('dwmc', { initialValue: obj.dwmc }) }disabled/>
+                            <Input {...getFieldProps('dwmc', { initialValue: obj.dwmc }) } disabled />
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构注册号码：">
-                            <Input {...getFieldProps('jgzchm', { initialValue: obj.zsbh }) }disabled/>
+                            <Input {...getFieldProps('jgzchm', { initialValue: obj.zsbh }) } disabled />
                         </FormItem>
                     </Col>
 
@@ -342,18 +327,18 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="所长姓名：">
-                            <Input {...getFieldProps('sz', { initialValue: obj.SZ }) }disabled/>
+                            <Input {...getFieldProps('sz', { initialValue: obj.SZ }) } disabled />
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="注册资金：">
-                            <Input {...getFieldProps('zczj', { initialValue: obj.ZCZJ }) }disabled/>
+                            <Input {...getFieldProps('zczj', { initialValue: obj.ZCZJ }) } disabled />
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="联系电话：">
-                            <Input {...getFieldProps('dhhm', { initialValue: obj.dhhm }) }disabled/>
+                            <Input {...getFieldProps('dhhm', { initialValue: obj.dhhm }) } disabled />
                         </FormItem>
 
                     </Col>
@@ -363,18 +348,18 @@ let Addswsnj = React.createClass({
                 <Row>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="办公地点">
-                            <Input {...getFieldProps('bgdz', { initialValue: obj.bgdz }) }disabled/>
+                            <Input {...getFieldProps('bgdz', { initialValue: obj.bgdz }) } disabled />
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="邮编">
-                            <Input {...getFieldProps('yzbm', { initialValue: obj.yzbm }) }disabled/>
+                            <Input {...getFieldProps('yzbm', { initialValue: obj.yzbm }) } disabled />
                         </FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="组织形式：">
-                            <Input {...getFieldProps('jgxz', { initialValue: obj.jgxz }) }disabled/>
+                            <Input {...getFieldProps('jgxz', { initialValue: obj.jgxz }) } disabled />
                         </FormItem>
                     </Col>
                 </Row>
@@ -383,27 +368,27 @@ let Addswsnj = React.createClass({
 
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="机构正式成立时间：">
-                            <Input {...getFieldProps('clsj', { initialValue: obj.clsj }) }disabled/>
+                            <Input {...getFieldProps('clsj', { initialValue: obj.clsj }) } disabled />
                         </FormItem>
 
                     </Col>
                     <Col span="8">
-                        <FormItem  labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) }disabled/></FormItem>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="本年度报备份数：" ><Input {...getFieldProps('bndbafs', { initialValue: this.state.bndbafs }) } disabled /></FormItem>
 
                     </Col>
                     <Col span="8">
                         <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="执业注册税务师人数：">
-                            <Input {...getFieldProps('zyrs', { initialValue: obj.dqzyrs }) } disabled/>
+                            <Input {...getFieldProps('zyrs', { initialValue: obj.dqzyrs }) } disabled />
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs', { initialValue: obj.dqzrs }) } disabled/>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="总人数：">  <Input {...getFieldProps('zrs', { initialValue: obj.dqzrs }) } disabled />
                         </FormItem>
                     </Col>
                     <Col span="8">
-                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS', { initialValue: obj.dqfss }) } disabled/></FormItem>
+                        <FormItem labelCol={{ span: 9 }} wrapperCol={{ span: 13 }} label="分所数："><Input {...getFieldProps('FSS', { initialValue: obj.dqfss }) } disabled /></FormItem>
                     </Col>
 
                 </Row>
@@ -411,22 +396,22 @@ let Addswsnj = React.createClass({
 
                 <Row >
                     <Col span="3">
-                        <FormItem  labelCol={{ span: 22 }} label="参加后续教育:"></FormItem>
+                        <FormItem labelCol={{ span: 22 }} label="参加后续教育:"></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  > <InputNumber {...yjyrsProps} min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...yjyrsProps} min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>人应参加</span></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  > <InputNumber {...sjjyrsProps } min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...sjjyrsProps } min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>人实参加</span></FormItem>
                     </Col>
                     <Col span="2">
-                        <FormItem  ><InputNumber {...wjyrsProps} min={0}/></FormItem>
+                        <FormItem  ><InputNumber {...wjyrsProps} min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>未参加</span></FormItem>
@@ -435,18 +420,18 @@ let Addswsnj = React.createClass({
 
                 <Row>
                     <Col span="3">
-                        <FormItem labelCol={{ span: 22 }}label="注册税务师变动情况："></FormItem>
+                        <FormItem labelCol={{ span: 22 }} label="注册税务师变动情况："></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <InputNumber {...zcswsbzjProps } min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...zcswsbzjProps } min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>增加</span></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <InputNumber {...zcswsbjsProps} min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...zcswsbjsProps} min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>减少</span></FormItem>
@@ -456,18 +441,18 @@ let Addswsnj = React.createClass({
                 </Row>
                 <Row>
                     <Col span="3">
-                        <FormItem labelCol={{ span: 22 }}label="股东变动情况："></FormItem>
+                        <FormItem labelCol={{ span: 22 }} label="股东变动情况："></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <InputNumber {...gdbdqkzjProps}min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...gdbdqkzjProps} min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>增加</span></FormItem>
                     </Col>
 
                     <Col span="2">
-                        <FormItem  > <InputNumber {...gdbdqkjsProps }min={0}/></FormItem>
+                        <FormItem  > <InputNumber {...gdbdqkjsProps } min={0} /></FormItem>
                     </Col>
                     <Col span="2">
                         <FormItem  ><span>减少</span></FormItem>
@@ -679,7 +664,7 @@ let Addswsnj = React.createClass({
 
                     <Row>
                         <Col span="24">
-                            <FormItem labelCol={{ span: 3 }}wrapperCol={{ span: 21 }} label="年检总结">  <Input {...textareaProps}  type="textarea"/>
+                            <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 21 }} label="年检总结">  <Input {...textareaProps} type="textarea" />
                             </FormItem>
                         </Col>
 
@@ -691,7 +676,7 @@ let Addswsnj = React.createClass({
                     <Row>
                         <Col span="12">
 
-                            <FormItem labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} label="事务所负责人意见:" ><Input {...fzryjProps } type="textarea"/></FormItem>
+                            <FormItem labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} label="事务所负责人意见:" ><Input {...fzryjProps } type="textarea" /></FormItem>
 
 
 
@@ -700,11 +685,11 @@ let Addswsnj = React.createClass({
 
 
                         <Col span="6" >
-                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16}}  label="时间:" > <DatePicker {...sjProps} /></FormItem>
+                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="时间:" > <DatePicker {...sjProps} /></FormItem>
 
                         </Col>
                         <Col span="6">
-                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16}} label="负责人签名:" >
+                            <FormItem labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} label="负责人签名:" >
                                 <Input {...qmProps }></Input>
                             </FormItem>
                         </Col>
@@ -715,41 +700,18 @@ let Addswsnj = React.createClass({
 
 
                     <Row>
-                        <Col span="4">
-                            <Button type="primary" onClick={this.handleSubmit}> <Icon
-
-                                type="check"/>保存</Button>
-
+                        <Col span="3">
+                            <Button type="primary" onClick={this.handleSubmit.bind(this, 1)} loading={this.props.btnloading}> <Icon type="check" />保存</Button>
 
                         </Col>
-
-                        <Col span="4">
-                            <Button type="primary" onClick={this.showModal}> <Icon
-
-                                type="arrow-up"/>提交</Button>
-                            <Modal title="你确定要提交吗？" visible=
-
-                                {this.state.visible}
-                                onOk={this.handleOk} onCancel=
-
-                                {this.handleCancel}>
-                                <p>提交后就不能修改了！！！</p>
-
-
-                            </Modal>
+                        <Col span="3">
+                            <Button type="primary" onClick={this.showModal} loading={this.props.btnloading}> <Icon type="arrow-up" />提交</Button>
                         </Col>
-
-                        <Col span="4">
-                            <Button type="primary" onClick={this.handleReset}><Icon
-
-                                type="cross"/>重置</Button>
-
-
+                        <Col span="3">
+                            <Button type="primary" onClick={this.handleReset} loading={this.props.btnloading}><Icon type="cross" />重置</Button>
 
                         </Col>
-
                     </Row>
-
                 </div>
             </Form>
 
