@@ -5,6 +5,7 @@ import auth from 'common/auth'
 import { Col, Input, Row, Button, Icon, Form, Modal, Checkbox, DatePicker } from 'antd'
 import { SelectorYear, SelectorXZ, SelectorXm } from 'component/compSelector'
 import './style.css'
+import Panel from 'component/compPanel'
 
 const API_URL1 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj1';
 const API_URL2 = config.HOST + config.URI_API_PROJECT + '/add/zyswsnj2';
@@ -13,6 +14,9 @@ const CheckNd_URL = config.HOST + config.URI_API_PROJECT + '/checkzyswsnjnd';
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
+const ToolBar = Panel.ToolBar;
+
+
 let Addzyswsnj = React.createClass({
     getDefaultProps() {
         return {
@@ -183,6 +187,12 @@ let Addzyswsnj = React.createClass({
 
 
     render() {
+        //定义工具栏内容
+        let toolbar = <ToolBar>
+            <ButtonGroup>
+                <Button onClick={this.props.toback}>返回<Icon className="toggle-tip" type="arrow-left" /></Button>
+            </ButtonGroup>
+        </ToolBar>;
 
         const { getFieldProps } = this.props.form;
 
@@ -233,8 +243,9 @@ let Addzyswsnj = React.createClass({
             obj = this.props.data;
         };
         const obj1 = this.state.swsdata;
-        return <div>
-            <div className="fix-table table-bordered table-striped" >
+        return <div className="add">
+            <Panel title="执业税务师年检表添加" toolbar={toolbar}>
+                <div className="fix-table table-bordered table-striped" >
                 <Form horizontal onSubmit={this.handleSubmit}>
                     <div className="fix-table table-bordered table-striped">
 
@@ -480,6 +491,7 @@ let Addzyswsnj = React.createClass({
                 </Form>
 
             </div>
+            </Panel>
         </div>
     }
 });

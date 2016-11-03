@@ -5,9 +5,7 @@ const detailBox = React.createClass({
 
     render() {
         const obj = this.props.data;
-        console.log(obj);
-
-
+        
         return <div className="fix-table table-bordered table-striped">
             <table>
                 <tbody>

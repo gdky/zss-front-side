@@ -158,6 +158,7 @@ const swsnjb = React.createClass({
                 fs[key] = num;
             }
             this.setState({ entity: entity, fileds: fs, dataLoading: false });
+            
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -193,7 +194,7 @@ const swsnjb = React.createClass({
         if (lx == 'add') {
             this.fetchHandle(value, '', 'post');
         } else if (lx == 'update') {
-            this.fetchHandle(value, ("/" + value.ID), 'put');
+            this.fetchHandle(value, ("/" + value.id), 'put');
         };
     },
 
@@ -272,7 +273,7 @@ const swsnjb = React.createClass({
 
         return (
             <span>
-                <Button disabled={record.njzt == "已年检" ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
+                <Button disabled={(record.njzt == "已年检"||record.njzt=="已自检") ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
                 <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
         )
