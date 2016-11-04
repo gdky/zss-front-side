@@ -204,7 +204,7 @@ let Addzyswsnj = React.createClass({
             ],
         });
         //年检总结校验
-        const njzjProps = getFieldProps('ZJ', {
+        const njzjProps = getFieldProps('NJZJ', {
             rules: [
                 { required: true, type: 'string', whitespace: true, message: '请填写年检总结' },
             ],

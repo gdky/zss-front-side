@@ -242,7 +242,7 @@ getDefaultProps() {//初始化某些传入值
                 
                 <tr>   
                     <td >年检总结：</td>
-                    <td colSpan="2" >{data.ZJ}</td>
+                    <td colSpan="2" >{data.NJZJ}</td>
                     <td colSpan="3"></td>
                 </tr>
                  <tr>   

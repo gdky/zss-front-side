@@ -364,7 +364,7 @@ let Updateswsnjb = React.createClass({
 
                                 <tr>
                                     <td>年检总结: </td>
-                                    <td colSpan="4"><Input {...getFieldProps('ZJ', { initialValue: data.NJZJ }) } type="textarea" autosize /></td>
+                                    <td colSpan="4"><Input {...getFieldProps('NJZJ', { initialValue: data.NJZJ }) } type="textarea" autosize /></td>
                                 </tr>
 
                                 <tr>
