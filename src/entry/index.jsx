@@ -83,6 +83,7 @@ const Index = React.createClass({
                 require('../module/ywgl/setting'), //业务参数设置
                 require('../module/ywgl/ywbbsjfx'),//业务报备数据分析
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇总
+/*
 
                 //财务报表
                 require('../module/cwbb/lrfpb'),
@@ -176,6 +177,7 @@ const Index = React.createClass({
                 require('../module/xtsjfx/sjfx/hynlsjfx'),//行业年龄数据分析
                 require('../module/xtsjfx/sjfx/ryztsjfx'),
                 require('../module/xtsjfx/sjfx/zyzshsjfx'),
+*/
 
                 //会员会费缴纳
                 require('../module/hyhf_new/hyhfjnqk'),
@@ -226,7 +228,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/ywbb'), //事务所业务报备
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
-                //require('../module/client/ywgl/ywhztj'), //业务汇总统计
+                require('../module/client/ywgl/ywhztj'), //业务汇总统计
 
                 //公用功能
                 //修改密码

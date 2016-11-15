@@ -4,7 +4,7 @@ import List from './list'
 import model from './model'
 import {jsonCopy} from 'common/utils'
 import cloneDeep from 'lodash/cloneDeep';
-import '../style.css'
+
 
 
 const c = React.createClass({
