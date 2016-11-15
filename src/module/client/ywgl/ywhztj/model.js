@@ -5,72 +5,77 @@
 const model = {
     columns: [{
         title: '序号',
-        dataIndex: 'key',
-        key: 'key',
-        width: 60
+        dataIndex: 'xh',
+        key: 'xh',
+        width: 50
     }, {
         title: '企业名称',
-        dataIndex: 'nd',
-        key: 'nd',
-        width: 50
+        dataIndex: 'wtdw',
+        key: 'wtdw',
+        width: 250
     },{
         title: '税务登记证号',
-        key: 'ZTBJ',
-        dataIndex: 'ZTBJ',
-        width:80
+        key: 'wtdwnsrsbh',
+        dataIndex: 'wtdwnsrsbh',
+        width:130
     },{
         title: '业务发生地',
-        key: 'HSQJJE_HS',
-        dataIndex: 'HSQJJE_HS',
+        key: 'cs',
+        dataIndex: 'cs',
         width: 120
     }, {
         title: '报告文号',
-        key: 'HSQJJE_JE',
-        dataIndex: 'HSQJJE_JE',
+        key: 'bgwh',
+        dataIndex: 'bgwh',
         width:120
     }, {
         title: '报备号码',
-        key: 'TZYNSDSE_HS',
-        dataIndex: 'TZYNSDSE_HS',
-        width: 100
+        key: 'bbhm',
+        dataIndex: 'bbhm',
+        width: 130
     }, {
         title: '一级复核',
-        key: 'TZYNSDSE_JE',
-        dataIndex: 'TZYNSDSE_JE',
-        width:100
+        key: 'yjfh',
+        dataIndex: 'yjfh',
+        width:80
     }, {
         title: '二级复核',
-        key: 'TJYNSDSE_HS',
-        dataIndex: 'TJYNSDSE_HS',
-        width:100
+        key: 'rjfh',
+        dataIndex: 'rjfh',
+        width:80
     }, {
         title: '三级复核',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'sjfh',
+        dataIndex: 'sjfh',
+        width:80
     }, {
         title: '签名注师',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'qzsws',
+        dataIndex: 'qzsws',
+        width:100,
     }, {
         title: '税别',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'sb',
+        dataIndex: 'sb',
+        width:80
     }, {
         title: '主管税务机关',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'zgswjg',
+        dataIndex: 'zgswjg',
+        width:120
     }, {
         title: '协议收费金额',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'xyje',
+        dataIndex: 'xyje',
+        width:100
     }, {
         title: '实际收费金额',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'sjsqje',
+        dataIndex: 'sjsqje',width:100
     }, {
         title: '报备时间',
-        key: 'TJYNSDSE_JE',
-        dataIndex: 'TJYNSDSE_JE'
+        key: 'bbrq',
+        dataIndex: 'bbrq'
     }]
 };
 

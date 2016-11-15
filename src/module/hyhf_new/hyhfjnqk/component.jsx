@@ -232,55 +232,6 @@ const jgcx = React.createClass({
             dataIndex: 'nd',
             key: 'nd'
         },{
-            title: 'Address',
-            children: [
-                  {
-                    title: 'Street',
-                    dataIndex: 'street',
-                    key: 'street',
-                    width: 200,
-                  },
-                      {
-                        title: 'Block',
-                        children: [
-                          {
-                            title: 'Building',
-                            children: [
-                          {
-                            title: 'Building',
-                            children: [
-                          {
-                            title: 'Building',
-                            dataIndex: 'building',
-                            key: 'building',
-                            width: 50,
-                          },
-                      {
-                        title: 'Door No.',
-                        dataIndex: 'number',
-                        key: 'number',
-                        width: 100,
-                      },
-                ],
-                          },
-                      {
-                        title: 'Door No.',
-                        dataIndex: 'number',
-                        key: 'number',
-                        width: 100,
-                      },
-                ],
-                          },
-                      {
-                        title: 'Door No.',
-                        dataIndex: 'number',
-                        key: 'number',
-                        width: 100,
-                      },
-                ],
-              },
-            ],
-      },{
             title: '单位名称',
             dataIndex: 'dwmc',
             key: 'dwmc',
