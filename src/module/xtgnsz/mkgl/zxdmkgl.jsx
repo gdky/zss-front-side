@@ -8,6 +8,7 @@ import Toolbar from './compToolbar'
 import req from 'reqwest'
 import {getTreeData} from 'common/utils'
 import config from 'common/configuration'
+import auth from 'common/auth'
 
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
@@ -153,7 +154,8 @@ const zxdmkgl = React.createClass({
             type: 'json',
             method: 'put',
             data: JSON.stringify(submitNode),
-            contentType: 'application/json'
+            contentType: 'application/json',
+            headers: {'x-auth-token': auth.getToken()},
         }).then(resp=> {
             let tmpArr = this.state.nodes.slice(0);
             tmpArr[this.state.currentNode.key] = submitNode;
@@ -176,7 +178,8 @@ const zxdmkgl = React.createClass({
             type: 'json',
             method: 'post',
             data: JSON.stringify(newNode),
-            contentType: 'application/json'
+            contentType: 'application/json',
+            headers: {'x-auth-token': auth.getToken()},
         }).then(resp=> {
             ({id: newNode.id, path: newNode.path} = resp);
             let tmpArr = this.state.nodes.slice(0);
@@ -190,7 +193,8 @@ const zxdmkgl = React.createClass({
         req({
             url: URL + '/' + this.state.currentNode.id+'?l=A',
             type: 'json',
-            method: 'delete'
+            method: 'delete',
+            headers: {'x-auth-token': auth.getToken()},
         }).then((resp)=> {
             this.setState({nodes: resp});
         }).fail(err=> {
@@ -201,7 +205,8 @@ const zxdmkgl = React.createClass({
         req({
             url: URL + '?q=all&l=A',
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()},
         }).then(resp => {
             this.setState({nodes: resp});
         }).fail((err, msg)=> {

@@ -1,0 +1,31 @@
+.fp_background{
+    position: relative;
+    width:18.8cm;
+    height:10.4cm;
+    background:rgba(0, 0, 0, 0) url("./background_fp.jpg"); 
+    font-size:10pt;
+    font-family: SimSun;
+}
+
+.fp_background .fprmb{
+	display:-moz-inline-box; 
+	display:inline-block; 
+	width:0.5cm; 
+	text-align: center;
+    
+}
+
+@media print{
+
+.noprint{
+   display:none;
+}
+
+.fp_background{
+    position: absolute;
+    right:-0.3cm;
+    top:-0.4cm;
+}
+
+
+}

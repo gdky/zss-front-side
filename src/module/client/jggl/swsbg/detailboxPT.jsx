@@ -6,12 +6,17 @@ import Model from './model.js'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
-
+const TrWrapper = React.createClass({
+    render(){
+        return <tr>{this.props.children}</tr>
+    }
+})
 let detailBox = React.createClass({
     getDefaultProps(){
         return {
             onSubmit: {},
-            submitLoading:false
+            submitLoading:false,
+            nbsj:[]
         }
     },
  handleSubmit(e){
@@ -25,7 +30,21 @@ let detailBox = React.createClass({
                 Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
                 return;
           }
-        let value = this.props.form.getFieldsValue();
+        let value = values;
+        if (!!this.props.nbjgsz) {
+                let nbjgsz=[];
+                for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
+                    let nbzsRow=[];
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        let values=value[prop.dataIndex+'_'+(i+1)+'_'+j];
+                        nbzsRow.push(!values?null:values);
+                        delete value[prop.dataIndex+'_'+(i+1)+'_'+j];
+                    }
+                    nbjgsz.push(nbzsRow);
+                }
+                value.nbjgsz=nbjgsz;
+            }
         var ls = [];
         const old = this.props.data;
         for(var key in value){
@@ -33,7 +52,7 @@ let detailBox = React.createClass({
                 var dd = value[key].Format("yyyy-MM-dd");
                 value[key]=dd;
             }
-            if (old[key]!=value[key]) {
+            if (old[key]!=value[key]&&key!='nbjgsz') {
                 if (value[key]=='') {//空值处理
                     ls.push({mc:Model.props[key],jzhi:old[key],xzhi:null});
                     }else{
@@ -55,6 +74,41 @@ let detailBox = React.createClass({
         const obj = this.props.data;
         const check = this.props.check;
         const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+        let nbzs=[];
+        if (!!this.props.nbjgsz) {
+            nbzs.push(<tr className="nbjgsz" key="0004" ><td key="0004" colSpan='10' style={{textAlign:'left'}}>{!this.props.nbTitle?null:this.props.nbTitle}</td></tr>);
+            let nbzsRow=[];
+            for (let i = 0; i <(this.props.nbsj.length>5?(this.props.nbsj.length+1):6); i++) {
+
+                if (i==0) {
+                    let nbzsCol=[];
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        nbzsCol.push(<td key={'td-title-'+prop.dataIndex} style={{'width':prop.width?prop.width:'auto',textAlign:'center'}} className="prop-name">{prop.title}</td>);
+                    };
+                    nbzsRow.push(<TrWrapper key={'tr-nbjgsz'+i}>{nbzsCol}</TrWrapper>);
+                    continue
+                };
+                var target=[];
+                if (this.props.nbsj.length>0) {
+                    let dat=this.props.nbsj[i-1];
+                     for (var key in dat) {
+                        target.push(dat[key]);
+                    };
+                };
+                let nbzsCol=[];
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                        let prop = this.props.nbjgsz.rows[j];
+                        if (!!target) {
+                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j,{ initialValue: target[j+3]})}/></td>);
+                        }else{
+                        nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j)}/></td>);
+                        };
+                    };
+                    nbzsRow.push(<TrWrapper key={'tr-nbjgsz'+i}>{nbzsCol}</TrWrapper>);
+            };
+            nbzs.push(<tr key="0009"><td key="0010" colSpan='10' ><div key="0005"><table key="0006"> <tbody key="0007">{nbzsRow}</tbody></table></div></td></tr>);
+        };
         return <div className="fix-table table-bordered table-striped">
          <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
               <h2 className="sm">普通项目变更</h2>
@@ -166,6 +220,7 @@ let detailBox = React.createClass({
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>办公场所的产权<p>或使用权证明：</p></b></td>
                         <td colSpan="3" style={{textAlign:'left'}}><Col span="20"><Input type="textarea" rows="3" { ...getFieldProps('bgcszczm', { initialValue: obj.bgcszczm,rules: [{ required: true}]})}></Input></Col></td>
                     </tr>
+                    {nbzs}
                       <tr >
                         <td colSpan="3" style={{textAlign:'left'}}><p>说明：</p><p>普通项目变更信息会立即修改无需进入审批流程</p></td>
                         <td ><Col offSpan="8"><Button type="primary" htmlType="submit" disabled={check} loading={this.props.submitLoading}>提交</Button></Col></td>

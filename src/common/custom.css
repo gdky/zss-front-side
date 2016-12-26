@@ -25,6 +25,15 @@ body {
 .right {
     float: right;
 }
+.no-border {
+    border:none
+}
+.text-right{
+    text-align: right;
+}
+.bg-wh{
+    background: #fff;
+}
 
 .bg-height:before {
     position: absolute;
@@ -140,6 +149,18 @@ body {
 .fix-table.table-bordered table > tbody > tr > td:last-child {
     border-right: 0;
 }
+.fix-table.no-border * th,
+.fix-table.no-border * td{
+    border:none
+}
+.fix-table.no-border tbody tr:last-child th,
+.fix-table.no-border tbody tr:last-child td {
+    border:none
+}
+.fix-table.no-border tbody tr:first-child th,
+.fix-table.no-border tbody tr:first-child td {
+    border:none;
+}
 
 /*下拉搜索框样式*/
 .search-form {
@@ -150,5 +171,13 @@ body {
 .search-form .query {
     margin-right:16px;
 }
+
+/*全局loading样式*/
+.ant-spin-nested-loading > .ant-spin-container {
+    opacity: 0.3;
+    -webkit-filter: initial;
+    filter: initial;
+}
+
 
 

@@ -10,6 +10,7 @@ import {jsonCopy} from 'common/utils.js'
 import TreeView from 'component/treeView'
 import RoleDialog from './roleDialog.jsx'
 import EditDialog from './editDialog.jsx'
+import auth from 'common/auth'
 
 const TabPane = Tabs.TabPane;
 const ToolBar = Panel.ToolBar;
@@ -71,7 +72,8 @@ const qxgl = React.createClass({
         req({
             url: Privileges_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()}
         }).then(resp=> {
             let privileges = [];
             for (let i = 0; i < resp.length; i++) {
@@ -89,7 +91,8 @@ const qxgl = React.createClass({
         req({
             url: Privileges_URL + '/' + record.id,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()},
         }).then(resp=> {
             let privileges = [];
             for (let i = 0; i < resp.length; i++) {
@@ -129,7 +132,8 @@ const qxgl = React.createClass({
             type: 'json',
             method: 'put',
             contentType: 'application/json',
-            data: JSON.stringify(param)
+            data: JSON.stringify(param),
+            headers: {'x-auth-token': auth.getToken()},
         }).then(()=> {
             notification.success({
                 duration: 2,
@@ -211,7 +215,8 @@ const qxgl = React.createClass({
                 type: 'json',
                 method: 'put',
                 contentType: 'application/json',
-                data: JSON.stringify(entity)
+                data: JSON.stringify(entity),
+                headers: {'x-auth-token': auth.getToken()},
             })
         }
         let process = async ()=>{
@@ -231,7 +236,8 @@ const qxgl = React.createClass({
         return req({
             url: MENU_URL + (lx == 'A' ? '?l=A' : '?l=B') + '&q=all',
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()},
         })
     },
     //获取角色列表
@@ -239,7 +245,8 @@ const qxgl = React.createClass({
         return req({
             url: ROLE_URL,
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers: {'x-auth-token': auth.getToken()},
         })
     },
     //删除角色操作
@@ -248,7 +255,8 @@ const qxgl = React.createClass({
             url: ROLE_URL + '/' + this.state.currentEntity.id,
             method: 'delete',
             type: 'json',
-            contentType: 'application/json'
+            contentType: 'application/json',
+            headers: {'x-auth-token': auth.getToken()},
         });
         rs = await this.fetchRole();
         return rs;
@@ -265,7 +273,8 @@ const qxgl = React.createClass({
             method: 'post',
             type: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(value)
+            data: JSON.stringify(value),
+            headers: {'x-auth-token': auth.getToken()},
         });
         rs = await this.fetchRole();
         return rs;

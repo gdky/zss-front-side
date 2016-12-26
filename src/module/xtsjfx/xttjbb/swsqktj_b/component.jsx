@@ -188,7 +188,7 @@ const swsqktj_b = React.createClass({
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
-                               pagination={this.state.pagination}
+                               pagination={!this.state.pagination}
                                loading={this.state.loading}
                                onChange={this.handleSelectYear}
                                />

@@ -68,7 +68,8 @@ getInitialState(){
      req({
             url: API_URL_C+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             this.setState({checked: !resp, })
         }).catch(e=> {
@@ -91,7 +92,6 @@ getInitialState(){
               headers:{'x-auth-token':auth.getToken()},
               onChange(info) {
                 if (info.file.status !== 'uploading') {
-                  console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
                   message.success(`${info.file.name} 上传成功。`);

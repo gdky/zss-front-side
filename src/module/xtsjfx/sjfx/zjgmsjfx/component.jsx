@@ -23,10 +23,11 @@ const zjgmsjfx = React.createClass({
     getInitialState(){
         return {
             data: [],
-            pagination: {
+           
+           pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 5,
+               pageSize: 25,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
 
@@ -116,7 +117,7 @@ const zjgmsjfx = React.createClass({
     },
 
     //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
+    fetchData(params = {page: 1,pageSize:this.state.pagination.pageSize}){
         this.setState({loading: true});
         req({
             url: API_URL,
@@ -125,14 +126,14 @@ const zjgmsjfx = React.createClass({
             data: params,
             contentType: 'application/json'
         }).then(resp=> {
-            const p = this.state.pagination;
+          /*  const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
-            };
+            };*/
             this.setState({
                 data: resp.data,
-                pagination: p,
+               // pagination: p,
                 loading: false
             })
         }).fail(err=> {
@@ -164,7 +165,8 @@ const zjgmsjfx = React.createClass({
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
-                               pagination={this.state.pagination}
+                               
+                               pagination={!this.state.pagination}
                                rowKey={resp=>resp.ID}
                                loading={this.state.loading}
                                onChange={this.handleChange}

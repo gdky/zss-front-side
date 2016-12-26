@@ -8,7 +8,7 @@ const Option = Select.Option;
 
 const selectorSB = React.createClass({
     render(){
-        return <Select {...this.props}  defaultValue="1" >
+        return <Select {...this.props}  defaultValue="1"  >
             <Option key="1">国税</Option>
             <Option key="2">地税</Option>
             

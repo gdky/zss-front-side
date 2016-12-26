@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row,Col} from 'antd'
 import './style.css'
-import numeral from 'Numeral'
+import numeral from 'numeral'
 
 const detailBox = React.createClass({
       formatnum(aa,bb){

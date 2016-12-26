@@ -1,0 +1,31 @@
+.ywbbgl .search-form {
+    margin-bottom:24px;
+    background-color: #FFFFFF;
+    padding:16px 32px
+}
+
+.ywbbgl .fix-table td {
+    text-align: center;
+}
+.ywbbgl .fix-table td:nth-child(odd) {
+    text-align: right;
+}
+.ywbbgl .fix-table td:nth-child(even) {
+    text-align: left;
+}
+.ywbbgl .fix-table td.value {
+    text-align: left;
+}
+.ywbbgl .detail-bar{
+    margin-top: 16px;
+}
+.ywbbgl .detail-bar .ant-btn{
+    margin-right: 8px;
+    float: right;
+}
+.ywbbgl .act-group a{
+    margin-right:8px
+}
+.ywbbgl .row-selected {
+    background-color:#eaf8fe ;
+}

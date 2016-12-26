@@ -6,8 +6,6 @@ import auth from 'common/auth.js'
 
 const InputGroup = Input.Group;
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
-const jid = auth.getJgid();
-const token = auth.getToken();
 
 const columns = [{
     title: '单位名称',
@@ -35,6 +33,9 @@ const customer = React.createClass({
         });
     },
     handleSearch(){
+        const jid = auth.getJgid();
+        const token = auth.getToken();
+
         this.setState({loading: true});
         let value = {dwmc: this.state.value};
         req({
@@ -56,7 +57,7 @@ const customer = React.createClass({
             onSelect: this.handleSelect
         };
 
-        return <Modal {...this.props} title="选择客户" width="300" onOk={this.handleOk}>
+        return <Modal {...this.props} title="选择客户" width="400" onOk={this.handleOk}>
             <div className="ant-search-input-wrapper" style={{ width: 240 }}>
                 <InputGroup className="ant-search-input">
                     <Input placeholder="用单位名称查询"

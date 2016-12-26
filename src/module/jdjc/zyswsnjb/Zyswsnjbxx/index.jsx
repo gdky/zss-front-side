@@ -17,13 +17,14 @@ getDefaultProps() {//初始化某些传入值
         var obj2={};
         var arr2 =[];
         var obj3={};
-        if(!!data.ZJWGDM){
+        if(!!data.ZJWGDM && data.ZJWGDM != 'null'){
            arr1 = data.ZJWGDM.split(',');
            for (var i=0;i<arr1.length;i++){
             obj2[arr1[i]]=true;
         } 
         }
-        if(!!data.ZJWGDM){
+
+        if(!!data.ZJWGDM && data.ZJWGDM != 'null' ){
            arr2 = data.NJWGDM.split(',');
            for (var i=0;i<arr2.length;i++){
             obj3[arr2[i]]=true;

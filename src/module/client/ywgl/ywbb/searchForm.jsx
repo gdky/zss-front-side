@@ -1,9 +1,10 @@
 import React from 'react'
-import {Row,Col,Form,Button,Input,InputNumber} from 'antd'
-import {SelectorCS,SelectorYear,SelectorYWLX} from 'component/compSelector'
+import {Row, Col, Form, Button, Input, DatePicker, InputNumber, Checkbox} from 'antd'
+import {SelectorCS, SelectorYWLX, SelectorYear, SelectorYWZT, SelectorZSFS} from 'component/compSelector'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
+const RangePicker = DatePicker.RangePicker;
 
 let searchForm = React.createClass({
     getDefaultProps(){
@@ -17,39 +18,94 @@ let searchForm = React.createClass({
     },
     handleSubmit(e){
         e.preventDefault();
-        let value = this.props.form.getFieldsValue();
-        this.props.onSubmit(value);
+        let commitValues = this.props.form.getFieldsValue();
+        //首先处理搜索表单提交的信息，将字符串去首尾空格，将空值的搜索条件丢弃
+        const values = {};
+        for (let prop in commitValues) {
+            if (commitValues[prop]) {
+                if (typeof commitValues[prop] == 'string' && !!commitValues[prop].trim()) {
+                    values[prop] = commitValues[prop].trim()
+                } else {
+                    values[prop] = commitValues[prop]
+                }
+            }
+        }
+        //加工各提交字段的值
+        if (values.xyje1 || values.xyje2) {
+            values.xyje = [values.xyje1 || 0, values.xyje2 || 0];
+        }
+        if (values.sjsqje1 || values.sjsqje2) {
+            values.sjsqje = [values.sjsqje1 || 0, values.sjsqje2 || 0];
+        }
+        if (values.is_yd) {
+            values.is_yd = values.is_yd ? 'Y' : 'N';
+        }
+        if (values.swbz) {
+            values.swbz = values.swbz ? 1 : 0;
+        }
+        if (values.bbrq && !values.bbrq[0]) {
+            delete values.bbrq
+        }
+        if (values.bgrq && !values.bgrq[0]) {
+            delete values.bgrq
+        }
+        this.props.onSubmit(values);
     },
     render(){
-        const { getFieldProps } = this.props.form;
+        const {getFieldProps} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 8},
             wrapperCol: {span: 16}
         };
+
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit}>
                 <Row>
-
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="委托企业名称">
-                            <Input placeholder="委托企业名称" {...getFieldProps('WTDWMC')}/>
+                            label="委托单位名称">
+                            <Input placeholder="委托单位名称" {...getFieldProps('wtdw')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="业务类型">
+                            <SelectorYWLX placeholder="业务类型" {...getFieldProps('ywlx_dm')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="业务发生地">
+                            <SelectorCS { ...getFieldProps('cs_dm')}/>
+                        </FormItem>
+                    </Col>
 
+                </Row>
+                <Row>
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="鉴证年度">
+                            <SelectorYear { ...getFieldProps('nd')}/>
+                        </FormItem>
+                    </Col>
+                    <Col span="8">
+                        <FormItem
+                            labelCol={{span: 8}} wrapperCol={{span: 16}}
+                            label="协议收费金额">
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('xyje2')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="业务发生地">
-                            <SelectorCS {...getFieldProps('CS')}/>
-                        </FormItem>
-                    </Col>
-                    <Col span="8">
-                        <FormItem
-                            {...formItemLayout}
-                            label="业务类型">
-                            <SelectorYWLX  {...getFieldProps('LX')}/>
+                            label="发票金额">
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje1')}/>&nbsp;- &nbsp;
+                            <InputNumber style={{width: '40%'}} step={0.01} { ...getFieldProps('sjsqje2')}/>
                         </FormItem>
                     </Col>
                 </Row>
@@ -58,54 +114,65 @@ let searchForm = React.createClass({
                         <FormItem
                             {...formItemLayout}
                             label="协议文号">
-                            <Input placeholder="协议文号" {...getFieldProps('XYWH')}/>
-
+                            <Input placeholder="协议文号" {...getFieldProps('xyh')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="协议金额">
-                            <InputNumber min={1} max={13} style={{ width: '100%' }} {...getFieldProps('XYJE')}/>
+                            label="报告文号">
+                            <Input placeholder="报告文号" {...getFieldProps('bgwh')}/>
                         </FormItem>
                     </Col>
                     <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="发票金额">
-                            <InputNumber  min={1} max={13} style={{ width: '100%' }} {...getFieldProps('FPJE')}/>
+                            label="报备号码">
+                            <Input placeholder="报备号码" { ...getFieldProps('bbhm')}/>
                         </FormItem>
                     </Col>
                 </Row>
                 <Row>
-                    <Col span="6">
+                    <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="年度">
-                            <SelectorYear {...getFieldProps('ND')}/>
+                            label="报备日期：">
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bbrq',
+                                {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
-                    <Col span="6">
+                    <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="报备号码">
-                            <Input placeholder="协议文号" {...getFieldProps('BBHM')}/>
+                            label="报告日期">
+                            <RangePicker format="yyyy/MM/dd" { ...getFieldProps('bgrq',
+                                {getValueFromEvent: (date, dateString)=> dateString})}/>
                         </FormItem>
                     </Col>
-                    <Col span="6">
+                    <Col span="8">
+                        <FormItem
+                          {...formItemLayout}
+                          label="征收方式">
+                            <SelectorZSFS { ...getFieldProps('zsfs_dm')}/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span="8">
                         <FormItem
                             {...formItemLayout}
-                            label="签字税务师">
-                            <Input placeholder="签字税务师" {...getFieldProps('QZSWS')}/>
+                            label="业务状态：">
+                            <SelectorYWZT  { ...getFieldProps('zt')}/>
                         </FormItem>
                     </Col>
-                    <Col span="6">
+                    <Col span="8">
                         <FormItem
-                            {...formItemLayout}
-                            label="状态">
-                            <Input placeholder="状态" {...getFieldProps('ZT')}/>
+                          {...formItemLayout}
+                          label="异地报备">
+                            <Checkbox  {...getFieldProps('is_yd', {valuePropName: 'checked'})}/>
                         </FormItem>
                     </Col>
+
                 </Row>
                 <Row>
                     <Col span="4" offset="20">

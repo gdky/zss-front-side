@@ -56,10 +56,28 @@ module.exports = {
             headers: {'x-auth-token': this.getToken()}
         })
     },
+    setAccount(param){
+        window.acinfo = JSON.stringify({
+            names:param.names,
+            role:param.role,
+            menu:param.menu
+        })
+    },
 
     setAuthorization(param){
         store.session.set('jid', param.jgId);
-        store.session.set('permission', param.permission)
+        window.acinfo = JSON.stringify({
+            names:param.names,
+            role:param.role,
+            menu:param.menu
+        })
+    },
+    getAuthorization(){
+        if(window.acinfo){
+            return JSON.parse(window.acinfo);
+        }else{
+            return false
+        }
     },
 
     isClient(){

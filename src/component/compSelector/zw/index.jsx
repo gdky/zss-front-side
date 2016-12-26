@@ -9,7 +9,7 @@ const Option = Select.Option;
 
 const selectorMZ = React.createClass({
     render(){
-        const options = data.map(item=><Option key={item.id} value={item.id}>{item.mc}</Option>)
+        const options = data.map(item=><Option key={item.id}>{item.mc}</Option>)
         return <Select {...this.props} placeholder="选择职务职称" showSearch optionFilterProp='children' disabled={this.props.disabled}>
             {options}
         </Select>

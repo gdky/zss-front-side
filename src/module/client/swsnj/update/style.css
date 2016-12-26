@@ -1,0 +1,17 @@
+.client-swsnj .add .fix-table table th {
+    text-align: center;
+}
+
+
+.client-swsnj .add .fix-table table > tbody:last-child > tr {
+    background-color: transparent;
+}
+
+
+.client-swsnj .add .fix-table table > tbody:last-child td{
+    border: none;
+}
+
+
+
+

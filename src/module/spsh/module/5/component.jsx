@@ -32,6 +32,8 @@ const wspcx = React.createClass({
       },
       render() {
             //定义工具栏内容
+            const sd=decodeURIComponent(this.props.location.search);//603
+            var rs=sd.substring(1,sd.length);
             const obj = this.state.entity;
             var mxbg = <div >
                   <table >
@@ -115,6 +117,18 @@ const wspcx = React.createClass({
                                     <td ><b>人事档案状态：</b></td>
                                     <td colSpan="2">{obj.RYDAZT}</td>
                               </tr>
+                              <tr>
+                                    <td ><b>入所类别：</b></td>
+                                    <td >{obj.rslb}</td>
+                                    <td ><b>{obj.rslb_dm!=1?null:"调出所："}</b></td>
+                                    <td colSpan="2">{obj.rslb_dm!=1?null:obj.DCS}</td>
+                              </tr>
+                              {obj.rslb_dm!=1?null:<tr>
+                                    <td ><b>原机构：</b></td>
+                                    <td >{obj.YJGMC}</td>
+                                    <td ><b>原机构电话：</b></td>
+                                    <td colSpan="2">{obj.YJGDH}</td>
+                              </tr>}
                         </tbody>
                   </table>
                   <p className="nbjgsz">个人简介：</p>
@@ -123,8 +137,8 @@ const wspcx = React.createClass({
             </div>
     return <div className="wspxm-spsh">
             <div className="wrap">
-                <SPXX wspcxurl='/spapi/wspcx/ry/5' spmxurl='/spapi/spmxxx/zyba' mxbg={mxbg} getbg={this.makebg} isJG={false}
-                          columns={C_JG.zy} titleTop="待审执业税务师变更申请" titleSecond="执业税务师变更申请明细"/>
+                <SPXX wspcxurl='/spapi/wspcx/ry/5' spmxurl='/spapi/spmxxx/zyba' mxbg={mxbg} getbg={this.makebg} isJG={false} zsid={rs}
+                          columns={C_JG.zy} titleTop="待审执业税务师备案申请" titleSecond="执业税务师备案申请明细"/>
             </div>
         </div>
     }

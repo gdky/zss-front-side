@@ -1,0 +1,12 @@
+.spshlsjl .fix-table td {
+    text-align: center;
+}
+.spshlsjl .fix-table td:first-child {
+    text-align: left;
+}
+.spshlsjl .sm {
+	padding: 20px;
+}
+.spshlsjl .dt {
+	padding: 10px;
+}

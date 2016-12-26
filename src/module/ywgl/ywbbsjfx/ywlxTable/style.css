@@ -1,0 +1,66 @@
+.ywlx-table {
+    font-size: 12px;
+    color: #666;
+    border: 1px solid #e9e9e9;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.ywlx-table table { 
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    border-radius: 6px;
+}
+
+.ywlx-table td {
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.ywlx-table th {
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.ywlx-table th,
+.ywlx-table td {
+    padding: 8px 16px;
+    word-break: break-all;
+}
+
+.ywlx-table table col[class*="col-"] {
+    position: static; /*Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)*/
+    float: none;
+    display: table-column;
+}
+
+.ywlx-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+.ywlx-table tbody tr:first-child th{
+    border-top: 0;
+}
+
+
+.ywlx-table.table-bordered th,
+.ywlx-table.table-bordered td {
+    border-right: 1px solid #e9e9e9;
+}
+
+.ywlx-table.table-striped tbody > tr:nth-of-type(odd) {
+    background-color: #fafbfc;
+}
+
+.ywlx-table .prop-name {
+    font-weight: 600;
+}
+
+.ywlx-table.table-bordered table > thead > tr > th:last-child,
+.ywlx-table.table-bordered table > tbody > tr > th:last-child,
+.ywlx-table.table-bordered table > tfoot > tr > th:last-child,
+.ywlx-table.table-bordered table > thead > tr > td:last-child,
+.ywlx-table.table-bordered table > tbody > tr > td:last-child{
+    border-right:0;
+}

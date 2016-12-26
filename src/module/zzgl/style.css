@@ -1,0 +1,41 @@
+.zzgl .search-form {
+    margin-bottom:24px;
+    background-color: #FFFFFF;
+    padding:16px 32px
+}
+.zzgl .panel-body .panel-body{
+    padding: 0
+}
+.zzgl .panel-body .panel-title{
+    border:none;
+}
+.zzgl .fix-table td {
+    text-align: center;
+}
+.zzgl .fix-table td:nth-child(odd) {
+    text-align: right;
+}
+.zzgl .fix-table td:nth-child(even) {
+    text-align: left;
+}
+.zzgl .fix-table td.value {
+    text-align: left;
+}
+.zzgl .detail-bar{
+    margin-top: 16px;
+}
+.zzgl .detail-bar .ant-btn{
+    margin-right: 8px;
+    float: right;
+}
+.zzgl .act-group a{
+    margin-right:8px
+}
+.zzgl .row-selected {
+    background-color:#eaf8fe ;
+}
+.zyswszzgl.lock  em {
+    margin:auto 4px;
+    font-size: 18px;
+    font-weight: 600;
+}

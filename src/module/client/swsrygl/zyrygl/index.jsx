@@ -7,9 +7,5 @@ module.exports = {
             cb(null, require('./component'))
         })
     },
-    childRoutes:[{
-    	path:'sub',
-    	component: require('./searchForm')
-    },]
 
 }

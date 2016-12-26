@@ -52,6 +52,18 @@ module.exports = {
         return new Array(length - str.length + 1).join("0") + str;
     },
 
+    /**
+     * 判断是否空对象
+     * @param e
+     * @returns {boolean}
+     */
+    isEmptyObject(e) {
+        var t;
+        for (t in e)
+            return !1;
+        return !0
+    },
+
     getObjBindModel(obj, model){
         model.forEach(prop=> {
             if (prop.type == 'date') {
@@ -65,7 +77,7 @@ module.exports = {
     //根据model中定义的渲染方式，格式化数据对象
     entityFormat(entity, model){
         let obj = entity;
-        if (model){
+        if (model) {
             for (let i = 0; i < model.length; i++) {
                 const prop = model[i];
                 let render = prop.render;
@@ -87,16 +99,19 @@ module.exports = {
     //将对象中的空值置换为null
     transEmpty2Null(obj){
         let entity = new Object();
-        for(let prop in obj){
-            if(!obj[prop]){
-                entity[prop]=null;
-            }else if (typeof obj[prop]=='string' && !(obj[prop]=obj[prop].trim())){
-                entity[prop]=null;
-            }else{
-                entity[prop]=obj[prop];
+        for (let prop in obj) {
+            if (!obj[prop] && obj[prop] !== 0) {
+                entity[prop] = null;
+            } else if (typeof obj[prop] == 'string' && !(obj[prop] = obj[prop].trim())) {
+                entity[prop] = null;
+            } else {
+                entity[prop] = obj[prop];
             }
         }
         return entity;
+    },
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
     }
-
 };

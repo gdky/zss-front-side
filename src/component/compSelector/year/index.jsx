@@ -19,7 +19,7 @@ const selectorYear = React.createClass({
 
     render(){
         const options = this.getYearOptions();
-        return <Select {...this.props} placeholder="选择年度" allowClear>
+        return <Select  placeholder="选择年度" allowClear {...this.props}>
             {options}
             </Select>
     }

@@ -10,7 +10,7 @@ const Option = Select.Option;
 const selectorHY = React.createClass({
     render(){
         const options = data.map(item=><Option key={item.id}>{item.mc}</Option>)
-        return <Select {...this.props} placeholder="选择行业门类" allowClear>
+        return <Select {...this.props} placeholder="选择行业门类">
             {options}
         </Select>
     }

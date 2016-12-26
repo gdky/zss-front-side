@@ -1,0 +1,24 @@
+.client-sdsb .act-group a{
+    margin-right:8px
+}
+.client-sdsb .row-selected {
+    background-color:#eaf8fe ;
+}
+.client-sdsb .fail-scr {
+    padding:24px 24px 72px 24px
+}
+.client-sdsb .success-scr {
+    padding:24px 24px 72px 24px
+}
+.client-sdsb .detail.table-bordered table{
+    border-left:1px solid #ececec;
+    border-right:1px solid #ececec
+}
+.client-jzywqktjb .tg-s6z2 {
+    text-align: center;
+}
+.add_hyryb .ant-input[disabled], fieldset[disabled] .ant-input,.add_hyryb .ant-input-number-input[disabled]{
+   color: #666;
+   cursor: text;
+
+}

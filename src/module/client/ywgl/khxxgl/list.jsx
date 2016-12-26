@@ -1,6 +1,5 @@
 import React from 'react'
 import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
-import {Link} from 'react-router'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorDQ,SelectorCS} from 'component/compSelector'
@@ -14,26 +13,6 @@ const PanelBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
 
 const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
-const jid = auth.getJgid();
-const token = auth.getToken();
-
-//获取客户信息列表
-const fetchCustomers = function (param = {page: 1, pageSize: 10,jid:jid}) {
-    return req({
-        url: CUSTOMER_URL,
-        method: 'get',
-        type: 'json',
-        data: param,
-        headers:{'x-auth-token':token}
-    })
-};
-
-//异步获取数据
-const fetchData = async function () {
-    let [customers] = await Promise.all([fetchCustomers()]);
-    return {customers: customers}
-};
-
 
 //客户信息
 const khxxList = React.createClass({
@@ -56,17 +35,32 @@ const khxxList = React.createClass({
             }
         }
     },
+    //获取客户信息列表
+    fetchCustomers(param = {page: 1, pageSize: 10}){
+        const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
+        const jid = auth.getJgid();
+        const token = auth.getToken();
+        param.jid = jid;
+
+        return req({
+            url: CUSTOMER_URL,
+            method: 'get',
+            type: 'json',
+            data: param,
+            headers:{'x-auth-token':token}
+        })
+    },
 
     componentDidMount(){
-        fetchData().then(resp=> {
+        this.fetchCustomers().then(resp=> {
             const p = this.state.pagination;
-            p.total = resp.customers.total > 1000 ? 1000 : resp.customers.total;
+            p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
-                return `共 ${resp.customers.total} 条，显示前 ${total} 条`
+                return `共 ${resp.total} 条，显示前 ${total} 条`
             };
             this.setState({
                 pageLoading: false,
-                customers: resp.customers.data,
+                customers: resp.data,
                 pagination: p
             })
         }).catch(e=> {
@@ -84,10 +78,9 @@ const khxxList = React.createClass({
 
     //数据表换页
     handlePageChange(pager){
-        fetchCustomers({
+        this.fetchCustomers({
             page: pager.current,
             pageSize: pager.pageSize,
-            jid:jid,
             where: encodeURIComponent(JSON.stringify(this.state.where))
         }).then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
@@ -106,7 +99,7 @@ const khxxList = React.createClass({
     handleRefresh(){
         const pager = this.state.pagination;
         this.setState({pagination: pager, where: '',pageLoading:true});
-        fetchCustomers().then(resp=> {
+        this.fetchCustomers().then(resp=> {
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
@@ -122,6 +115,7 @@ const khxxList = React.createClass({
     },
     //查询提交
     handleSearchSubmit(commitValues){
+        const jid = auth.getJgid();
         const values = new Object();
         for (let prop in commitValues) {
             if (commitValues[prop]){
@@ -136,7 +130,7 @@ const khxxList = React.createClass({
             jid:jid,
             where: encodeURIComponent(JSON.stringify(values))
         };
-        fetchCustomers(param).then(resp=>{
+        this.fetchCustomers(param).then(resp=>{
             pager.total = resp.total > 1000 ? 1000 : resp.total;
             pager.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
@@ -194,8 +188,7 @@ const khxxList = React.createClass({
         </PanelBar>;
 
 
-        return   <Spin spinning={this.state.pageLoading}>
-                    <Panel title="已有客户列表" toolbar={panelBar}>
+        return    <Panel title="已有客户列表" toolbar={panelBar}>
                         {this.state.searchToggle && <SearchForm
                             onSubmit={this.handleSearchSubmit}/>}
                         <Table className="outer-border"
@@ -204,10 +197,9 @@ const khxxList = React.createClass({
                                pagination={this.state.pagination}
                                onChange={this.handlePageChange}
                                rowKey={record => record.ID}
-                               onRowClick={this.handleRowClick}
+                               loading={this.state.pageLoading}
                         />
                     </Panel>
-                </Spin>
     }
 });
 

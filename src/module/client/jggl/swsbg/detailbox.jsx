@@ -84,7 +84,7 @@ let detailBox = React.createClass({
                         <td style={{width:'180px'}}><span style={{'color':'red',fontSize:'large'}}>*</span><b>单位名称：</b></td>
                         <td ><Input id='dwmc' { ...getFieldProps('dwmc', { initialValue: obj.dwmc,rules: [{ required: true}]})}></Input></td>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>所在城市：</b></td>
-                        <td style={{textAlign:'left'}}><SelectorCS id='csdm' { ...getFieldProps('csdm', { initialValue: obj.csdm,rules: [{ type: 'number',required: true}]})}></SelectorCS></td>
+                        <td style={{textAlign:'left'}}><SelectorCS id='csdm' allowClear={false} { ...getFieldProps('csdm', { initialValue: obj.csdm+'',rules: [{required: true}]})}></SelectorCS></td>
                     </tr>
                     <tr>
                         <td ><span style={{'color':'red',fontSize:'large'}}>*</span><b>机构性质：</b></td>

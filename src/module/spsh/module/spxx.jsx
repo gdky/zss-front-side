@@ -14,12 +14,11 @@ const API_URL_YJ = config.HOST + config.URI_API_PROJECT + '/spapi/sjbhyj/';
 const ToolBar = Panel.ToolBar;
 
 const wspcx = React.createClass({
-// getDefaultProps(){
-//         return {
-//             getbg: {}
-//         }
-//     },
-    //初始化state
+    getDefaultProps(){
+            return {
+                zsid: ''
+            }
+        },
     getInitialState(){
             return {
                 pagination: {
@@ -37,6 +36,7 @@ const wspcx = React.createClass({
                 dqlcbz:'',
                 lcbzmx:'', 
                 rowSjid:'',
+                where:{},
             }
         },
 
@@ -119,6 +119,7 @@ const wspcx = React.createClass({
                             },
                 });
             }).fail(err=> {
+                this.setState({submitLoading:false});
                 Modal.error({
                     title: '数据提交错误',
                     content: (
@@ -138,6 +139,7 @@ const wspcx = React.createClass({
           this.fetchData({//调用主查询
                 pagenum: pagination.current,
                 pagesize: pagination.pageSize,
+                where:encodeURIComponent(JSON.stringify(this.state.where))
           })
   },
 
@@ -166,6 +168,15 @@ const wspcx = React.createClass({
 
     //通过API获取数据
     fetchData(params = {pagenum: this.state.pagination.current, pagesize: this.state.pagination.pageSize}){
+        if (!!this.props.zsid) {
+            if (!this.state.where) {
+                params.where=encodeURIComponent(JSON.stringify({zsid:this.props.zsid}));
+            }else{
+                let where=this.state.where;
+                where.zsid=this.props.zsid;
+                params.where=encodeURIComponent(JSON.stringify(where));
+            };
+        };
          this.setState({loading:true,});
         req({
             url: config.HOST + config.URI_API_PROJECT + this.props.wspcxurl ,
@@ -210,12 +221,13 @@ const wspcx = React.createClass({
         //定义工具栏内容
 
         let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle} size="large" type="primary">
+            <Button onClick={this.handleSearchToggle} size="large" >
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
-            <Button type="ghost" size="large"><Link to="spsh"><Icon type="circle-o-left" />返回</Link></Button>
+            {!this.props.zsid?<Link to="spsh"><Button type="ghost" size="large"><Icon type="circle-o-left" />返回</Button></Link>:
+                <Link to="client/swswspcx"><Button type="ghost" size="large"><Icon type="circle-o-left" />返回</Button></Link>}
         </ToolBar>;
         const bgxmOptions = this.props.mxbg;
         return <div className="wspxm-swszxsp">
@@ -237,7 +249,7 @@ const wspcx = React.createClass({
                        </h3>
                </div>
                <Panel title="事项审核">
-                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx}/>
+                    <SPTJ onSubmit={this.handleSubmit} loading={this.state.submitLoading} lcbzmx={this.state.lcbzmx} jgnj={this.props.jgnj} zynj={this.props.zynj}/>
                </Panel>
                    </div>
                </div></Spin>

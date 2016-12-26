@@ -3,6 +3,7 @@ import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
 import Panel from 'component/compPanel'
 import {model} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import Jygmtjbxx from './Jygmtjbxx'
 import config from 'common/configuration'
@@ -98,7 +99,8 @@ const jygmtjb = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             if(resp.data.length!=0){
             const p = this.state.pagination;
@@ -128,7 +130,8 @@ const jygmtjb = React.createClass({
         req({
             url:API_URL+'/'+this.state.urls,
             type:'json',
-            method:'get'
+            method:'get',
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=>{
          
             

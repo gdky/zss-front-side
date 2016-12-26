@@ -81,9 +81,24 @@ const props={
         '3':'无',
     }
   }
+  const nbjgsz = {
+rowNum:5,
+rows:[{ //设定列
+  title: '部门名称', //设定该列名称
+  dataIndex: 'BMMC', //设定该列对应后台字段名
+
+}, {
+  title: '基本职能',
+  dataIndex: 'JBZN',
+}, {
+  title: '人数',
+  dataIndex: 'RS',
+  width:'200px',
+}]}
   const model = {
   props:props,
   dzb:dzb,
+  nbjgsz:nbjgsz,
 } 
 
   module.exports = model

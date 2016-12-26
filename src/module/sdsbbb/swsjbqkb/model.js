@@ -1,4 +1,4 @@
-import numeral from 'Numeral'
+import numeral from 'numeral'
 const model = {
     columns: [
         {title: '序号', dataIndex: 'key', key: 'key'},

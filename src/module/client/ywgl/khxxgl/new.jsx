@@ -121,7 +121,7 @@ let EditForm = React.createClass({
         });
         return <Panel title={title}>
             <div className="new-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit}>
                     <Row>
                         <Col span="9">
                             <FormItem
@@ -133,7 +133,7 @@ let EditForm = React.createClass({
                         </Col>
                         <Col span="14">
                             <FormItem
-                              labelCol={{span: 4}} wrapperCol={{span: 20}}
+                              labelCol={{span: 6}} wrapperCol={{span: 18}}
                               label="单位地址">
                                 <Input placeholder="单位地址" {...getFieldProps('DWDZ')}/>
                             </FormItem>
@@ -149,7 +149,7 @@ let EditForm = React.createClass({
                         </Col>
                         <Col span="10">
                             <FormItem
-                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              labelCol={{span: 8}} wrapperCol={{span: 15}}
                               label="地税税务登记证号">
                                 <Input placeholder="地税税务登记证号" {...nsrsbhdfProps}/>
                             </FormItem>
@@ -165,7 +165,7 @@ let EditForm = React.createClass({
                         </Col>
                         <Col span="10">
                             <FormItem
-                              labelCol={{span: 7}} wrapperCol={{span: 15}}
+                              labelCol={{span: 8}} wrapperCol={{span: 15}}
                               label="联系电话">
                                 <Input placeholder="联系电话" {...getFieldProps('LXDH')}/>
                             </FormItem>

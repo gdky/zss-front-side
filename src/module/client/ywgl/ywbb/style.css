@@ -21,6 +21,9 @@
 .client-ywbb .panel > .panel-body {
     padding:16px 0 0 0
 }
+.client-ywbb .new-ywbb > .panel-body {
+    padding:0
+}
 .client-ywbb .panel >.panel-title {
     padding:14px 0
 }
@@ -34,4 +37,41 @@
     padding: 150px;
     text-align: center;
     font-size: 14px;
+}
+
+.client-ywbb .ywbbgl .fix-table td {
+    text-align: center;
+}
+.client-ywbb .ywbbgl .fix-table td:nth-child(odd) {
+    text-align: right;
+}
+.client-ywbb .ywbbgl .fix-table td:nth-child(even) {
+    text-align: left;
+}
+.client-ywbb .ywbbgl .fix-table td.value {
+    text-align: left;
+}
+.client-ywbb .ywbbgl .detail-bar{
+    margin-top: 16px;
+}
+.client-ywbb .ywbbgl .detail-bar .ant-btn{
+    margin-right: 8px;
+    float: right;
+}
+.client-ywbb .ywbbgl .act-group a{
+    margin-right:8px
+}
+.client-ywbb .ywbbgl .row-selected {
+    background-color:#eaf8fe ;
+}
+.client-ywbb .sucz-scr{
+    padding:80px 80px
+}
+.new-ywbb h3 {
+    padding:8px 0 8px 32px;
+    margin-bottom: 16px;
+    border-bottom: 1px dotted #e9e9e9;
+}
+.new-ywbb .form-content{
+    margin-bottom: 24px;
 }

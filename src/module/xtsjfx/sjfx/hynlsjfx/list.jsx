@@ -57,7 +57,8 @@ const khxxList = React.createClass({
 
     componentDidMount(){
         
-        fetchCustomers().then(resp=> {
+        fetchCustomers()
+        .then(resp=> {
             const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
@@ -68,7 +69,9 @@ const khxxList = React.createClass({
                 pageLoading: false,
                 data: resp.data,
                 pagination: p
-            }).fail(err=>{
+            })
+            })
+        .fail(err=>{
                 this.setState({loading: false});
                 Modal.error({
                     title: '数据获取错误',
@@ -79,7 +82,7 @@ const khxxList = React.createClass({
                     </div>  )
                 });
             }) 
-        })
+        
         
         /*
         fetchData().then(resp=> {
@@ -259,11 +262,9 @@ const khxxList = React.createClass({
                    <Panel title="已有客户列表" >
                         <Table className="outer-border"
                                columns={model.columns}
-                               //dataSource={this.state.customers}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
-                               //onChange={this.handlePageChange}
-                               //onRowClick={this.handleRowClick}
+                               rowKey={resp=>resp.ID}
                         />
                    </Panel>
                 </Spin>

@@ -1,67 +1,17 @@
 /**
  * Created by ming on 2016/4/11.
  */
-import React from 'react'
-import {Button ,Icon } from 'antd'
-import numeral from 'Numeral'
-var model = {
-    // handleRowButton(){},
 
-    columns: [
-        {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
+const model = {
+   columns: [
+        {title: '序号', dataIndex: 'key', key: 'key'},           
+        {title: '统计年度', dataIndex: 'nd', key: 'nd'},  
+        {title: '人员总数', dataIndex: 'RYZS_RY_ZJ', key: 'RYZS_RY_ZJ'}, 
+        {title: '执业总数', dataIndex: 'ZYSWS_RY_ZJ', key: 'ZYSWS_RY_ZJ'},  
+        {title: '其他从业人数', dataIndex: 'QTCYRY_RY_ZJ', key: 'QTCYRY_RY_ZJ'}, 
+        {title: '上报日期', dataIndex: 'SBRQ', key: 'SBRQ'},                  
         {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-       
-        {
-        title: '操作',
-    key: 'operation',
-     render(text,record,index) {
-        return (
-           <span>
-        <Button size="small" onClick={this.handleRowButton} >
-    <Icon type="edit" />编辑
-  </Button>
-  
-  <Button size="small" >
-    <Icon type="arrow-up" />提交
-  </Button>
-  
-   <Button size="small" >
-    <Icon type="book" />查看
-  </Button>
-        
-        
-      </span>
-      );
-     }
-}
-        
-     
-    ],
-    entityModel: [
-         {
-            id: 'JSSJ',
-            name: '结束时间',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-            {
-            id: 'SBRQ',
-            name: '上报日期',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-       
     ]
-
 };
 
 module.exports = model;

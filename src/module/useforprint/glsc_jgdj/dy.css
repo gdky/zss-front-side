@@ -1,0 +1,25 @@
+.dj_background{
+    position: relative;
+    width:19.42cm;
+    height:12.94cm;
+    background:rgba(0, 0, 0, 0) url("./background_dj.jpg"); 
+    font-size:10.5pt;
+    font-family: KaiTi_GB2312,KaiTi;
+    font-weight: 600;
+}
+
+@media print{
+
+.noprint{
+   display:none;
+}
+
+
+.dj_background{
+    position: absolute;
+    left:-0.3cm;
+    top:-0.1cm;
+}
+
+
+}

@@ -1,9 +1,11 @@
 import React from 'react'
 import CompBaseTable from 'component/compBaseTable';
+import Export from 'component/ComExcelExperss';
 import config from 'common/configuration'
 import Panel from 'component/compPanel'
 import './style.css'
 import req from 'reqwest'
+import auth from 'common/auth'
 import Model from './model.js' 
 import SearchForm from './searchForm'
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
@@ -39,6 +41,7 @@ const rycx = React.createClass({
             method: 'get',
             type: 'json',
             data: params,
+            headers:{'x-auth-token':auth.getToken()},
             success: (result) => {
                       if (result.data.length!=0) {
                           const pagination = this.state.pagination;
@@ -55,7 +58,11 @@ const rycx = React.createClass({
                          this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, zy:false,fz:false,cy:false,});
                     };
             },
-            error: (err) =>{alert('api错误');}
+            error: (err) =>{alert('api错误');
+            const pagination = this.state.pagination;
+             pagination.total = 0;
+             this.setState({data: [],dataxx: {values: {}},datalist:[],loading:false, zy:false,fz:false,cy:false,});
+          }
     });
   },
 
@@ -66,6 +73,7 @@ const rycx = React.createClass({
         url: this.state.urls.herf_xxzl,//从主查询获取的后台dataProvider路径
         method: 'get',
         type: 'json',
+        headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
           this.setState({
             dataxx: result.data,
@@ -83,6 +91,7 @@ const rycx = React.createClass({
         this.gettabdata(this.state.urls.herf_zzjl);
       }else if (tabkey==6) {
          req({ url: this.state.urls.herf_spzt,method: 'get',type: 'json',
+          headers:{'x-auth-token':auth.getToken()},
         success: (result) => {
             this.setState({ spzt: result.data})//状态是个字符串
         },error: (err) =>{alert('api错误');}});
@@ -92,6 +101,7 @@ const rycx = React.createClass({
     },
     gettabdata(urls){
       req({url: urls,method: 'get',type: 'json',
+          headers:{'x-auth-token':auth.getToken()},
           success: (result) => {
             if (result.data.length!=0) {
             this.setState({datalist: result.data})
@@ -187,6 +197,7 @@ const rycx = React.createClass({
     render() {
       
         let toolbar = <ToolBar>
+          <Export resData={this.state.data} model={Model.columns} />
             <Button onClick={this.handleSearchToggle}>
                 <Icon type="search"/>查询
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="arrow-up"/> :
@@ -219,7 +230,10 @@ const rycx = React.createClass({
 
       <Panel >
           {this.state.zy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="A">
-                <TabPane tab="详细信息" key="1"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                <TabPane tab="详细信息" key="1">
+                <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
+                <CompBaseTable data = {this.state.dataxx}  model ={Model.autoform} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="2"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转所记录" key="3"><Table columns={Model.columnsZyryzsjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转籍记录" key="4"><Table columns={Model.columnsZyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
@@ -228,14 +242,20 @@ const rycx = React.createClass({
                 <TabPane tab="年检记录" key="7"><Table columns={Model.columnsZyrynjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.fz && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="B">
-                <TabPane tab="详细信息" key="8"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                <TabPane tab="详细信息" key="8">
+                <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
+                <CompBaseTable data = {this.state.dataxx}  model ={Model.autoformFzy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="9"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="注销记录" key="10"><Table columns={Model.columnsFzyryzxjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转籍记录" key="11"><Table columns={Model.columnsFzyryzjjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
                 <TabPane tab="转非记录" key="12"><Table columns={Model.columnsFzyryzfjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
           {this.state.cy && <Tabs type="line" activeKey={this.state.activeKey} onChange={this.callback} key="C">
-                <TabPane tab="详细信息" key="13"><CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
+                <TabPane tab="详细信息" key="13">
+                <div style={{float:"right",width:"143px",height:"175px",backgroundColor: "#fff",border: "1px solid #e9e9e9"}}>
+                {!this.state.dataxx.xpian? <p>未上传相片</p> : <img src={this.state.dataxx.xpian} style={{padding:"5px",width:"138px",height:"170px"}}/>}</div>
+                <CompBaseTable data = {this.state.dataxx}  model ={Model.autoformCy} bordered striped /><p className="nbjgsz">人员简历：</p><Table columns={Model.ryjl} dataSource={this.state.datalist} bordered  size="small" pagination={false} /></TabPane>
                 <TabPane tab="变更记录" key="14"><Table columns={Model.columnsZyrybgjl} dataSource={this.state.datalist} bordered  size="small" /></TabPane>
           </Tabs>}
                 </Panel>

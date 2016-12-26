@@ -1,7 +1,6 @@
 import './style.css'
 import React from 'react'
 import {Tabs} from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import Khdmkgl from './khdmkgl.jsx';
 import Zxdmkgl from './zxdmkgl.jsx';

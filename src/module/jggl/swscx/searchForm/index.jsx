@@ -1,6 +1,21 @@
 import React from 'react'
 import {  DatePicker,Modal,Form, Input, Select,Table, Icon,Tabs,Button,Row,Col,message }from 'antd'
 
+Date.prototype.Format = function (fmt) { //时间函数重写
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));//补0处理
+    return fmt;
+};
 const FormItem = Form.Item;
 const createForm = Form.create;
 const Option = Select.Option;
@@ -23,6 +38,12 @@ let searchForm = React.createClass({
         return;
       }
         let value = this.props.form.getFieldsValue();
+        for(let key in value){
+                if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                        let dd = value[key].Format("yyyy-MM-dd");
+                        value[key]=dd;
+                    };
+              }
         this.props.onSubmit(value);
     });
     },
@@ -30,12 +51,8 @@ let searchForm = React.createClass({
      const form = this.props.form;
      if (value && value.getTime() >= Date.now()) {
       callback(new Error('这是个将来的时间'));
-    } else if (form.getFieldValue('clsj2')) {
-       if (value.getTime() > form.getFieldValue('clsj2').getTime() ) {
+    } else if (value &&value.getTime() > form.getFieldValue('clsj2').getTime()) {
       callback(new Error('最小时间大于最大时间'));
-    } else {
-      callback();
-    }
      }else {
       callback();
     };
@@ -43,12 +60,8 @@ let searchForm = React.createClass({
   },
   disabledEndDate(rule, value, callback) {//日期校验规则方法
     const form = this.props.form;
-    if (form.getFieldValue('clsj')) {
-       if (value&&value.getTime() < form.getFieldValue('clsj').getTime() ) {
+    if (value&&value.getTime() < form.getFieldValue('clsj').getTime()) {
       callback(new Error('最大时间小于最小时间'));
-    }else {
-      callback();
-    }
     }else {
       callback();
     };
@@ -67,7 +80,7 @@ let searchForm = React.createClass({
       wrapperCol: { span: 18 },
     };
     const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
-      const clsj = getFieldProps('clsj', {//设置日期输入组件校验规则
+    const clsj = getFieldProps('clsj', {//设置日期输入组件校验规则
       rules: [
         { 
            type: 'date', 

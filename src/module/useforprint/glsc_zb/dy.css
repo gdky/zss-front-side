@@ -1,0 +1,195 @@
+.zb_background{
+    position: relative;
+    width:19.05cm;
+    height:13.12cm;
+    background:rgba(0, 0, 0, 0) url("./background_zb.jpg"); 
+    font-size:7.71pt;
+    font-family: Sun,SimSun;
+    font-weight: 600;
+}
+.zb_background .dwmc{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:6.53cm; 
+    height: 0.91cm; 
+    left: 3.88cm;
+    top: 5cm;
+}
+.zb_background .zsbh{
+    position: absolute;
+    left:3.88cm;
+    top:5.96cm;
+}
+.zb_background .ZJPZWH{
+    position: absolute;
+    left:3.88cm;
+    top:6.87cm;
+}
+.zb_background .DZHI{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:6.34cm; 
+    height: 1.22cm; 
+    left: 3.88cm;
+    top: 7.77cm;
+}
+.zb_background .fddbr{
+    position: absolute;
+    left: 13.56cm;
+    top: 5cm;
+}
+
+.zb_background .zczj{
+    position: absolute;
+    left: 13.56cm;
+    top: 6.9cm;
+}
+.zb_background .YYZZHM{
+    position: absolute;
+    left: 13.56cm;
+    top: 6.14cm;
+}
+.zb_background .JYFW{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:4.15cm; 
+    height: 2.06cm; 
+    left: 13.56cm;
+    top: 7.86cm;
+}
+.zb_background .year{
+    position: absolute;
+    left:13.2cm;
+    top:11.04cm;
+}
+.zb_background .month{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.38cm; 
+    height: 0.31cm; 
+    text-align: center;
+    left:14.3cm;
+    top:11.04cm;
+}
+.zb_background .date{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.38cm; 
+    height: 0.31cm; 
+    left:15cm;
+    top:11.04cm;
+    text-align: center;
+}
+
+@page {
+    size: A3 landscape;
+}
+
+@media print{
+
+.noprint{
+   display:none;
+}
+
+
+.zb_background{
+    position: absolute;
+    left:1.4cm;
+    top:1.2cm;
+    font-size:15.65pt;
+    font-family: Sun,SimSun;
+    font-weight: 600;
+}
+.zb_background .dwmc{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:13.26cm; 
+    height: 1.85cm; 
+    left: 7.88cm;
+    top: 10.16cm;
+}
+.zb_background .zsbh{
+    position: absolute;
+    left:7.88cm;
+    top:12.12cm;
+}
+.zb_background .ZJPZWH{
+    position: absolute;
+    left:7.88cm;
+    top:13.97cm;
+}
+.zb_background .DZHI{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:12.89cm; 
+    height: 2.49cm; 
+    left: 7.88cm;
+    top: 15.8cm;
+}
+.zb_background .fddbr{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:7.7cm; 
+    height: 1.91cm; 
+    left: 27.56cm;
+    top: 10.16cm;
+}
+
+.zb_background .zczj{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:7.7cm; 
+    height: 1.91cm; 
+    left: 27.56cm;
+    top: 14.02cm;
+}
+.zb_background .YYZZHM{
+    position: absolute;
+    left: 27.56cm;
+    top: 12.49cm;
+}
+.zb_background .JYFW{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:8.44cm; 
+    height: 4.18cm; 
+    left: 27.56cm;
+    top: 15.98cm;
+}
+.zb_background .year{
+    position: absolute;
+    left:26.83cm;
+    top:22.45cm;
+}
+.zb_background .month{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.77cm; 
+    height: 0.64cm; 
+    text-align: center;
+    left:29.05cm;
+    top:22.45cm;
+}
+.zb_background .date{
+    position: absolute;
+    display:-moz-inline-box; 
+    display:inline-block; 
+    width:0.77cm; 
+    height: 0.64cm; 
+    left:30.48cm;
+    top:22.45cm;
+    text-align: center;
+}
+
+}

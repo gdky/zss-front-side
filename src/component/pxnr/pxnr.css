@@ -1,0 +1,16 @@
+.pxnr-detail .c1-2,
+.pxnr-detail .c1-1{
+    text-align: center;
+}
+.pxnr-detail .c1 {
+    padding-bottom: 16px;
+    border-bottom: #e9e9e9 1px solid;
+}
+.pxnr-detail .ct{
+    height:450px;
+    overflow-y: scroll;
+}
+.pxnr-detail .load-fail{
+    padding: 32px;
+    text-align: center;
+}

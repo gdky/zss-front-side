@@ -1,0 +1,351 @@
+.dy-ywcover {
+    box-sizing: content-box;
+    overflow: hidden;
+}
+.dy-ywcover ol {
+    margin: 0;
+    padding: 0
+}
+
+.dy-ywcover table td,
+.dy-ywcover table th {
+    padding: 0
+}
+
+.dy-ywcover .c21 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: bottom;
+    width: 287.2pt;
+    border: 0;
+    border-bottom: 1pt dotted #ECECEC;
+}
+
+.dy-ywcover .c23 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: bottom;
+    width: 287.2pt;
+    border: 0;
+}
+
+.dy-ywcover .c0 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: bottom;
+    width: 510.2pt;
+    border: 0;
+}
+
+.dy-ywcover .c7 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: bottom;
+    width: 287.2pt;
+    border: 1pt dotted #ECECEC;
+    border-right: 0;
+    border-left: 0;
+}
+
+.dy-ywcover .c9 {
+    padding: 5pt 5pt 5pt 5pt;
+    vertical-align: bottom;
+    width: 213.8pt;
+    border: 0;
+}
+
+.dy-ywcover .c15 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: bottom;
+    width: 113.2pt;
+    border: 0;
+}
+
+.dy-ywcover .c16 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: bottom;
+    width: 396.8pt;
+    border: 0;
+}
+
+.dy-ywcover .c19 {
+    padding: 2.8pt 2.8pt 2.8pt 2.8pt;
+    vertical-align: bottom;
+    width: 510.2pt;
+    border: 0;
+}
+
+.dy-ywcover .c20 {
+    vertical-align: bottom;
+    width: 510.2pt;
+    border: 0;
+}
+
+.dy-ywcover .c25 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 22pt;
+    font-family: "SimHei";
+    font-style: normal
+}
+
+.dy-ywcover .c17 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 27pt;
+    font-family: "SimHei";
+    font-style: normal
+}
+
+.dy-ywcover .c1 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 12pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c2 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 14pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c10 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-size: 17pt;
+    font-family: "FangSong";
+    font-style: normal
+}
+
+.dy-ywcover .c14 {
+    color: #000000;
+    font-weight: 400;
+    text-decoration: none;
+    vertical-align: baseline;
+    font-family: "Arial";
+    font-style: normal
+}
+
+.dy-ywcover .c22 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: center
+}
+
+.dy-ywcover .c3 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: right
+}
+
+.dy-ywcover .c4 {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-right: auto
+}
+
+.dy-ywcover .c6 {
+    padding-top: 0pt;
+    padding-bottom: 0pt;
+    line-height: 1.0;
+    text-align: left
+}
+
+.dy-ywcover.c26 {
+    background-color: #f8f8f0;
+    max-width: 510.2pt;
+    padding: 1.5cm 1.5cm 0 1.5cm
+}
+
+.dy-ywcover .c5 {
+    orphans: 2;
+    widows: 2;
+    height: 11pt
+}
+
+.dy-ywcover .c18 {
+    height: 20pt
+}
+
+.dy-ywcover .c12 {
+    color: #ECECEC
+}
+
+.dy-ywcover .c11 {
+    font-size: 9pt
+}
+
+.dy-ywcover .c24 {
+    height: 26pt
+}
+
+.dy-ywcover .c8 {
+    height: 11pt
+}
+
+.dy-ywcover .c13 {
+    height: 0pt
+}
+
+.dy-ywcover .title {
+    padding-top: 0pt;
+    color: #000000;
+    font-size: 26pt;
+    padding-bottom: 3pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover .subtitle {
+    padding-top: 0pt;
+    color: #666666;
+    font-size: 15pt;
+    padding-bottom: 16pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover li {
+    color: #000000;
+    font-size: 11pt;
+    font-family: "Arial"
+}
+
+.dy-ywcover p {
+    margin: 0;
+    color: #000000;
+    font-size: 11pt;
+    font-family: "Arial"
+}
+
+.dy-ywcover h1 {
+    padding-top: 20pt;
+    color: #000000;
+    font-size: 20pt;
+    padding-bottom: 6pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h2 {
+    padding-top: 18pt;
+    color: #000000;
+    font-size: 16pt;
+    padding-bottom: 6pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h3 {
+    padding-top: 16pt;
+    color: #434343;
+    font-size: 14pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h4 {
+    padding-top: 14pt;
+    color: #666666;
+    font-size: 12pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h5 {
+    padding-top: 12pt;
+    color: #666666;
+    font-size: 11pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+
+.dy-ywcover h6 {
+    padding-top: 12pt;
+    color: #666666;
+    font-size: 11pt;
+    padding-bottom: 4pt;
+    font-family: "Arial";
+    line-height: 1.15;
+    page-break-after: avoid;
+    font-style: italic;
+    orphans: 2;
+    widows: 2;
+    text-align: left
+}
+.dy-ywcover hr{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ECECEC;
+    margin: 1em 0;
+    padding: 0;
+}
+.dy-ywcover .t2 .c13{
+    height: 1cm;
+}
+.dy-ywcover .t3 {
+    margin-top:2cm;
+}
+.dy-ywcover .t1{
+    margin-top:1cm;
+}
+.dy-ywcover .barcode {
+    width:200px;
+    height:50px;
+}
+@media print {
+    body {min-width: initial;background: none;color:#000}
+
+    .dy-ywcover.c26 {
+        background:none;
+    }
+    @page  {
+        margin: 0cm;
+    }
+
+}
+

@@ -1,67 +1,17 @@
 /**
  * Created by ming on 2016/4/11.
  */
-import React from 'react'
-import {Button ,Icon } from 'antd'
-import numeral from 'Numeral'
-var model = {
-    // handleRowButton(){},
 
+const model = {
     columns: [
-        {title: '序号', dataIndex: 'key', key: 'key'},
-        {title: '结束时间', dataIndex: 'JSSJ', key: 'JSSJ'},
-        {title: '事务所名称', dataIndex: 'DWMC', key: 'DWMC'},
-        {title: '年度', dataIndex: 'nd', key: 'nd'},
-        {title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ'},
-       
-        {
-        title: '操作',
-    key: 'operation',
-     render(text,record,index) {
-        return (
-           <span>
-        <Button size="small" onClick={this.handleRowButton} >
-    <Icon type="edit" />编辑
-  </Button>
-  
-  <Button size="small" >
-    <Icon type="arrow-up" />提交
-  </Button>
-  
-   <Button size="small" >
-    <Icon type="book" />查看
-  </Button>
-        
-        
-      </span>
-      );
-     }
-}
-        
-     
-    ],
-    entityModel: [
-         {
-            id: 'JSSJ',
-            name: '结束时间',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-            {
-            id: 'SBRQ',
-            name: '上报日期',
-            render(num){
-                let date = new Date(num);
-               
-                return date.toLocaleDateString()
-            }
-        },
-       
+        { title: '序号', dataIndex: 'key', key: 'key', width: 60 },
+        { title: '年度', dataIndex: 'nd', key: 'nd', width: 50 },
+        { title: '单位名称', dataIndex: 'DWMC', key: 'DWMC'},
+        { title: '收入总额（单位：万元）', dataIndex: 'SRZE', key: 'SRZE', width: 150 },
+        { title: '支出总额（单位：万元）', dataIndex: 'ZCZE', key: 'ZCZE', width: 150 },
+        { title: '利润总额（单位：万元）', dataIndex: 'LRZE', key: 'LRZE', width: 150 },
+        { title: '状态', key: 'ZTMC', dataIndex: 'ZTMC',width: 100},
     ]
-
 };
 
 module.exports = model;

@@ -25,8 +25,8 @@ const zyzzsjfx = React.createClass({
             data: [],
             pagination: {
                 current: 1,
-                showSizeChanger: true,
-                pageSize: 5,
+               showSizeChanger: true,
+                pageSize: 25,
                 showQuickJumper: true,
                 pageSizeOptions: ['5', '10', '20']
 
@@ -125,14 +125,14 @@ const zyzzsjfx = React.createClass({
             data: params,
             contentType: 'application/json'
         }).then(resp=> {
-            const p = this.state.pagination;
+          /*  const p = this.state.pagination;
             p.total = resp.total > 1000 ? 1000 : resp.total;
             p.showTotal = total => {
                 return `共 ${resp.total} 条，显示前 ${total} 条`
-            };
+            };*/
             this.setState({
                 data: resp.data,
-                pagination: p,
+               // pagination: p,
                 loading: false
             })
         }).fail(err=> {
@@ -153,32 +153,19 @@ const zyzzsjfx = React.createClass({
     },
 
     render(){
-        //定义工具栏内容
-        let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                    <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
-
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
-        </ToolBar>;
+        
 
         
 
         return <div className="sjfx-zyzzsjfx">
             <div className="wrap">
 
-                <Panel title="执业资质数据分析" toolbar={toolbar}>
-                    {this.state.searchToggle && <SearchForm
-                        onSubmit={this.handleSearchSubmit}/>}
+                <Panel title="执业资质数据分析" >
+                    
                     <div className="h-scroll-table">
                         <Table columns={columns}
                                dataSource={this.state.data}
-                               pagination={this.state.pagination}
+                               pagination={!this.state.pagination}
                                rowKey={resp=>resp.ID}
                                loading={this.state.loading}
                                onChange={this.handleChange}

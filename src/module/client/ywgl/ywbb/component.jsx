@@ -1,31 +1,26 @@
 import React from 'react'
-import {Tabs,Icon} from 'antd'
-import QueueAnim from 'rc-queue-anim'
-import './style.css'
-import config from 'common/configuration'
-import req from 'reqwest'
-import auth from 'common/auth.js'
-import List from './list'
+import {Tabs,Icon,Alert} from 'antd'
+import YwbbGl from './ywbbGl.jsx'
 import NewYwbb from './newYwbb.jsx'
-import model from './model.jsx'
+import './style.css'
 
 const TabPane = Tabs.TabPane;
 
-const jid = auth.getJgid();
-const token = auth.getToken();
-const LIST_URL = config.HOST + config.URI_API_PROJECT + '/jg/'+jid+'/yw' ;
-
-const fetchYwbb =function (param = {page: 1, pageSize: 20,jid:jid}) {
-    return req({
-        url: LIST_URL,
-        method: 'get',
-        type: 'json',
-        data: param,
-        headers:{'x-auth-token':token}
-    })
-};
-
 const ywbb = React.createClass({
+    getDefaultProps(){
+        return {
+            helperTitle:'使用说明',
+            //帮助信息详细
+            helperDesc:<div>
+                <p>1.点击“查询”，可打开条件框进行查询操作；点击“刷新”按钮，可以更新业务情况列表。</p>
+                <p>2.点击“添加”，可添加新的业务报备记录，业务报备中的必填项目必须全部按要求填满才能进行保存或报备操作。</p>
+                <p>3.进行报备操作后的30天内，可以进行收费或修改操作</p>
+                <p>4.超过30天后，必须把已报备记录申请退回，才能进行修改操作</p>
+                <p>5.状态为“保存”的业务记录可以自行删除。</p>
+                <p><b>6.打印封面时，请先在浏览器的打印设置中，把“页眉/页脚”设置为不显示，把打印内容缩放设置为“按实际/100%/不缩放”</b></p>
+            </div>
+        }
+    },
     getInitialState(){
         return {
             data:[],
@@ -39,52 +34,24 @@ const ywbb = React.createClass({
             }
         }
     },
-    //列表页面改变
-    handlePageChange(){
-
-    },
-    //列表数据刷新
-    handleListRefresh(){
-
-    },
-    //搜索
-    handleSearchSubmit(){
-
-    },
-    componentDidMount(){
-        fetchYwbb().then(resp=> {
-            this.setState({
-                pageLoading: false,
-                data: resp.data
-            })
-        }).catch(e=> {
-            this.setState({pageLoading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {e.status}</p>
-                    </div>  )
-            });
-        })
+    refreshList(){
+        this.refs.ywgl.refreshList()
     },
 
     render(){
+        const {helperTitle,helperDesc} = this.props;
         return <div className="client-ywbb">
             <div className="wrap">
+                <Alert message={helperTitle}
+                       description={helperDesc}
+                       type="info"
+                       closable/>
                 <Tabs type="card">
                     <TabPane tab="业务报备记录" key="1">
-                        <List dataSource={this.state.data}
-                              columns={model.columns}
-                              pagination={false}
-                              onChange={this.handlePageChange}
-                              onRefresh={this.handleListRefresh}
-                              onSubmit={this.handleSearchSubmit}
-                        />
+                        <YwbbGl ref="ywgl" />
                     </TabPane>
                     <TabPane tab= {<span><Icon type="plus-circle-o" />添加</span>} key="2">
-                        <NewYwbb />
+                        <NewYwbb refreshList={this.refreshList}/>
                     </TabPane>
                 </Tabs>
             </div>

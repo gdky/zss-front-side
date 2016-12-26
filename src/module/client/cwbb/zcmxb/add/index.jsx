@@ -1,12 +1,15 @@
 import React from 'react'
-import {Col, Input,Row,Button,Icon,Form,Modal,DatePicker  } from 'antd'
+import {Col, Input,Row,Button,Icon,Form,Modal,DatePicker,InputNumber,message  } from 'antd'
 import {SelectorYear,SelectorXZ} from 'component/compSelector'
+import config from 'common/configuration'
+import req from 'reqwest'
+import auth from 'common/auth'
 import './style.css'
 
 const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
-
+const URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checiftjbb/zcmxb';
 Date.prototype.Format = function (fmt) { //时间格式化函数
     var o = {
         "M+": this.getMonth() + 1, //月份 
@@ -27,76 +30,95 @@ let Addzcmxb = React.createClass({
     getDefaultProps(){
         return {
             onSubmit: {},
-           
         }
     },
-    handleSubmit(e) {
-    e.preventDefault();
-    var mp = {};
-    let value=this.props.form.getFieldsValue()
-    for(var key in value){
-        if(!value[key]){
-            value[key]=null;
+    getInitialState() {
+        return {
+            checkmessage:false,
         }
-          if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-        
-    }
-   // console.log('收到表单值：', value);
-    this.props.onSubmit(value);
+    },
+    componentWillReceiveProps(nextProps){//检测父组件state变化
+        if (this.props.loading!=nextProps.loading) {
+          this.stopLoading();
+        };
+    },
+    stopLoading(){
+            this.setState({loading:false});
+      },
+    handleSubmit(zt) {
+      this.setState({loading:true});
+      this.props.form.validateFieldsAndScroll((errors, values) => {
+            if (errors) {
+              message.error(this.state.checkmessage);
+              this.setState({loading:false});
+                return;
+            } else {
+                  let value=values
+                  for(var key in value){
+                      if(!value[key]&&Object.prototype.toString.call(value[key])!="[object Number]"){
+                          value[key]=null;
+                      }
+                        if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
+                                  var dd = value[key].Format("yyyy-MM-dd");
+                                  value[key]=dd;
+                              }
+                  }
+                  value.zyywcb1=this.props.data.zyywcb1;
+                  value.zyywcb=this.props.data.zyywcb;
+                  value.glfy1=this.props.data.glfy1;
+                  value.glfy=this.props.data.glfy;
+                  value.zczj1=this.props.data.zczj1;
+                  value.zczj=this.props.data.zczj;
+                  value.ztbj=zt;
+                  this.props.onSubmit(value);
+            }
+       });
   },
-
      handleReset(e) {
         e.preventDefault();
         this.props.form.resetFields();
     },
-    //Modal
-   getInitialState() {
-    return { visible: false };
-  },
+
   showModal(e) {  
-    e.preventDefault();
-    var mp={};
-    let value=this.props.form.getFieldsValue()
-     for(var key in value){
-         if(!value[key]){
-             value[key]=null;
-         }
-         if(Object.prototype.toString.call(value[key])=="[object Date]"){//时间格式化
-                    var dd = value[key].Format("yyyy-MM-dd");
-                    value[key]=dd;
-                }
-     }
-     
-    this.setState({
-      visible: true,
-      okValue:value,
-    });
+        e.preventDefault();
+        var that=this;
+        Modal.confirm({
+        title: '是否确定提交？',
+        content: '提交后将上传至省管理中心',
+        onOk(){
+                  that.handleSubmit(1);
+          },
+      });
   },
-  
-  
-  handleOk(e) {
-    // console.log('点击了确定',this.state.okValue);
-    
-     this.props.handleOk(this.state.okValue)
-     
-    this.setState({
-      visible: false
-    });
+  selectChange(rule, value, callback){
+    let cValue=this.props.form.getFieldsValue(['timevalue','nd']);
+    this.setState({checkmessage:false,cloading:true});
+    req({
+            url: URL_C,
+            type: 'json',
+            method: 'get',
+            data: {checked:encodeURIComponent(JSON.stringify(cValue))},
+            headers:{'x-auth-token':auth.getToken()},
+            contentType:'application/json',            
+        }).then(resp => {
+            this.setState({cloading:false});
+            if (resp) {
+                callback();
+            }else{
+               this.setState({checkmessage:"已存在该年份该时段报表"});
+               callback('已存在该年份该时段报表'); 
+            };
+        }).fail(err => {
+               this.setState({checkmessage:"校验错误，请检查网络",cloading:false});
+            callback("校验错误，请检查网络");
+        })
   },
-  handleCancel(e) {
-    
-    this.setState({
-      visible: false
-    });
-  },
+
     render() {
-        
+        const year = new Date().getFullYear();
          const { getFieldProps } = this.props.form;
               let obj =[{}];
-         if(this.props.data.length!=0){
+         if(!!this.props.data){
               obj = this.props.data;
          }; 
           
@@ -116,21 +138,18 @@ let Addzcmxb = React.createClass({
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td colSpan="2">单位：{obj[0].DWMC}</td>
+                        <td colSpan="2">单位：(本事务所)</td>
                         
-                        <td colSpan="4">统计时间段：
-                         <div>
-                              <DatePicker                                          
-                                          placeholder="开始日期" {...getFieldProps('kssj')} />                                   
-                              <DatePicker    
-                                          placeholder="结束日期" {...getFieldProps('jssj')}  />   
-                        </div>
-                        </td>    
+                        <td colSpan="4">统计截止时间段（半年期为1月至6月底）：
+                                          <SelectorXZ style={{width:'150px'}} { ...getFieldProps('timevalue', { initialValue:'0',rules:[{validator:this.selectChange}]})}/>
+                                          {this.state.cloading&&<span><Icon type="loading" /></span>}
+                                          {this.state.checkmessage&&<span style={{'color':'red'}}>{this.state.checkmessage}</span>}
+                        </td>
                          
                            
                         <td  >  <Col 
                           label="年度：">
-                            <SelectorYear  { ...getFieldProps('nd')}/>
+                            <SelectorYear  { ...getFieldProps('nd', { initialValue:year,rules:[{validator:this.selectChange}]})} allowClear={false}/>
                         </Col>
                            </td>
                        <td>单位：元</td>
@@ -151,177 +170,177 @@ let Addzcmxb = React.createClass({
                     <tr>
                         <td style={{textAlign:'center'}} >一、主营业务成本</td>
                         <td>1</td>
-                        <td ><Input   {...getFieldProps('zyywcb1')}/> </td>
-                       <td ><Input   {...getFieldProps('zyywcb')}/> </td>
+                        <td >{this.props.data.zyywcb1}</td>
+                       <td >{this.props.data.zyywcb}</td>
                         <td style={{textAlign:'center'}} >二、主营业务税金及附加</td>   
                         <td>17</td>      
-                        <td ><Input   {...getFieldProps('zyywsjfj1')}/></td>
-                        <td ><Input   {...getFieldProps('zyywsjfj')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zyywsjfj1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zyywsjfj')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >1、工资费用</td>
                         <td>2</td>
-                        <td ><Input   {...getFieldProps('gzfy1')}/> </td>
-                       <td ><Input   {...getFieldProps('gzfy')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('gzfy1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('gzfy')}/> </td>
                         <td style={{textAlign:'center'}} >三、其他业务支出</td>   
                         <td>18</td>      
-                        <td ><Input   {...getFieldProps('qtywzc1')}/></td>
-                        <td ><Input   {...getFieldProps('qtywzc')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('qtywzc1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('qtywzc')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >2、福利费</td>
                         <td>3</td>
-                        <td ><Input   {...getFieldProps('flf1')}/> </td>
-                       <td ><Input   {...getFieldProps('flf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('flf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('flf')}/> </td>
                         <td style={{textAlign:'center'}} >四、管理费用</td>   
                         <td>19</td>      
-                        <td ><Input   {...getFieldProps('glfy1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy')}/></td>      
+                        <td >{this.props.data.glfy1}</td>
+                        <td >{this.props.data.glfy}</td>      
                     </tr>
                     
                      <tr>
                         <td style={{textAlign:'center'}} >3、教育费</td>
                         <td>4</td>
-                        <td ><Input   {...getFieldProps('jyf1')}/> </td>
-                       <td ><Input   {...getFieldProps('jyf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('jyf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('jyf')}/> </td>
                         <td style={{textAlign:'center'}} >1、工资费</td>   
                         <td>20</td>      
-                        <td ><Input   {...getFieldProps('glfy_gzfy1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_gzfy')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_gzfy1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_gzfy')}/></td>      
                     </tr>
                     
                      <tr>
                         <td style={{textAlign:'center'}} >4、公会经费</td>
                         <td>5</td>
-                        <td ><Input   {...getFieldProps('ghjf1')}/> </td>
-                       <td ><Input   {...getFieldProps('ghjf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('ghjf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('ghjf')}/> </td>
                         <td style={{textAlign:'center'}} >2、福利费</td>   
                         <td>21</td>      
-                        <td ><Input   {...getFieldProps('glfy_flf1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_flf')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_flf1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_flf')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >5、社会统筹</td>
                         <td>6</td>
-                        <td ><Input   {...getFieldProps('shtc1')}/> </td>
-                       <td ><Input   {...getFieldProps('shtc')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('shtc1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('shtc')}/> </td>
                         <td style={{textAlign:'center'}} >3、业务招待费</td>   
                         <td>22</td>      
-                        <td ><Input   {...getFieldProps('glfy_ywzdf1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_ywzdf')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_ywzdf1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_ywzdf')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >6、办公费</td>
                         <td>7</td>
-                        <td ><Input   {...getFieldProps('bgf1')}/> </td>
-                       <td ><Input   {...getFieldProps('bgf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('bgf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('bgf')}/> </td>
                         <td style={{textAlign:'center'}} >4、办公费</td>   
                         <td>23</td>      
-                        <td ><Input   {...getFieldProps('glfy_bgf1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_bgf')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_bgf1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_bgf')}/></td>      
                     </tr>
                     
                      <tr>
                         <td style={{textAlign:'center'}} >7、差旅费</td>
                         <td>8</td>
-                        <td ><Input   {...getFieldProps('clf1')}/> </td>
-                       <td ><Input   {...getFieldProps('clf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('clf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('clf')}/> </td>
                         <td style={{textAlign:'center'}} >5、其他税金</td>   
                         <td>24</td>      
-                        <td ><Input   {...getFieldProps('glfy_qtsj1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_qtsj')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qtsj1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qtsj')}/></td>      
                     </tr>
                     
                      <tr>
                         <td style={{textAlign:'center'}} >8、会费</td>
                         <td>9</td>
-                        <td ><Input   {...getFieldProps('hf1')}/> </td>
-                       <td ><Input   {...getFieldProps('hf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('hf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('hf')}/> </td>
                         <td style={{textAlign:'center'}} >6、汽车费用</td>   
                         <td>25</td>      
-                        <td ><Input   {...getFieldProps('glfy_qcfy1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_qcfy')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qcfy1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qcfy')}/></td>      
                     </tr>
                     
                      <tr>
                         <td style={{textAlign:'center'}} >9、培训及资料费</td>
                         <td>10</td>
-                        <td ><Input   {...getFieldProps('pxzlf1')}/> </td>
-                       <td ><Input   {...getFieldProps('pxzlf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('pxzlf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('pxzlf')}/> </td>
                         <td style={{textAlign:'center'}} >7、职业风险基金</td>   
                         <td>26</td>      
-                        <td ><Input   {...getFieldProps('glfy_zyfxjj1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_zyfxjj')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_zyfxjj1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_zyfxjj')}/></td>      
                     </tr>
                     
                       <tr>
                         <td style={{textAlign:'center'}} >10、会务费</td>
                         <td>11</td>
-                        <td ><Input   {...getFieldProps('hwf1')}/> </td>
-                       <td ><Input   {...getFieldProps('hwf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('hwf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('hwf')}/> </td>
                         <td style={{textAlign:'center'}} >8、职业责任保险</td>   
                         <td>27</td>      
-                        <td ><Input   {...getFieldProps('glfy_zyzrbx1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_zyzrbx')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_zyzrbx1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_zyzrbx')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >11、租凭费</td>
                         <td>12</td>
-                        <td ><Input   {...getFieldProps('zpf1')}/> </td>
-                       <td ><Input   {...getFieldProps('zpf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zpf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zpf')}/> </td>
                         <td style={{textAlign:'center'}} >9、差旅费</td>   
                         <td>28</td>      
-                        <td ><Input   {...getFieldProps('glfy_clf1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_clf')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_clf1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_clf')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >12、折旧</td>
                         <td>13</td>
-                        <td ><Input   {...getFieldProps('zj1')}/> </td>
-                       <td ><Input   {...getFieldProps('zj')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zj1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zj')}/> </td>
                         <td style={{textAlign:'center'}} >10、其他费用</td>   
                         <td>29</td>      
-                        <td ><Input   {...getFieldProps('glfy_qtfy1')}/></td>
-                        <td ><Input   {...getFieldProps('glfy_qtfy')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qtfy1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('glfy_qtfy')}/></td>      
                     </tr>
                     
                     <tr>
                         <td style={{textAlign:'center'}} >13、住房公积金</td>
                         <td>14</td>
-                        <td ><Input   {...getFieldProps('zfgjj1')}/> </td>
-                       <td ><Input   {...getFieldProps('zfgjj')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zfgjj1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('zfgjj')}/> </td>
                         <td style={{textAlign:'center'}} >五、财务费用</td>   
                         <td>30</td>      
-                        <td ><Input   {...getFieldProps('cwfy1')}/></td>
-                        <td ><Input   {...getFieldProps('cwfy')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('cwfy1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('cwfy')}/></td>      
                     </tr>
                     
                       <tr>
                         <td style={{textAlign:'center'}} >14、顾问咨询费</td>
                         <td>15</td>
-                        <td ><Input   {...getFieldProps('gwzxf1')}/> </td>
-                       <td ><Input   {...getFieldProps('gwzxf')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('gwzxf1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('gwzxf')}/> </td>
                         <td style={{textAlign:'center'}} >六、营业外支出</td>   
                         <td>31</td>      
-                        <td ><Input   {...getFieldProps('yywzc1')}/></td>
-                        <td ><Input   {...getFieldProps('yywzc')}/></td>      
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('yywzc1')}/></td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('yywzc')}/></td>      
                     </tr>
                     
                       <tr>
                         <td style={{textAlign:'center'}} >15、其他</td>
                         <td>16</td>
-                        <td ><Input   {...getFieldProps('qt1')}/> </td>
-                       <td ><Input   {...getFieldProps('qt')}/> </td>
+                        <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('qt1')}/> </td>
+                       <td ><InputNumber min={0}  step={0.01}   {...getFieldProps('qt')}/> </td>
                         <td style={{textAlign:'center'}} >支出总计</td>   
                         <td>32</td>      
-                        <td ><Input   {...getFieldProps('zczj1')}/></td>
-                        <td ><Input   {...getFieldProps('zczj')}/></td>      
+                        <td >{this.props.data.zczj1}</td>
+                        <td >{this.props.data.zczj}</td>      
                     </tr>
                     
                     <tr>
@@ -336,31 +355,25 @@ let Addzcmxb = React.createClass({
                            <td></td>
                            
                     </tr>
-                    
-                    
                 </tbody>
                 
                  <tbody>
                     <tr >
-                       <td></td>
+                       <td colSpan="5">
+                                <p>1、支出明细表上报时需填报"本期数"及"本年累计数"，所选上报期时间以半年期/全年期为标准，每期只可提交一单数据；</p>
+                                <p>2、"本期数"填报上报期的月份数据，"本年累计数"填报上报期年初至上报期月末的数据；</p>
+                                <p>各栏关系：</p>
+                                <p>【2行+……16行=1行】【20行+……29行=19行】【1行+17行+18行+19行+30行+31行=32行】</p>
+                       </td>
                               <td>               
-                        <Button type="primary" onClick={this.handleSubmit}> <Icon type="check"/>保存</Button>
-                                      
+                        <Button type="primary" onClick={this.handleSubmit.bind(this,0)} loading={this.state.loading}> <Icon type="check"/>保存</Button>
                       </td>
-                      
                        <td style={{textAlign:'center'}}>
-                        
-                         <Button type="primary" onClick={this.showModal}> <Icon type="arrow-up"/>提交</Button>
-                                       <Modal title="你确定要提交吗？" visible={this.state.visible}
-                                             onOk={this.handleOk} onCancel={this.handleCancel}>
-                                                 <p>提交后就不能修改了！！！</p>
-                                                 
-                                          
-        </Modal>
+                         <Button type="primary" onClick={this.showModal} loading={this.state.loading}> <Icon type="arrow-up"/>提交</Button>
                         </td>
                         
                       <td>
-                        <Button type="primary" onClick={this.handleReset}><Icon type="cross"/>重置</Button>
+                        <Button type="primary" onClick={this.handleReset} loading={this.state.loading}><Icon type="cross"/>清空</Button>
                       
                        </td>
                       
@@ -381,6 +394,11 @@ Addzcmxb = Form.create({
             result[prop] = {value: props.data[prop]}
         }
         return result;
+    },
+    onFieldsChange(props, fields){
+      for (var key in fields) {
+        props.changed(key,fields[key]['value']);
+        }
     }
 })(Addzcmxb);
 

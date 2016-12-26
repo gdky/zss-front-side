@@ -4,6 +4,7 @@ import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import {columns} from './model'
 import req from 'reqwest';
+import auth from 'common/auth'
 import SearchForm from './searchForm'
 import Fzyzxjlbxx from './Fzyzxjlbxx'
 import config from 'common/configuration'
@@ -100,7 +101,8 @@ const fzyzx = React.createClass({
             url: API_URL,
             type: 'json',
             method: 'get',
-            data: params
+            data: params,
+            headers:{'x-auth-token':auth.getToken()}
         }).then(resp=> {
             if(resp.data.length!=0){
             const p = this.state.pagination;

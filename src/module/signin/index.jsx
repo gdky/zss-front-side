@@ -29,10 +29,13 @@ const signin = withRouter(React.createClass({
             contentType: 'application/json',
             data: JSON.stringify(value)
         }).then(resp=> {
-            store.set('uname', value.username);
             auth.setToken(resp.token, resp.tokenhash, value.isRemember);
-            auth.setAuthorization({jgId: resp.jgId, permission: resp.permission})
-
+            auth.setAuthorization({
+                jgId: resp.jgId,
+                menu: resp.menu,
+                role: resp.lo,
+                names:resp.names
+            });
             const { location } = this.props;
             if (location.state && location.state.nextPathname) {
                 this.props.router.replace(location.state.nextPathname)
@@ -66,7 +69,7 @@ const signin = withRouter(React.createClass({
                 <div className="logo">
                     <h1>
                         <Icon type="area-chart"/>
-                        广东省注册税务师行业信息化管理系统
+                        广东省税务师行业管理信息化系统
                     </h1>
                 </div>
             </div>

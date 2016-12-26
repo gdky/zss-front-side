@@ -1,85 +1,165 @@
+import { Button, Form, Input } from 'antd';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'antd/dist/antd.css';
-import './style.css'
+const createForm = Form.create;
+const FormItem = Form.Item;
+import '../common/lib';
 
-import { Form, Input, Button } from 'antd';
+function noop() {
+    return false;
+}
 
-let uuid = 0;
-let Demo = React.createClass({
-    remove(k) {
-        const { form } = this.props;
-        // can use data-binding to get
-        let keys = form.getFieldValue('keys');
-        keys = keys.filter((key) => {
-            return key !== k;
-        });
-        // can use data-binding to set
-        form.setFieldsValue({
-            keys,
-        });
+let BasicDemo = React.createClass({
+    handleReset(e) {
+        e.preventDefault();
+        this.props.form.resetFields();
     },
-    add() {
-        uuid++;
-        const { form } = this.props;
-        // can use data-binding to get
-        let keys = form.getFieldValue('keys');
-        keys = keys.concat(uuid);
-        // can use data-binding to set
-        // important! notify form to detect changes
-        form.setFieldsValue({
-            keys,
-        });
-    },
-    submit(e) {
+
+    handleSubmit(e) {
         e.preventDefault();
         this.props.form.validateFields((errors, values) => {
-            if (errors) {
-                console.log(errors);
+            if (!!errors) {
+                console.log('Errors in form!!!');
+                return;
             }
+            console.log('Submit!!!');
             console.log(values);
         });
     },
+
+    userExists(rule, value, callback) {
+        if (!value) {
+            callback();
+        } else {
+            setTimeout(() => {
+                if (value === 'JasonWood') {
+                    callback([new Error('抱歉，该用户名已被占用。')]);
+                } else {
+                    callback();
+                }
+            }, 800);
+        }
+    },
+
+    checkPass(rule, value, callback) {
+        const { validateFields } = this.props.form;
+        if (value) {
+            validateFields(['rePasswd'], { force: true });
+        }
+        callback();
+    },
+
+    checkPass2(rule, value, callback) {
+        const { getFieldValue } = this.props.form;
+        if (value && value !== getFieldValue('passwd')) {
+            callback('两次输入密码不一致！');
+        } else {
+            callback();
+        }
+    },
+
     render() {
-        const { getFieldProps, getFieldValue } = this.props.form;
-        getFieldProps('keys', {
-            initialValue: [0],
+        console.log('render')
+        const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+        const nameProps = getFieldProps('name', {
+            rules: [
+                { required: true, min: 5, message: '用户名至少为 5 个字符' },
+                { validator: this.userExists },
+            ],
         });
-
+        const emailProps = getFieldProps('email', {
+            validate: [{
+                rules: [
+                    { required: true },
+                ],
+                trigger: 'onBlur',
+            }, {
+                rules: [
+                    { type: 'email', message: '请输入正确的邮箱地址' },
+                ],
+                trigger: ['onBlur', 'onChange'],
+            }],
+        });
+        const passwdProps = getFieldProps('passwd', {
+            rules: [
+                { required: true, whitespace: true, message: '请填写密码' },
+                { validator: this.checkPass },
+            ],
+        });
+        const rePasswdProps = getFieldProps('rePasswd', {
+            rules: [{
+                required: true,
+                whitespace: true,
+                message: '请再次输入密码',
+            }, {
+                validator: this.checkPass2,
+            }],
+        });
+        const textareaProps = getFieldProps('textarea', {
+            rules: [
+                { required: true, message: '真的不打算写点什么吗？' },
+            ],
+        });
         const formItemLayout = {
-            labelCol: {span: 6},
-            wrapperCol: {span: 18},
+            labelCol: { span: 7 },
+            wrapperCol: { span: 12 },
         };
-
-        const formItems = getFieldValue('keys').map((k) => {
-            return (
-              <Form.Item {...formItemLayout} label={`备忘${k}：`} key={k}>
-                  <Input {...getFieldProps(`name${k}`, {
-                      rules: [{
-                          required: true,
-                          whitespace: true,
-                          message: '输入事件内容！',
-                      }],
-                  })} style={{ width: '80%', marginRight: 8 }}
-                  />
-                  <Button onClick={() => this.remove(k)}>删除</Button>
-              </Form.Item>
-            );
-        });
         return (
-          <div className="wrapper">
-              <Form horizontal form={this.props.form}>
-                  {formItems}
-                  <Form.Item wrapperCol={{ span: 18, offset: 6 }}>
-                      <Button onClick={this.add} style={{ marginRight: 8 }}>新增备忘事件</Button>
-                      <Button type="primary" onClick={this.submit}>提交</Button>
-                  </Form.Item>
-              </Form>
-          </div>
+          <Form horizontal form={this.props.form}>
+              <FormItem
+                {...formItemLayout}
+                label="用户名"
+                hasFeedback
+                help={isFieldValidating('name') ? '校验中...' : (getFieldError('name') || []).join(', ')}
+              >
+                  <Input {...nameProps} placeholder="实时校验，输入 JasonWood 看看" />
+              </FormItem>
+
+              <FormItem
+                {...formItemLayout}
+                label="邮箱"
+                hasFeedback
+              >
+                  <Input {...emailProps} type="email" placeholder="onBlur 与 onChange 相结合" />
+              </FormItem>
+
+              <FormItem
+                {...formItemLayout}
+                label="密码"
+                hasFeedback
+              >
+                  <Input {...passwdProps} type="password" autoComplete="off"
+                         onContextMenu={noop} onPaste={noop} onCopy={noop} onCut={noop}
+                  />
+              </FormItem>
+
+              <FormItem
+                {...formItemLayout}
+                label="确认密码"
+                hasFeedback
+              >
+                  <Input {...rePasswdProps} type="password" autoComplete="off" placeholder="两次输入密码保持一致"
+                         onContextMenu={noop} onPaste={noop} onCopy={noop} onCut={noop}
+                  />
+              </FormItem>
+
+              <FormItem
+                {...formItemLayout}
+                label="备注"
+              >
+                  <Input {...textareaProps} type="textarea" placeholder="随便写" id="textarea" name="textarea" />
+              </FormItem>
+
+              <FormItem wrapperCol={{ span: 12, offset: 7 }}>
+                  <Button type="primary" onClick={this.handleSubmit}>确定</Button>
+                  &nbsp;&nbsp;&nbsp;
+                  <Button type="ghost" onClick={this.handleReset}>重置</Button>
+              </FormItem>
+          </Form>
         );
     },
 });
 
-Demo = Form.create()(Demo);
+BasicDemo = createForm()(BasicDemo);
 
-ReactDOM.render(<Demo />, document.getElementById("react-content"));
+ReactDOM.render(<BasicDemo />, document.getElementById("react-content"));

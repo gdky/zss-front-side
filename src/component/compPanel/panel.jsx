@@ -32,7 +32,7 @@ const panel = React.createClass({
         if (title || toolbar || closable) {
             pt = <div className="panel-title">
                 <Row>
-                    <Col span="8"><h3>{title}</h3></Col>
+                    <Col span="12"><h3>{title}</h3></Col>
                     <Col offspan="16">
                         {closable ? <a onClick={this.handleClose} className="close">
                             <Icon type="cross"/></a> : null}

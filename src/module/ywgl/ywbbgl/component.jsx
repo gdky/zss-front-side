@@ -1,186 +1,251 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
-import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
-import req from 'reqwest';
-import SearchForm from './searchForm'
+import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import List from './list'
+import Detail from './detail'
+import DiaSentBack from './dialogSentBack'
+import DiaSpQY from './dialogSpQY.jsx'
+import DiaSpCX from './dialogSpCX.jsx'
+import DiaSpTH from './dialogSpTH.jsx'
+import model from './model'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
-import {getObjBindModel} from 'common/utils.js'
+import {jsonCopy} from 'common/utils'
+import cloneDeep from 'lodash/cloneDeep';
+import '../style.css'
 
-const API_URL = config.HOST + config.URI_API_PROJECT + '/ywbb';
-const ToolBar = Panel.ToolBar;
-const ButtonGroup = Button.Group;
-
-
-const xygl = React.createClass({
-    //初始化state
+const c = React.createClass({
     getInitialState(){
         return {
-            data: [],
-            pagination: {
-                current: 1,
-                showSizeChanger: true,
-                pageSize: 5,
-                showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20'],
-                showTotal (total) {
-                    return `共 ${total} 条`
-                }
-            },
-            searchToggle: false,
-            detailViewToggle:false,
-            where: '',
-            helper: false,
-            entity:''
+            view: 'list',
+            listState: {},
+            entity: {},
+            dialogSentBack: false,
+            dialogSpQY:false,
+            dialogSpCX:false,
+            dialogSpTH:false
         }
     },
 
-    //改变页码
-    handleChange(pagination, filters, sorter){
-        const pager = this.state.pagination;
-        pager.current = pagination.current;
-        pager.pageSize = pagination.pageSize;
-        this.setState({pagination: pager});
-
-        this.fetchData({
-            page: pager.current,
-            pageSize: pager.pageSize,
-            where: encodeURIComponent(JSON.stringify(this.state.where))
-        })
+    //打开明细信息视图
+    handleViewDetail(record){
+        this.setState({view: 'detail', entity: record})
+    },
+    //返回list视图
+    backToList(){
+        this.setState({view: 'list'})
+    },
+    //抓取当前list分页状态
+    grabListState(state){
+        this.setState({listState: state})
+    },
+    refreshList(){
+        this.refs.list.refreshCurrent()
+    },
+    //打开强制退回操作对话框
+    openSentBack(record){
+        if(record.id){
+            this.setState({dialogSentBack: true,entity:record})
+        }else{
+            this.setState({dialogSentBack: true})
+        }
+    },
+    //关闭强制退回操作对话框
+    closeSentBack(){
+        this.setState({dialogSentBack: false});
+    },
+    //打开申请撤销审批
+    openSpCX(record){
+        if(record.id){
+            this.setState({dialogSpCX: true,entity:record})
+        }else{
+            this.setState({dialogSpCX: true})
+        }
+    },
+    closeSpCX(){
+        this.setState({dialogSpCX:false})
+    },
+    //打开申请启用审批
+    openSpQY(record){
+        if(record.id){
+            this.setState({dialogSpQY: true,entity:record})
+        }else{
+            this.setState({dialogSpQY: true})
+        }
+    },
+    closeSpQY(){
+        this.setState({dialogSpQY:false})
+    },
+    //打开申请退回审批
+    openSpTH(record){
+        if(record.id){
+            this.setState({dialogSpTH: true,entity:record})
+        }else{
+            this.setState({dialogSpTH: true})
+        }
+    },
+    closeSpTH(){
+        this.setState({dialogSpTH:false})
     },
 
-    //查询按钮
-    handleSearchToggle(){
-        this.setState({searchToggle: !this.state.searchToggle});
+    /*计算column里定义的width总和，没有定义width的列宽按100(px)计算*/
+    getColWidth(model){
+        let w = 0;
+        model.columns.map(item=> {
+            w = item.width ? w + item.width : w + 100;
+        });
+        return w;
     },
-
-    //刷新按钮
-    handleRefresh(){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        this.setState({pagination: pager, where: ''});
-        this.fetchData();
+    formatDate(str){
+        let date = new Date(str);
+        return date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日'
     },
-
-    //帮助按钮
-    handleHelper(){
-        this.setState({helper: !this.state.helper})
-    },
-    //手动关闭帮助提示
-    handleHelperClose(){
-        this.setState({helper: false})
-    },
-
-    //提交条件查询
-    handleSearchSubmit(value){
-        const pager = this.state.pagination;
-        pager.current = 1;
-        const params = {
-            page: 1,
-            pageSize: pager.pageSize,
-            where: encodeURIComponent(JSON.stringify(value))
-        };
-        this.setState({pagination:pager,where: value});
-        this.fetchData(params);
-        this.setState({searchToggle: false})
-    },
-
-    //点击某行
-    handleRowClick(record){
-        req({
-            url:API_URL+'/'+record.id,
-            type:'json',
-            method:'get'
-        }).then(resp=>{
-            let entity = getObjBindModel(resp);
-            this.setState({entity:entity});
-        }).fail(err=>{
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
-        })
-    },
-
-    //通过API获取数据
-    fetchData(params = {page: 1, pageSize: this.state.pagination.pageSize}){
-        this.setState({loading: true});
-        req({
-            url: API_URL,
-            type: 'json',
-            method: 'get',
-            data: params
-        }).then(resp=> {
-            const p = this.state.pagination;
-            p.total = resp.total;
-            this.setState({data: resp.data, pagination: p, loading: false})
-        }).fail(err=> {
-            this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                  <div>
-                      <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                      <p>Status: {err.status}</p>
-                  </div>  )
-            });
-        })
-    },
-
-    componentDidMount(){
-        this.fetchData();
+    printCover(record){
+        console.log(record)
+        let query = JSON.stringify({
+            wtdw:record.wtdw,
+            ywlx:record.ywlx,
+            sstarttime:this.formatDate(record.sstarttime),
+            sendtime:this.formatDate(record.sendtime),
+            jtxm:record.jtxm,
+            bbhm:record.bbhm,
+            bgwh:record.bgwh,
+            wtdwnsrsbh:record.wtdwnsrsbh,
+            zgswjg:record.zgswjg,
+            swsmc:record.swsmc,
+            bgrq:this.formatDate(record.bgrq),
+            bbrq:this.formatDate(record.bbrq),
+            qzsws:record.qzsws,
+            swsdh:record.swsdh,
+            swsdzyj:record.swsdzyj,
+            swswz:record.swswz,
+            swscz:record.swscz,
+            txdz:record.txdz
+        });
+        query = encodeURIComponent(query);
+        window.open('#/print/ywbbcover?data='+query);
     },
 
     render(){
-        let toolbar = <ToolBar>
-            <Button onClick={this.handleSearchToggle}>
-                <Icon type="search"/>查询
-                { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
-                  <Icon className="toggle-tip" type="circle-o-down"/>}
-            </Button>
+        //重新复制一个model对象，使修改不会影响原model对象，避免每次组件渲染时给原model对象累积赋值
+        const m = cloneDeep(model);
 
-            <ButtonGroup>
-                <Button type="primary" onClick={this.handleHelper}><Icon type="question"/></Button>
-                <Button type="primary" onClick={this.handleRefresh}><Icon type="reload"/></Button>
-            </ButtonGroup>
-        </ToolBar>;
+        //定义列表中的操作列具体方法
+        m.columns.push({
+            title: '操作',
+            key: 'action',
+            fixed: 'right',
+            width: 120,
+            render: (text, record)=> {
+                let actGroup = <span className="act-group">
+                    <a onClick={()=>{this.handleViewDetail(record)}}>明细</a>
+                    {record.ywzt_dm == 1 ?
+                    <a onClick={()=>{this.openSentBack(record)}}>强制退回</a>:null}
+                    {record.ywzt_dm == 7 ?
+                      <a onClick={()=>{this.openSpCX(record)}}>撤销审批</a>:null}
+                    {record.ywzt_dm == 8 ?
+                      <a onClick={()=>{this.openSpQY(record)}}>启用审批</a>:null}
+                    {record.ywzt_dm == 6 ?
+                      <a onClick={()=>{this.openSpTH(record)}}>退回审批</a>:null}
+                </span>;
+                return actGroup
+            }
+        });
+        const fixColWidth = 120;
 
-        let helper = [];
-        helper.push(<p key="helper-0">本功能主要提供本年度业务备案查询</p>);
-        helper.push(<p key="helper-1">本功能主要提供本年度业务备案查询2</p>);
+        /*设置列表组件的参数 */
+        const listSetting = {
+            //标题
+            title: '业务报备管理',
+            //帮助提示的标题
+            helperTitle: '业务报备使用帮助',
+            //帮助提示的具体内容
+            helperDesc: <div><p>本功能主要提供本年度业务备案查询</p></div>,
+            //列表可滚动区间的宽度，一般使用getcolwidth计算即可
+            scrollx: this.getColWidth(model)+fixColWidth,
+            //接收的json数据中用来充当key的字段名
+            keyCol: 'id',
+            //默认每页显示数量
+            pageSize: 10,
+            //列表需使用的columns定义
+            columns: m.columns,
+            //记录list组件被切换时状态值的方法
+            grabState: this.grabListState,
+            //list组件重新挂载时恢复状态用的历史状态数据
+            stateShot: this.state.listState,
+            //数据来源api
+            apiUrl: config.HOST + config.URI_API_PROJECT + '/ywbb',
+            //初始搜索条件
+            defaultWhere:{}
+        };
 
-        return <div className="xygl">
+        /*设置明细信息组件的参数*/
+        const detailSetting = {
+            //设置数据源
+            data: this.state.entity,
+            //设置标题
+            title: '业务报备详细信息',
+            //设置返回主视图调用的方法
+            onBack: this.backToList,
+            sentBack: this.openSentBack,
+            printCover:this.printCover,
+            spCX:null,
+            spQY:null,
+            spTH:null
+        };
+
+        /*设置强制退回对话框的参数*/
+        const sentBackSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogSentBack,
+            refreshList:this.refreshList,
+            onClose:this.closeSentBack,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+
+        /*设置启用申请审批对话框的参数*/
+        const spQYSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogSpQY,
+            refreshList:this.refreshList,
+            onClose:this.closeSpQY,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+
+        /*设置撤销申请审批对话框的参数*/
+        const spCXSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogSpCX,
+            refreshList:this.refreshList,
+            onClose:this.closeSpCX,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+
+        /*设置退回申请审批对话框的参数*/
+        const spTHSetting = {
+            data: this.state.entity,
+            visible:this.state.dialogSpTH,
+            refreshList:this.refreshList,
+            onClose:this.closeSpTH,
+            apiUrl:config.HOST + config.URI_API_PROJECT + '/ywbb/'
+        };
+
+
+        /*通过控制state.view的值，实现页面上列表/详细信息等组件的切换*/
+        const view = {
+            list: <List {...listSetting} ref="list" />,
+            detail: <Detail {...detailSetting}/>
+        };
+
+
+        return <div className="ywbbgl">
             <div className="wrap">
-                {this.state.helper && <Alert message="业务报备使用帮助"
-                                             description={helper}
-                                             type="info"
-                                             closable
-                                             onClose={this.handleHelperClose}/>}
-
-                <Panel title="业务备案数据检索" toolbar={toolbar}>
-                    {this.state.searchToggle && <SearchForm
-                      onSubmit={this.handleSearchSubmit}/>}
-                    <div className="h-scroll-table">
-                        <Table columns={columns}
-                               dataSource={this.state.data}
-                               pagination={this.state.pagination}
-                               loading={this.state.loading}
-                               onChange={this.handleChange}
-                               onRowClick={this.handleRowClick}/>
-                    </div>
-                </Panel>
-                <Panel title="业务报备详细信息">
-                    <BaseTable data={this.state.entity} model={entityModel} bordered striped/>
-                </Panel>
+                <DiaSentBack {...sentBackSetting}  />
+                <DiaSpQY {...spQYSetting}  />
+                <DiaSpCX {...spCXSetting}  />
+                <DiaSpTH {...spTHSetting}  />
+                {view[this.state.view]}
             </div>
         </div>
     }
 });
 
-module.exports = xygl;
+module.exports = c;

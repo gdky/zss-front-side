@@ -33,6 +33,6 @@ module.exports = {
         {title: '60岁以上', dataIndex: 'cy_zrs_60', key: 'cy_zrs_60'},
         {title: '51-60岁', dataIndex: 'cy_zrs_50', key: 'cy_zrs_50'},
         {title: '36-50岁', dataIndex: 'cy_zrs_36', key: 'cy_zrs_36'},
-        {title: '36岁以下', dataIndex: 'cy_zry_35', key: 'cy_zry_35'}
+        {title: '36岁以下', dataIndex: 'cy_zrs_35', key: 'cy_zrs_35'}
     ]
 };

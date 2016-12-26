@@ -1,0 +1,12 @@
+.yzxsws .fix-table td {
+    text-align: center;
+}
+.yzxsws .fix-table td:first-child {
+    text-align: left;
+}
+.yzxsws .sm {
+	padding: 20px;
+}
+.yzxsws .dt {
+	padding: 10px;
+}

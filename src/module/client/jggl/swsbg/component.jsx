@@ -6,6 +6,7 @@ import req from 'reqwest';
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
 import DetailBoxPT from './detailboxPT.jsx'
+import Model from './model.js' 
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jgsxx/';
@@ -71,6 +72,7 @@ const swsbgsq = React.createClass({
                 method: 'put',
                 data: JSON.stringify(ls),
                 contentType: 'application/json',
+                headers:{'x-auth-token':auth.getToken()}
             }).then(resp=> {
                 var that=this;
                 Modal.success({
@@ -111,14 +113,16 @@ const swsbgsq = React.createClass({
         return req({
             url: API_URL+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
         fetchSPing(){
         return req({
             url: API_URL_C+auth.getJgid(),
             type: 'json',
-            method: 'get'
+            method: 'get',
+            headers:{'x-auth-token':auth.getToken()}
         })
     },
     async fetchAll(){
@@ -164,12 +168,19 @@ const swsbgsq = React.createClass({
         return <div className="khd-jggl-swsbg">
             <div className="wrap">
                 {this.state.helper && <Alert message="变更备案申请帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
-                <Spin spinning={this.state.sloading}><Panel title="事务所信息变更" toolbar={toolbar}>
-                   {!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
-                    <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading} check={!this.state.checked}/>
-                </Panel></Spin>
+                <Spin spinning={this.state.sloading}>
+                    <Panel title="事务所信息变更" toolbar={toolbar}>
+                       {!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
+                           <DetailBoxPT data={this.state.entity} nbjgsz={Model.nbjgsz} nbTitle="内部机构设置：" 
+                                nbsj={this.state.entity.nbjgsz} check={!this.state.checked} onSubmit={this.handlePTSubmit} 
+                                submitLoading={this.state.sPLoading}/>
+                    </Panel>
+                </Spin>
                 <Panel >
-                   <Spin spinning={this.state.sloading}> <DetailBoxPT data={this.state.entity} check={!this.state.checked} onSubmit={this.handlePTSubmit} submitLoading={this.state.sPLoading}/></Spin>
+                   <Spin spinning={this.state.sloading}> 
+                        <DetailBox data={this.state.entity} onSubmit={this.handleSPSubmit} submitLoading={this.state.sPLoading}
+                         check={!this.state.checked}/>
+                    </Spin>
                 </Panel>
             </div>
         </div>

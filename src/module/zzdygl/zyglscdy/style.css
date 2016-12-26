@@ -1,0 +1,12 @@
+.nbjgsz {font-weight: 600;
+    padding: 12px;
+    border: 1px solid #e9e9e9;
+    background-color: #f9f9f9;
+}
+.rycx .ant-table tr:hover {
+    cursor: pointer;
+}
+
+.rycx .ant-form-item {
+    padding: 6px
+}

@@ -13,6 +13,8 @@ const wspcx = React.createClass({
       },
     render(){
         //定义工具栏内容
+       const sd=decodeURIComponent(this.props.location.search);
+        var rs=sd.substring(1,sd.length);
        const obj = this.state.entity;
       const bgxmOptions = obj.map(bgxm => <tbody key={bgxm.MC}>
                 <tr >
@@ -39,8 +41,7 @@ const wspcx = React.createClass({
         return <div className="wspxm-spsh">
             <div className="wrap">
           <SPXX wspcxurl='/spapi/wspcx/jg/2' spmxurl='/spapi/spmxxx/jgbgsp' mxbg={mxbg} getbg={this.makebg}
-                          columns={C_JG.jg} titleTop="待审变更申请" titleSecond="变更申请明细"
-          />
+                          columns={C_JG.jg} titleTop="待审变更申请" titleSecond="变更申请明细" zsid={rs} />
             </div>
         </div>
     }
