@@ -14,6 +14,10 @@ const khxxgl = React.createClass({
             type: 'add'
         }
     },
+    refreshList(){
+        this.refs.list.handleRefresh()
+
+    },
     handleEditSave(boolean){
         this.setState({isSaved: true,type:'add'})
     },
@@ -30,8 +34,9 @@ const khxxgl = React.createClass({
                 <KhxxNew onSaved={this.handleEditSave}
                          data={this.state.entity}
                          type={this.state.type}
-                         onReset={this.handleUpdateReset}/>
-                <KhxxList onEdit={this.handleEdit} onDel={this.handleDel}/>
+                         onReset={this.handleUpdateReset}
+                         refresh={this.refreshList}/>
+                <KhxxList onEdit={this.handleEdit} onDel={this.handleDel} ref="list"/>
             </div>
         </div>
     }
