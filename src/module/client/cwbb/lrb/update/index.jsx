@@ -442,14 +442,14 @@ let Updatelrb = React.createClass({
                                             <td>1</td>
                                             <td >
                                                 <FormItem required>
-                                                    <InputNumber {...getFieldProps('zgywsr1', { initialValue: data.ZGYWSR1 + "", rules: [{ required: true, message: "请填写" }] }) }
+                                                    <InputNumber max={9999999999.99} {...getFieldProps('zgywsr1', { initialValue: data.ZGYWSR1 , rules: [{ required: true, message: "必填" }] }) }
                                                         id="zgywsr1"
                                                         onChange={this.handleInputChange} />
                                                 </FormItem>
                                             </td>
                                             <td colSpan="2">
                                                 <FormItem required>
-                                                    <InputNumber {...getFieldProps('zgywsr', { initialValue: data.ZGYWSR + "", rules: [{ required: true, message: "请填写" }] }) }
+                                                    <InputNumber max={9999999999.99} {...getFieldProps('zgywsr', { initialValue: data.ZGYWSR , rules: [{ required: true, message: "必填" }] }) }
                                                         id="zgywsr"
                                                         onChange={this.handleInputChange} />
                                                 </FormItem>
@@ -459,12 +459,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：主营业务成本</td>
                                             <td>2</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('zgywcb1', { initialValue: data.ZGYWCB1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywcb1', { initialValue: data.ZGYWCB1 }) }
                                                     id="zgywcb1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('zgywcb', { initialValue: data.ZGYWCB }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywcb', { initialValue: data.ZGYWCB }) }
                                                     id="zgywcb"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -473,12 +473,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">主营业务税金及附加</td>
                                             <td>3</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('zgywsj1', { initialValue: data.ZGYWSJ1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywsj1', { initialValue: data.ZGYWSJ1 }) }
                                                     id="zgywsj1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('zgywsj', { initialValue: data.ZGYWSJ }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywsj', { initialValue: data.ZGYWSJ }) }
                                                     id="zgywsj"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -486,20 +486,20 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">二、主营业务利润（亏损以“—”号填列）</td>
                                             <td>4</td>
-                                            <td > <InputNumber {...getFieldProps('zgwylr1', { initialValue: data.ZGWYLR1 }) } disabled /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('zgwylr', { initialValue: data.ZGWYLR }) } disabled /></td>
+                                            <td > <InputNumber max={9999999999.99} {...getFieldProps('zgwylr1', { initialValue: data.ZGWYLR1 }) } disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zgwylr', { initialValue: data.ZGWYLR }) } disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">加：其它业务利润（亏损以“—”号填列）</td>
                                             <td>5</td>
                                             <td >
-                                                <InputNumber {...getFieldProps('qtywlr1', { initialValue: data.QTYWLR1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('qtywlr1', { initialValue: data.QTYWLR1 }) }
                                                     id="qtywlr1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('qtywlr', { initialValue: data.QTYWLR }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('qtywlr', { initialValue: data.QTYWLR }) }
                                                     id="qtywlr"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -508,12 +508,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：营业费用</td>
                                             <td>6</td>
                                             <td >
-                                                <InputNumber {...getFieldProps('yyfy1', { initialValue: data.YYFY1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yyfy1', { initialValue: data.YYFY1 }) }
                                                     id="yyfy1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('yyfy', { initialValue: data.YYFY }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yyfy', { initialValue: data.YYFY }) }
                                                     id="yyfy"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -522,12 +522,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">管理费用</td>
                                             <td>7</td>
                                             <td >
-                                                <InputNumber {...getFieldProps('glfy1', { initialValue: data.GLFY1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('glfy1', { initialValue: data.GLFY1 }) }
                                                     id="glfy1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('glfy', { initialValue: data.GLFY }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('glfy', { initialValue: data.GLFY }) }
                                                     id="glfy"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -536,12 +536,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">财务费用</td>
                                             <td>8</td>
                                             <td >
-                                                <InputNumber {...getFieldProps('cwfy1', { initialValue: data.CWFY1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('cwfy1', { initialValue: data.CWFY1 }) }
                                                     id="cwfy1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('cwfy', { initialValue: data.CWFY }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('cwfy', { initialValue: data.CWFY }) }
                                                     id="cwfy"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -549,20 +549,20 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">三、营业利润（亏损以“—”号填列）</td>
                                             <td>9</td>
-                                            <td > <InputNumber   {...getFieldProps('yylr1', { initialValue: data.YYLR1 }) } disabled /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('yylr', { initialValue: data.YYLR }) } disabled /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('yylr1', { initialValue: data.YYLR1 }) } disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('yylr', { initialValue: data.YYLR }) } disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">加：投资收益（损失以“—”号填列）</td>
                                             <td>10</td>
                                             <td >
-                                                <InputNumber {...getFieldProps('tzsy1', { initialValue: data.TZSY1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('tzsy1', { initialValue: data.TZSY1 }) }
                                                     id="tzsy1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('tzsy', { initialValue: data.TZSY }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('tzsy', { initialValue: data.TZSY }) }
                                                     id="tzsy"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -571,12 +571,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">补贴收入</td>
                                             <td>11</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('btsr1', { initialValue: data.BTSR1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('btsr1', { initialValue: data.BTSR1 }) }
                                                     id="btsr1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('btsr', { initialValue: data.BTSR }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('btsr', { initialValue: data.BTSR }) }
                                                     id="btsr"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -586,12 +586,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">营业外收入</td>
                                             <td>12</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('yywsr1', { initialValue: data.YYWSR1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yywsr1', { initialValue: data.YYWSR1 }) }
                                                     id="yywsr1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('yywsr', { initialValue: data.YYWSR }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yywsr', { initialValue: data.YYWSR }) }
                                                     id="yywsr"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -601,12 +601,12 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：营业外支出</td>
                                             <td>13</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('yywzc1', { initialValue: data.YYWZC1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yywzc1', { initialValue: data.YYWZC1 }) }
                                                     id="yywzc1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('yywzc', { initialValue: data.YYWZC }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('yywzc', { initialValue: data.YYWZC }) }
                                                     id="yywzc"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -615,20 +615,20 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">四、利润总额（亏损总额以“—”号填列）</td>
                                             <td>14</td>
-                                            <td > <InputNumber   {...getFieldProps('lrze1', { initialValue: data.LRZE1 }) } disabled /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('lrze', { initialValue: data.LRZE }) }  disabled /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('lrze1', { initialValue: data.LRZE1 }) } disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('lrze', { initialValue: data.LRZE }) }  disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：所得税</td>
                                             <td>15</td>
                                             <td>
-                                                <InputNumber {...getFieldProps('sds1', { initialValue: data.SDS1 }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('sds1', { initialValue: data.SDS1 }) }
                                                     id="sds1"
                                                     onChange={this.handleInputChange} />
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber {...getFieldProps('sds', { initialValue: data.SDS }) }
+                                                <InputNumber max={9999999999.99} {...getFieldProps('sds', { initialValue: data.SDS }) }
                                                     id="sds"
                                                     onChange={this.handleInputChange} />
                                             </td>
@@ -637,8 +637,8 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">五、净利润（亏损以“—”号填列）</td>
                                             <td>16</td>
-                                            <td > <InputNumber   {...getFieldProps('jlr1', { initialValue: data.JLR1 }) }  disabled /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('jlr', { initialValue: data.JLR }) }  disabled /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('jlr1', { initialValue: data.JLR1 }) }  disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('jlr', { initialValue: data.JLR }) }  disabled /></td>
                                         </tr>
 
                                         <tr>
@@ -657,43 +657,43 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">1、出售、处置部门或被投资单位所得收益</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('csczsy1', { initialValue: data.CSCZSY1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('csczsy', { initialValue: data.CSCZSY }) }  /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('csczsy1', { initialValue: data.CSCZSY1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('csczsy', { initialValue: data.CSCZSY }) }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">2、自然灾害发生的损失</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('zhss1', { initialValue: data.ZHSS1 }) }  /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('zhss', { initialValue: data.ZHSS }) }  /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zhss1', { initialValue: data.ZHSS1 }) }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zhss', { initialValue: data.ZHSS }) }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">3、会计政策变更增加（或减少）利润总额</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('zcbglr1', { initialValue: data.ZCBGLR1 }) }  /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('zcbglr', { initialValue: data.ZCBGLR }) }  /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zcbglr1', { initialValue: data.ZCBGLR1 }) }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zcbglr', { initialValue: data.ZCBGLR }) }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">4、会计估计变更增加（或减少）利润总额</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('gjbglr1', { initialValue: data.GJBGLR1 }) }  /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('gjbglr', { initialValue: data.GJBJLR }) }  /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('gjbglr1', { initialValue: data.GJBGLR1 }) }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('gjbglr', { initialValue: data.GJBJLR }) }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">5、债务重组损失</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('zwczss1', { initialValue: data.ZWCZSS1 }) }   /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('zwczss', { initialValue: data.ZWCZSS }) }  /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zwczss1', { initialValue: data.ZWCZSS1 }) }   /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zwczss', { initialValue: data.ZWCZSS }) }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">6、其它</td>
                                             <td></td>
-                                            <td > <InputNumber   {...getFieldProps('qt1', { initialValue: data.QT1 }) }  /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('qt', { initialValue: data.QT }) }   /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('qt1', { initialValue: data.QT1 }) }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('qt', { initialValue: data.QT }) }   /></td>
                                         </tr>
 
                                         <tr>
@@ -706,65 +706,65 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理税务登记收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('dlswdjhs', { initialValue: data.DLSWDJHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('dlswdjsr1', { initialValue: data.DLSWDJSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('dlswdjsr', { initialValue: data.DLSWDJSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlswdjhs', { initialValue: data.DLSWDJHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlswdjsr1', { initialValue: data.DLSWDJSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlswdjsr', { initialValue: data.DLSWDJSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理纳税申报收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('dlnssbhs', { initialValue: data.DLNSSBHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('dlnssbsr1', { initialValue: data.DLNSSBSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('dlnssbsr', { initialValue: data.DLNSSBSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlnssbhs', { initialValue: data.DLNSSBHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlnssbsr1', { initialValue: data.DLNSSBSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlnssbsr', { initialValue: data.DLNSSBSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理纳税审查收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('dlnsschs', { initialValue: data.DLNSSCHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('dlnsscsr1', { initialValue: data.DLNSSCSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('dlnsscsr', { initialValue: data.DLNSSCSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlnsschs', { initialValue: data.DLNSSCHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlnsscsr1', { initialValue: data.DLNSSCSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlnsscsr', { initialValue: data.DLNSSCSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理建帐建制收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('dljzjzhs', { initialValue: data.DLJZJZHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('dljzjzsr1', { initialValue: data.DLJZJZSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('dljzjzsr', { initialValue: data.DLJZJZSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('dljzjzhs', { initialValue: data.DLJZJZHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dljzjzsr1', { initialValue: data.DLJZJZSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dljzjzsr', { initialValue: data.DLJZJZSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">受聘顾问咨询收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('spgwzxhs', { initialValue: data.SPGWZXHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('spgwzxsr1', { initialValue: data.SPGWZXSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('spgwzxsr', { initialValue: data.SPGWZXSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('spgwzxhs', { initialValue: data.SPGWZXHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('spgwzxsr1', { initialValue: data.SPGWZXSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('spgwzxsr', { initialValue: data.SPGWZXSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理申请税务复议收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('dlsqswfyhs', { initialValue: data.DLSQSWFYHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('dlsqswfysr1', { initialValue: data.DLSQSWFYSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('dlsqswfysr', { initialValue: data.DLSQSWFYSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlsqswfyhs', { initialValue: data.DLSQSWFYHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlsqswfysr1', { initialValue: data.DLSQSWFYSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlsqswfysr', { initialValue: data.DLSQSWFYSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">培训收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('pxhs', { initialValue: data.PXHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('pxsr1', { initialValue: data.PXSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('pxsr', { initialValue: data.PXSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('pxhs', { initialValue: data.PXHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('pxsr1', { initialValue: data.PXSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('pxsr', { initialValue: data.PXSR }) } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">其它主营业务收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber   {...getFieldProps('qtzyywsrhs', { initialValue: data.QTZYYWSRHS }) } /></td>
-                                            <td > <InputNumber   {...getFieldProps('qtzyywsr1', { initialValue: data.QTZYYWSR1 }) } /></td>
-                                            <td colSpan="2"> <InputNumber   {...getFieldProps('qtzyywsr', { initialValue: data.QTZYYWSR }) } /></td>
+                                            <td > <InputNumber max={99999999}   {...getFieldProps('qtzyywsrhs', { initialValue: data.QTZYYWSRHS }) } /></td>
+                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('qtzyywsr1', { initialValue: data.QTZYYWSR1 }) } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('qtzyywsr', { initialValue: data.QTZYYWSR }) } /></td>
                                         </tr>
                                         <tr>
                                             <td colSpan="2">
@@ -816,6 +816,12 @@ Updatelrb = Form.create({
             result[prop] = { value: props.data[prop] }
         }
         return result;
+    },
+    onFieldsChange(props, fields) {
+        console.log('change')
+        for (var key in fields) {
+            props.changed(key, fields[key]['value']);
+        }
     }
 })(Updatelrb);
 

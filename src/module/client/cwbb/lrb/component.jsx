@@ -190,17 +190,17 @@ const lrb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            let entity=cloneDeep(resp);
+            let entity = cloneDeep(resp);
             entity = entityFormat(entity, entityModel);
             let fs = {};
             for (var key in resp) {
                 let num = resp[key];
-                if(key=="ND"){
-                    num=num+"";
-                } 
+                if (key == "ND") {
+                    num = num + "";
+                }
                 fs[key] = num;
             }
-            this.setState({ entity: entity,fileds:fs, dataLoading: false });
+            this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -225,6 +225,35 @@ const lrb = React.createClass({
                 <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
         )
+    },
+    dealWithChanged(key, value) {
+        let f = this.state.fileds;
+        f[key] = value;
+        //【1行-2行-3行=4行】
+        f.zgwylr1 = Number(f.zgywsr1 ? f.zgywsr1 : 0)
+            - Number(f.zgywcb1 ? f.zgywcb1 : 0)
+            - Number(f.zgywsj1 ? f.zgywsj1 : 0);
+        f.zgwylr = Number(f.zgywsr ? f.zgywsr : 0)
+            - Number(f.zgywcb ? f.zgywcb : 0)
+            - Number(f.zgywsj ? f.zgywsj : 0);
+
+        //【4行+5行-6行-7行-8行=9行】
+        f.jyhd_xjlc_xj = Number(f.jyhd_xjlc_gmlw ? f.jyhd_xjlc_gmlw : 0)
+            + Number(f.jyhd_xjlc_zfzg ? f.jyhd_xjlc_zfzg : 0)
+            + Number(f.jyhd_xjlc_sf ? f.jyhd_xjlc_sf : 0)
+            + Number(f.jyhd_xjlc_qtjy ? f.jyhd_xjlc_qtjy : 0);
+        //【9行+10行+11行+12行-13行=14行】
+        f.jyhd_je = Number(f.jyhd_xjlr_xj ? f.jyhd_xjlr_xj : 0)
+            - Number(f.jyhd_xjlc_xj ? f.jyhd_xjlc_xj : 0);
+        //【14行-15行=16行】
+        f.tzhd_xjlr_xj = Number(f.tzhd_xjlr_shtz ? f.tzhd_xjlr_shtz : 0)
+            + Number(f.tzhd_xjlr_tzsy ? f.tzhd_xjlr_tzsy : 0)
+            + Number(f.tzhd_xjlr_czzc ? f.tzhd_xjlr_czzc : 0)
+            + Number(f.tzhd_xjlr_qttz ? f.tzhd_xjlr_qttz : 0);
+
+        console.log(f)
+
+        this.setState({ fileds: f });
     },
 
     render() {
@@ -311,6 +340,7 @@ const lrb = React.createClass({
                         data={this.state.fileds}
                         loading={this.state.dataLoading}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
             </div>
