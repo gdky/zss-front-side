@@ -28,9 +28,9 @@ const khxxList = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 10,
+                pageSize: 6,
                 showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20']
+                pageSizeOptions: ['6', '10', '20']
 
             }
         }

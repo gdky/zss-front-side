@@ -212,13 +212,13 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
                 require('../module/client/swsrygl/rydr'),
-               // 财务报表上传
+               */// 财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
-
+/*
                 //手动上报报表
                 require('../module/client/sdsb/swsjbqk'),
                 require('../module/client/sdsb/jygmtjb'),
