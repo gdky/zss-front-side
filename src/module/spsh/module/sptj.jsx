@@ -44,7 +44,7 @@ let sptj = React.createClass({
                                                                         <Option key="4" value={4}><p>6、整改期满仍达不到要求，注销税务</p><p>师事务所执业证</p></Option>
                                                                         <Option key="5" value={5}>7、整改期满仍达不到要求，向社会公告</Option>
                                                                     </Select>:
-                                                                    this.props.zynj?<Select  placeholder="请选择" { ...getFieldProps('zynj')} style={{width:'100%'}} >
+                                                                    this.props.zynj?<Select  placeholder="请选择" { ...getFieldProps('zynj', { initialValue:1})} style={{width:'100%'}} >
                                                                         <Option key="1" value={1}>1、年检予以通过</Option>
                                                                         <Option key="7" value={7}>2、年检不予通过</Option>
                                                                         <Option key="7" value={8}>3、资料填写有误，请重新填写</Option>

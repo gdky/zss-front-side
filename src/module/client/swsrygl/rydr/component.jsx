@@ -137,7 +137,7 @@ handleSubmit(ry){
         let tabConst = <div style={{textAlign:'center'}}>
                     <p className="nbjgsz">
                         <span style={{'color':'red',fontSize:'large'}}>*</span>
-                        {tabk==1||tabk==3?"证书编号：":tabk==5?"非执业注册编号：":"姓名："}<Input style={{width:'215px'}} { ...getFieldProps("xming", { rules: [{ required: true}]})}/>
+                        {tabk==1||tabk==3?"执业注册（备案）编号：":tabk==5?"非执业注册编号：":"姓名："}<Input style={{width:'215px'}} { ...getFieldProps("xming", { rules: [{ required: true}]})}/>
                     </p>
                     <p style={{padding:'20px'}}>
                         <span style={{'color':'red',fontSize:'large'}}>*</span>

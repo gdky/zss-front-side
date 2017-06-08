@@ -50,7 +50,7 @@ const wspcx = React.createClass({
                         <td>{data.XMING}</td>
                         <td >性别：&nbsp; &nbsp; &nbsp; {data.xb}</td>          
                         <td >  年度：{data.nd}</td>                        
-                        <td rowSpan="5" colSpan="2"></td>                      
+                        <td rowSpan="5" colSpan="2">{!data.XPIAN? <p>未上传相片</p> : <img src={data.XPIAN} style={{padding:"5px",width:"138px",height:"170px"}}/>}</td>                      
                    </tr>
                     <tr>
                         <td >出生年月：</td>
@@ -241,13 +241,14 @@ const wspcx = React.createClass({
                 
                 <tr>   
                     <td >年检总结：</td>
-                    <td className="jgnjnjzj" colSpan="4" ><Input type="textarea"  value={data.ZJ} disabled autosize /></td>
-                    <td colSpan="3"></td>
+                    <td className="jgnjnjzj" colSpan="5" ><Input type="textarea"  value={data.ZJ} disabled autosize /></td>
                 </tr>
                  <tr>   
-                    <td >负责人意见：</td>
-                    <td className="jgnjnjzj" colSpan="4" ><Input type="textarea"  value={data.SWSFZRYJ} disabled autosize /></td>
-                    <td colSpan="4">时间：{data.SWSFZRSJ} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 负责人签名：{data.SWSFZR}</td>
+                    <td rowSpan="2" >负责人意见：</td>
+                    <td className="jgnjnjzj" colSpan="5" ><Input type="textarea"  value={data.SWSFZRYJ} disabled autosize /></td>
+                </tr>
+                <tr>
+                <td colSpan="5"><Col span="12"><b>签名时间：</b>{data.SWSFZRSJ} </Col> <Col offspan="6"><b>负责人签名：</b>{data.SWSFZR}</Col></td>
                 </tr>
                 </tbody>
             </table> 

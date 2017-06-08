@@ -33,6 +33,10 @@ const wspcx = React.createClass({
                                       <td><b>注销类别：</b></td>
                                       <td >{this.state.entity.zxyy}</td>
                                     </tr>
+                                    <tr>
+                                        <td ><b>附件：</b></td>
+                                        <td>{!!this.state.entity.FJURL&&<a href={this.state.entity.FJURL} target="_blank" ><Icon type="paper-clip" />&nbsp;{this.state.entity.FJNAME}</a>}</td>
+                                    </tr>
                                    </tbody>
                  </table> </div>
         return <div className="wspxm-spsh">

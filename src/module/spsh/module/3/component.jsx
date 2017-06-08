@@ -39,11 +39,15 @@ const wspcx = React.createClass({
                             </tr>
                             <tr>
                                 <td ><b>合并时间：</b></td>
-                                <td>{obj.HBSJ}</td>
+                                <td>{obj.HBSJFMT}</td>
                             </tr>
                             <tr>
                                 <td ><b>申请人：</b></td>
                                 <td>{obj.SQR}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>附件：</b></td>
+                                <td>{!!obj.FJURL&&<a href={obj.FJURL} target="_blank" ><Icon type="paper-clip" />&nbsp;{obj.FJNAME}</a>}</td>
                             </tr>
                             </tbody>
                       </table> </div>

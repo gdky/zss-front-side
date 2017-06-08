@@ -10,7 +10,7 @@ import Model from './model.js'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/jgsxx/';
-const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jgbg/';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/checkSWSSP';
 const API_URL_P = config.HOST + config.URI_API_PROJECT + '/spapi/fspsq/jgbgsq';
 const API_URL_S = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgbgsq';
 const ToolBar = Panel.ToolBar;
@@ -118,7 +118,7 @@ const swsbgsq = React.createClass({
     },
         fetchSPing(){
         return req({
-            url: API_URL_C+auth.getJgid(),
+            url: API_URL_C,
             type: 'json',
             method: 'get',
             headers:{'x-auth-token':auth.getToken()}
@@ -169,7 +169,7 @@ const swsbgsq = React.createClass({
                 {this.state.helper && <Alert message="变更备案申请帮助" description={helper} type="info" closable onClose={this.handleHelperClose}/>}
                 <Spin spinning={this.state.sloading}>
                     <Panel title="事务所信息变更" toolbar={toolbar}>
-                       {!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所变更审批中，无法进行变更操作</h3>}
+                       {!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所存在审批中事项，请等待中心完成审核后再进行操作</h3>}
                            <DetailBoxPT data={this.state.entity} nbjgsz={Model.nbjgsz} nbTitle="内部机构设置：" 
                                 nbsj={this.state.entity.nbjgsz} check={!this.state.checked} onSubmit={this.handlePTSubmit} 
                                 submitLoading={this.state.sPLoading}/>
