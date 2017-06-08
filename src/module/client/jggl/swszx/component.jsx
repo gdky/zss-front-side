@@ -8,7 +8,7 @@ import Upload from 'component/uploadFile'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgzxsq';
-const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/checkSWSSP';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/checkBeforeDelete';
 const createForm = Form.create;
 const Option = Select.Option;
 let swszxP = React.createClass({
@@ -121,7 +121,8 @@ getInitialState(){
                                                     </tr>
                                                     <tr >
                                                             <td ></td>
-                                                            <td ><p style={{'color':'red'}}>*省管理中心审核通过后，事务所将不存在，不能再登录系统</p>
+                                                            <td ><p style={{'color':'red'}}>*机构及机构内税务师均不存在审批中事项方可进行注销；</p>
+                                                            <p style={{'color':'red'}}>*省管理中心审核通过后，事务所将不存在，不能再登录系统</p>
                                                                     <Button style={{float:'right'}} type="primary" disabled={this.state.checked} oading={this.state.sqLoading} htmlType="submit" >提交</Button>
                                                             </td>
                                                     </tr>

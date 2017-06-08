@@ -114,6 +114,10 @@ getInitialState(){
                         Modal.error({
                             title: '新机构名称已存在',
                         });
+                    }else if(resp.re=="F"){
+                        Modal.error({
+                            title: '所选合并事务所内执业税务师存在审批中事项',
+                        });
                     }else{
                         ls.fjURL=this.refs.uploadFile.getURL();
                         ls.fjName=this.refs.uploadFile.getFileName();
