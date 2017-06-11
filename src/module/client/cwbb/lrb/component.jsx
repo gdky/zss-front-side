@@ -251,8 +251,6 @@ const lrb = React.createClass({
             + Number(f.tzhd_xjlr_czzc ? f.tzhd_xjlr_czzc : 0)
             + Number(f.tzhd_xjlr_qttz ? f.tzhd_xjlr_qttz : 0);
 
-        console.log(f)
-
         this.setState({ fileds: f });
     },
 
