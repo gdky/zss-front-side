@@ -193,12 +193,13 @@ const lrb = React.createClass({
             let entity = cloneDeep(resp);
             entity = entityFormat(entity, entityModel);
             let fs = {};
-            for (var key in resp) {
-                let num = resp[key];
-                if (key == "ND") {
-                    num = num + "";
+            for (let prop in resp) {
+                if (resp[prop] != null) {
+                    if (prop == 'ND') {
+                        resp[prop] = resp[prop] + ''
+                    }
+                    fs[prop] = { value: resp[prop] }
                 }
-                fs[key] = num;
             }
             this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
