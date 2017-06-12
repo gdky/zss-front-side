@@ -289,7 +289,7 @@ let Updatelrb = React.createClass({
    */ },
 
     checkNd(rule, value, callback) {
-        const lrbid = this.props.data.ID;
+        const lrbid = this.props.data.id.value;
         const timevalue = this.props.form.getFieldValue('timevalue');
         const where = { nd: value, timevalue: timevalue, lrbid: lrbid };
         const params = { where: encodeURIComponent(JSON.stringify(where)) };
@@ -326,7 +326,7 @@ let Updatelrb = React.createClass({
     },
 
     checkTimevalue(rule, value, callback) {
-        const lrbid = this.props.data.ID;
+        const lrbid = this.props.data.id.value;
         let message = "";
         if (value == "0") {
             message = "该年度的上半年的利润表记录已存在";
@@ -393,7 +393,8 @@ let Updatelrb = React.createClass({
             wrapperCol: { span: 12 },
         };
         const data = this.props.data;
-        console.log(data)
+        console.log(getFieldProps('dwmc'))
+        
         return <div className="add">
             {this.state.helper && <Alert message="利润表检索查询帮助"
                 description={helper}
@@ -418,8 +419,7 @@ let Updatelrb = React.createClass({
                                     <tbody>
                                         <tr>
                                             <td>单位：</td>
-                                            {/*<td>{getFieldProps('DWMC')}</td>*/}
-                                            <td></td>
+                                            <td colSpan="2">{getFieldProps('dwmc').value}</td>
                                             <td>时间</td>
                                             <td>
                                                 <FormItem required>
@@ -444,12 +444,12 @@ let Updatelrb = React.createClass({
                                             <td>1</td>
                                             <td >
                                                 <FormItem required>
-                                                    <InputNumber max={9999999999.99}  {...getFieldProps('ZGYWSR1', {rules: [{ required: true, type: 'number',message: "必填" }] }) }/>
+                                                    <InputNumber max={9999999999.99}  {...getFieldProps('zgywsr1', {rules: [{ required: true, type: 'number',message: "必填" }] }) } style={{width: '10em'}}/>
                                                 </FormItem>
                                             </td>
                                             <td colSpan="2">
                                                 <FormItem required>
-                                                    <InputNumber max={9999999999.99} {...getFieldProps('zgywsr', {rules: [{ required: true, type: 'number',message: "必填" }] }) }/>
+                                                    <InputNumber max={9999999999.99} {...getFieldProps('zgywsr', {rules: [{ required: true, type: 'number',message: "必填" }] }) } style={{width: '10em'}}/>
                                                 </FormItem>
                                             </td>
                                         </tr>
@@ -457,95 +457,95 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：主营业务成本</td>
                                             <td>2</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywcb1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('zgywcb1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywcb') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('zgywcb') }/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">主营业务税金及附加</td>
                                             <td>3</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywsj1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('zgywsj1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('zgywsj') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('zgywsj') }/>
                                             </td>
                                         </tr>
                                         
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">二、主营业务利润（亏损以“—”号填列）</td>
                                             <td>4</td>
-                                            <td > <InputNumber max={9999999999.99} {...getFieldProps('zgwylr1') } disabled /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zgwylr') } disabled /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('zgwylr1') } disabled /></td>
+                                            <td colSpan="2"> <InputNumber style={{width: '10em'}} max={9999999999.99}   {...getFieldProps('zgwylr') } disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">加：其它业务利润（亏损以“—”号填列）</td>
                                             <td>5</td>
                                             <td >
-                                                <InputNumber max={9999999999.99} {...getFieldProps('qtywlr1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('qtywlr1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('qtywlr') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('qtywlr') }/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ textAlign: 'center' }} colSpan="3">减：营业费用</td>
+                                            <td style={{ textAlign: 'center' }}  colSpan="3">减：营业费用</td>
                                             <td>6</td>
                                             <td >
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yyfy1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yyfy1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yyfy') } />
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yyfy') } />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">管理费用</td>
                                             <td>7</td>
                                             <td >
-                                                <InputNumber max={9999999999.99} {...getFieldProps('glfy1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('glfy1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('glfy') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('glfy') }/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">财务费用</td>
                                             <td>8</td>
                                             <td >
-                                                <InputNumber max={9999999999.99} {...getFieldProps('cwfy1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('cwfy1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('cwfy') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('cwfy') }/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">三、营业利润（亏损以“—”号填列）</td>
                                             <td>9</td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('yylr1') } disabled /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('yylr') } disabled /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}   {...getFieldProps('yylr1') } disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('yylr') } disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">加：投资收益（损失以“—”号填列）</td>
                                             <td>10</td>
                                             <td >
-                                                <InputNumber max={9999999999.99} {...getFieldProps('tzsy1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('tzsy1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('tzsy') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('tzsy') }/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">补贴收入</td>
                                             <td>11</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('btsr1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('btsr1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('btsr') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('btsr') }/>
                                             </td>
                                         </tr>
 
@@ -553,10 +553,10 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">营业外收入</td>
                                             <td>12</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yywsr1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yywsr1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yywsr') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yywsr') }/>
                                             </td>
                                         </tr>
 
@@ -564,36 +564,36 @@ let Updatelrb = React.createClass({
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：营业外支出</td>
                                             <td>13</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yywzc1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yywzc1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('yywzc') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('yywzc') }/>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">四、利润总额（亏损总额以“—”号填列）</td>
                                             <td>14</td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('lrze1') } disabled /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('lrze') }  disabled /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('lrze1') } disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('lrze') }  disabled /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">减：所得税</td>
                                             <td>15</td>
                                             <td>
-                                                <InputNumber max={9999999999.99} {...getFieldProps('sds1') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('sds1') }/>
                                             </td>
                                             <td colSpan="2">
-                                                <InputNumber max={9999999999.99} {...getFieldProps('sds') }/>
+                                                <InputNumber max={9999999999.99} style={{width: '10em'}} {...getFieldProps('sds') }/>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">五、净利润（亏损以“—”号填列）</td>
                                             <td>16</td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('jlr1') }  disabled /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('jlr') }  disabled /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('jlr1') }  disabled /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('jlr') }  disabled /></td>
                                         </tr>
 
                                         <tr>
@@ -612,43 +612,43 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">1、出售、处置部门或被投资单位所得收益</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('csczsy1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('csczsy') }  /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('csczsy1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('csczsy') }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">2、自然灾害发生的损失</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zhss1') }  /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zhss') }  /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zhss1') }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zhss') }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">3、会计政策变更增加（或减少）利润总额</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zcbglr1') }  /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zcbglr') }  /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zcbglr1') }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zcbglr') }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">4、会计估计变更增加（或减少）利润总额</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('gjbglr1') }  /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('gjbglr') }  /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('gjbglr1') }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('gjbglr') }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">5、债务重组损失</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('zwczss1') }   /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('zwczss') }  /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zwczss1') }   /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('zwczss') }  /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="3">6、其它</td>
                                             <td></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('qt1') }  /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('qt') }   /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('qt1') }  /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('qt') }   /></td>
                                         </tr>
 
                                         <tr>
@@ -661,65 +661,65 @@ let Updatelrb = React.createClass({
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理税务登记收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlswdjhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlswdjsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlswdjsr') } /></td>
+                                            <td > <InputNumber max={99999999}  {...getFieldProps('dlswdjhs') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlswdjsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlswdjsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理纳税申报收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlnssbhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlnssbsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlnssbsr') } /></td>
+                                            <td > <InputNumber max={99999999} {...getFieldProps('dlnssbhs') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlnssbsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlnssbsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理纳税审查收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber max={99999999}   {...getFieldProps('dlnsschs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlnsscsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlnsscsr') } /></td>
+                                            <td > <InputNumber max={99999999}  {...getFieldProps('dlnsschs') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlnsscsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlnsscsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理建帐建制收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber max={99999999}   {...getFieldProps('dljzjzhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dljzjzsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dljzjzsr') } /></td>
+                                            <td > <InputNumber max={99999999} {...getFieldProps('dljzjzhs') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dljzjzsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dljzjzsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">受聘顾问咨询收入</td>
                                             <td>户数</td>
-                                            <td > <InputNumber max={99999999}   {...getFieldProps('spgwzxhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('spgwzxsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('spgwzxsr') } /></td>
+                                            <td > <InputNumber max={99999999} {...getFieldProps('spgwzxhs') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('spgwzxsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('spgwzxsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">代理申请税务复议收入</td>
                                             <td>户数</td>
                                             <td > <InputNumber max={99999999}   {...getFieldProps('dlsqswfyhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('dlsqswfysr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('dlsqswfysr') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlsqswfysr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('dlsqswfysr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">培训收入</td>
                                             <td>户数</td>
                                             <td > <InputNumber max={99999999}   {...getFieldProps('pxhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('pxsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('pxsr') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('pxsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('pxsr') } /></td>
                                         </tr>
 
                                         <tr>
                                             <td style={{ textAlign: 'center' }} colSpan="2">其它主营业务收入</td>
                                             <td>户数</td>
                                             <td > <InputNumber max={99999999}   {...getFieldProps('qtzyywsrhs') } /></td>
-                                            <td > <InputNumber max={9999999999.99}   {...getFieldProps('qtzyywsr1') } /></td>
-                                            <td colSpan="2"> <InputNumber max={9999999999.99}   {...getFieldProps('qtzyywsr') } /></td>
+                                            <td > <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('qtzyywsr1') } /></td>
+                                            <td colSpan="2"> <InputNumber max={9999999999.99} style={{width: '10em'}}  {...getFieldProps('qtzyywsr') } /></td>
                                         </tr>
                                         <tr>
                                             <td colSpan="2">

@@ -13,6 +13,7 @@ import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
+import { mapKeys } from 'lodash'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
@@ -198,9 +199,10 @@ const lrb = React.createClass({
                     if (prop == 'ND') {
                         resp[prop] = resp[prop] + ''
                     }
-                    fs[prop] = { value: resp[prop] }
+                    fs[prop.toLowerCase()] = { value: resp[prop] }
                 }
             }
+
             this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
@@ -227,31 +229,47 @@ const lrb = React.createClass({
             </span>
         )
     },
-    dealWithChanged(key, value) {
+    toNum(param) {
+        return typeof param == 'number' ? param : 0
+    },
+    dealWithChanged(field) {
         let f = this.state.fileds;
-        f[key] = value;
+        for (let prop in field) {
+            f[prop] = field[prop]
+        }
         //【1行-2行-3行=4行】
-        f.zgwylr1 = Number(f.zgywsr1 ? f.zgywsr1 : 0)
-            - Number(f.zgywcb1 ? f.zgywcb1 : 0)
-            - Number(f.zgywsj1 ? f.zgywsj1 : 0);
-        f.zgwylr = Number(f.zgywsr ? f.zgywsr : 0)
-            - Number(f.zgywcb ? f.zgywcb : 0)
-            - Number(f.zgywsj ? f.zgywsj : 0);
+        f.zgwylr1.value = this.toNum(f.zgywsr1.value)
+            - this.toNum(f.zgywcb1.value) - this.toNum(f.zgywsj1.value);
+        f.zgwylr.value = this.toNum(f.zgywsr.value)
+            - this.toNum(f.zgywcb.value) - this.toNum(f.zgywsj.value);
 
         //【4行+5行-6行-7行-8行=9行】
-        f.jyhd_xjlc_xj = Number(f.jyhd_xjlc_gmlw ? f.jyhd_xjlc_gmlw : 0)
-            + Number(f.jyhd_xjlc_zfzg ? f.jyhd_xjlc_zfzg : 0)
-            + Number(f.jyhd_xjlc_sf ? f.jyhd_xjlc_sf : 0)
-            + Number(f.jyhd_xjlc_qtjy ? f.jyhd_xjlc_qtjy : 0);
+        f.yylr1.value = this.toNum(f.zgwylr1.value)
+            + this.toNum(f.qtywlr1.value)
+            - this.toNum(f.yyfy1.value)
+            - this.toNum(f.glfy1.value)
+            - this.toNum(f.cwfy1.value);
+        f.yylr.value = this.toNum(f.zgwylr.value)
+            + this.toNum(f.qtywlr.value)
+            - this.toNum(f.yyfy.value)
+            - this.toNum(f.glfy.value)
+            - this.toNum(f.cwfy.value);
         //【9行+10行+11行+12行-13行=14行】
-        f.jyhd_je = Number(f.jyhd_xjlr_xj ? f.jyhd_xjlr_xj : 0)
-            - Number(f.jyhd_xjlc_xj ? f.jyhd_xjlc_xj : 0);
+        f.lrze1.value = this.toNum(f.yylr1.value)
+            + this.toNum(f.tzsy1.value)
+            + this.toNum(f.btsr1.value)
+            + this.toNum(f.yywsr1.value)
+            - this.toNum(f.yywzc1.value);
+        f.lrze.value = this.toNum(f.yylr.value)
+            + this.toNum(f.tzsy.value)
+            + this.toNum(f.btsr.value)
+            + this.toNum(f.yywsr.value)
+            - this.toNum(f.yywzc.value);
         //【14行-15行=16行】
-        f.tzhd_xjlr_xj = Number(f.tzhd_xjlr_shtz ? f.tzhd_xjlr_shtz : 0)
-            + Number(f.tzhd_xjlr_tzsy ? f.tzhd_xjlr_tzsy : 0)
-            + Number(f.tzhd_xjlr_czzc ? f.tzhd_xjlr_czzc : 0)
-            + Number(f.tzhd_xjlr_qttz ? f.tzhd_xjlr_qttz : 0);
-
+        f.jlr1.value = this.toNum(f.lrze1.value)
+            - this.toNum(f.sds1.value);
+        f.jlr.value = this.toNum(f.lrze.value)
+            - this.toNum(f.sds.value);
         this.setState({ fileds: f });
     },
 
