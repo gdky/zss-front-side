@@ -33,12 +33,11 @@ let Updatelrb = React.createClass({
             }
         }
         value.ztbj = ztbj;
-        value.id = obj.ID;
+        value.id = obj.id.value;
         this.props.form.validateFields((errors, values) => {
             if (errors) {
                 return;
             } else {
-                console.log(value)
                 this.props.onSubmit(value);
             }
         });
@@ -60,233 +59,6 @@ let Updatelrb = React.createClass({
             },
         });
     },
-
-    handleInputChange(e) {
-        /*let changeField = e.target.id;
-        let value = e.target.value;
-        let entity = this.props.form.getFieldsValue();
-        let zgywsr1 = 0;//本月数第1行
-        let zgywcb1 = 0;
-        let zgywsj1 = 0;
-        let zgwylr1 = 0;//第4行
-        let qtywlr1 = 0;
-        let yyfy1 = 0;
-        let glfy1 = 0;
-        let cwfy1 = 0;
-        let yylr1 = 0;//第9行
-        let tzsy1 = 0;
-        let btsr1 = 0;
-        let yywsr1 = 0;
-        let yywzc1 = 0;
-        let lrze1 = 0;//第14行
-        let sds1 = 0;
-        let jlr1 = 0;//第16行
-
-        let zgywsr = 0;//本年累计数第1行
-        let zgywcb = 0;
-        let zgywsj = 0;
-        let zgwylr = 0;//第4行
-        let qtywlr = 0;
-        let yyfy = 0;
-        let glfy = 0;
-        let cwfy = 0;
-        let yylr = 0;//第9行
-        let tzsy = 0;
-        let btsr = 0;
-        let yywsr = 0;
-        let yywzc = 0;
-        let lrze = 0;//第14行
-        let sds = 0;
-        let jlr = 0;//第16行
-
-        //本月数
-        if (entity.zgywsr1) {
-            zgywsr1 = entity.zgywsr1;
-        }
-        if (entity.zgywcb1) {
-            zgywcb1 = entity.zgywcb1;
-        }
-        if (entity.zgywsj1) {
-            zgywsj1 = entity.zgywsj1;
-        }
-        //第5行
-        if (entity.qtywlr1) {
-            qtywlr1 = entity.qtywlr1;
-        }
-        if (entity.yyfy1) {
-            yyfy1 = entity.yyfy1;
-        }
-        if (entity.glfy1) {
-            glfy1 = entity.glfy1;
-        }
-        if (entity.cwfy1) {
-            cwfy1 = entity.cwfy1;
-        }
-        //第10行
-        if (entity.tzsy1) {
-            tzsy1 = entity.tzsy1;
-        }
-        if (entity.btsr1) {
-            btsr1 = entity.btsr1;
-        }
-        if (entity.yywsr1) {
-            yywsr1 = entity.yywsr1;
-        }
-        if (entity.yywzc1) {
-            yywzc1 = entity.yywzc1;
-        }
-        //第15行
-        if (entity.sds1) {
-            sds1 = entity.sds1;
-        }
-
-        //本年累计数
-        if (entity.zgywsr) {
-            zgywsr = entity.zgywsr;
-        }
-        if (entity.zgywcb) {
-            zgywcb = entity.zgywcb;
-        }
-        if (entity.zgywsj) {
-            zgywsj = entity.zgywsj;
-        }
-        //第5行
-        if (entity.qtywlr) {
-            qtywlr = entity.qtywlr;
-        }
-        if (entity.yyfy) {
-            yyfy = entity.yyfy;
-        }
-        if (entity.glfy) {
-            glfy = entity.glfy;
-        }
-        if (entity.cwfy) {
-            cwfy = entity.cwfy;
-        }
-        //第10行
-        if (entity.tzsy) {
-            tzsy = entity.tzsy;
-        }
-        if (entity.btsr) {
-            btsr = entity.btsr;
-        }
-        if (entity.yywsr) {
-            yywsr = entity.yywsr;
-        }
-        if (entity.yywzc) {
-            yywzc = entity.yywzc;
-        }
-        //第15行
-        if (entity.sds) {
-            sds = entity.sds;
-        }
-
-        if (changeField == "zgywsr1") {//本月数
-            zgywsr1 = value;
-            this.props.form.setFieldsValue({ zgywsr1: value });
-        } else if (changeField == "zgywcb1") {
-            zgywcb1 = value;
-            this.props.form.setFieldsValue({ zgywcb1: value });
-        } else if (changeField == "zgywsj1") {
-            zgywsj1 = value;
-            this.props.form.setFieldsValue({ zgywsj1: value });
-        } else if (changeField == "qtywlr1") {//第5行
-            qtywlr1 = value;
-            this.props.form.setFieldsValue({ qtywlr1: value });
-        } else if (changeField == "yyfy1") {
-            yyfy1 = value;
-            this.props.form.setFieldsValue({ yyfy1: value });
-        } else if (changeField == "glfy1") {
-            glfy1 = value;
-            this.props.form.setFieldsValue({ glfy1: value });
-        } else if (changeField == "cwfy1") {
-            cwfy1 = value;
-            this.props.form.setFieldsValue({ cwfy1: value });
-        } else if (changeField == "tzsy1") {//第10行
-            tzsy1 = value;
-            this.props.form.setFieldsValue({ tzsy1: value });
-        } else if (changeField == "btsr1") {
-            btsr1 = value;
-            this.props.form.setFieldsValue({ btsr1: value });
-        } else if (changeField == "yywsr1") {
-            yywsr1 = value;
-            this.props.form.setFieldsValue({ yywsr1: value });
-        } else if (changeField == "yywzc1") {
-            yywzc1 = value;
-            this.props.form.setFieldsValue({ yywzc1: value });
-        } else if (changeField == "sds1") {//第15行
-            sds1 = value;
-            this.props.form.setFieldsValue({ sds1: value });
-        } else if (changeField == "zgywsr") {//本年数
-            zgywsr = value;
-            this.props.form.setFieldsValue({ zgywsr: value });
-        } else if (changeField == "zgywcb") {
-            zgywcb = value;
-            this.props.form.setFieldsValue({ zgywcb: value });
-        } else if (changeField == "zgywsj") {
-            zgywsj = value;
-            this.props.form.setFieldsValue({ zgywsj: value });
-        } else if (changeField == "qtywlr") {//第5行
-            qtywlr = value;
-            this.props.form.setFieldsValue({ qtywlr: value });
-        } else if (changeField == "yyfy") {
-            yyfy = value;
-            this.props.form.setFieldsValue({ yyfy: value });
-        } else if (changeField == "glfy") {
-            glfy = value;
-            this.props.form.setFieldsValue({ glfy: value });
-        } else if (changeField == "cwfy") {
-            cwfy = value;
-            this.props.form.setFieldsValue({ cwfy: value });
-        } else if (changeField == "tzsy") {//第10行
-            tzsy = value;
-            this.props.form.setFieldsValue({ tzsy: value });
-        } else if (changeField == "btsr") {
-            btsr = value;
-            this.props.form.setFieldsValue({ btsr: value });
-        } else if (changeField == "yywsr") {
-            yywsr = value;
-            this.props.form.setFieldsValue({ yywsr: value });
-        } else if (changeField == "yywzc") {
-            yywzc = value;
-            this.props.form.setFieldsValue({ yywzc: value });
-        } else if (changeField == "sds") {//第15行
-            sds = value;
-            this.props.form.setFieldsValue({ sds: value });
-        };
-
-        //本月数
-        if (!zgwylr1) zgwylr1 = "0";
-        if (!qtywlr1) qtywlr1 = "0";
-        if (!yylr1) yylr1 = "0";
-        if (!tzsy1) tzsy1 = "0";
-        if (!btsr1) btsr1 = "0";
-        if (!yywsr1) yywsr1 = "0";
-        zgwylr1 = zgywsr1 - zgywcb1 - zgywsj1;
-        yylr1 = parseFloat(zgwylr1) + parseFloat(qtywlr1) - yyfy1 - glfy1 - cwfy1;
-        lrze1 = parseFloat(yylr1) + parseFloat(tzsy1) + parseFloat(btsr1) + parseFloat(yywsr1) - yywzc1;
-        jlr1 = lrze1 - sds1;
-        this.props.form.setFieldsValue({ zgwylr1: zgwylr1 });//第4行
-        this.props.form.setFieldsValue({ yylr1: yylr1 });//第9行
-        this.props.form.setFieldsValue({ lrze1: lrze1 });//第14行
-        this.props.form.setFieldsValue({ jlr1: jlr1 });//第16行
-
-        //本年累计数
-        if (!zgwylr) zgwylr = "0";
-        if (!qtywlr) qtywlr = "0";
-        if (!yylr) yylr = "0";
-        if (!tzsy) tzsy = "0";
-        if (!btsr) btsr = "0";
-        if (!yywsr) yywsr = "0";
-        zgwylr = zgywsr - zgywcb - zgywsj;
-        yylr = parseFloat(zgwylr) + parseFloat(qtywlr) - yyfy - glfy - cwfy;
-        lrze = parseFloat(yylr) + parseFloat(tzsy) + parseFloat(btsr) + parseFloat(yywsr) - yywzc;
-        jlr = lrze - sds;
-        this.props.form.setFieldsValue({ zgwylr: zgwylr });//第4行
-        this.props.form.setFieldsValue({ yylr: yylr });//第9行
-        this.props.form.setFieldsValue({ lrze: lrze });//第14行
-        this.props.form.setFieldsValue({ jlr: jlr });//第16行
-   */ },
 
     checkNd(rule, value, callback) {
         const lrbid = this.props.data.id.value;
@@ -393,7 +165,6 @@ let Updatelrb = React.createClass({
             wrapperCol: { span: 12 },
         };
         const data = this.props.data;
-        console.log(getFieldProps('dwmc'))
         
         return <div className="add">
             {this.state.helper && <Alert message="利润表检索查询帮助"
