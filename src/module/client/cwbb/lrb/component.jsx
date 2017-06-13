@@ -13,6 +13,7 @@ import config from 'common/configuration'
 import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
+import { mapKeys } from 'lodash'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/add/lrb';
@@ -190,17 +191,19 @@ const lrb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            let entity=cloneDeep(resp);
+            let entity = cloneDeep(resp);
             entity = entityFormat(entity, entityModel);
             let fs = {};
-            for (var key in resp) {
-                let num = resp[key];
-                if(key=="ND"){
-                    num=num+"";
-                } 
-                fs[key] = num;
+            for (let prop in resp) {
+                if (resp[prop] != null) {
+                    if (prop == 'ND') {
+                        resp[prop] = resp[prop] + ''
+                    }
+                    fs[prop.toLowerCase()] = { value: resp[prop] }
+                }
             }
-            this.setState({ entity: entity,fileds:fs, dataLoading: false });
+
+            this.setState({ entity: entity, fileds: fs, dataLoading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -226,14 +229,62 @@ const lrb = React.createClass({
             </span>
         )
     },
+    toNum(param) {
+        return typeof param == 'number' ? param : 0
+    },
+    dealWithChanged(field,lx) {
+        let f = this.state.fileds;
+        for (let prop in field) {
+            f[prop] = field[prop]
+        }
+        //【1行-2行-3行=4行】
+        f.zgwylr1.value = this.toNum(f.zgywsr1.value)
+            - this.toNum(f.zgywcb1.value) - this.toNum(f.zgywsj1.value);
+        f.zgwylr.value = this.toNum(f.zgywsr.value)
+            - this.toNum(f.zgywcb.value) - this.toNum(f.zgywsj.value);
+
+        //【4行+5行-6行-7行-8行=9行】
+        f.yylr1.value = this.toNum(f.zgwylr1.value)
+            + this.toNum(f.qtywlr1.value)
+            - this.toNum(f.yyfy1.value)
+            - this.toNum(f.glfy1.value)
+            - this.toNum(f.cwfy1.value);
+        f.yylr.value = this.toNum(f.zgwylr.value)
+            + this.toNum(f.qtywlr.value)
+            - this.toNum(f.yyfy.value)
+            - this.toNum(f.glfy.value)
+            - this.toNum(f.cwfy.value);
+        //【9行+10行+11行+12行-13行=14行】
+        f.lrze1.value = this.toNum(f.yylr1.value)
+            + this.toNum(f.tzsy1.value)
+            + this.toNum(f.btsr1.value)
+            + this.toNum(f.yywsr1.value)
+            - this.toNum(f.yywzc1.value);
+        f.lrze.value = this.toNum(f.yylr.value)
+            + this.toNum(f.tzsy.value)
+            + this.toNum(f.btsr.value)
+            + this.toNum(f.yywsr.value)
+            - this.toNum(f.yywzc.value);
+        //【14行-15行=16行】
+        f.jlr1.value = this.toNum(f.lrze1.value)
+            - this.toNum(f.sds1.value);
+        f.jlr.value = this.toNum(f.lrze.value)
+            - this.toNum(f.sds.value);
+        this.setState({ fileds: f });
+    },
+    getFormEntity(entity){
+        this.setState({fileds:entity});
+    },
 
     render() {
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'nd', key: 'nd' },
+            { title: '性质', key: 'TIMEVALUE', dataIndex: 'TIMEVALUE' },
             { title: '机构名称', dataIndex: 'DWMC', key: 'DWMC' },
             { title: '自检时间', dataIndex: 'zjrq', key: 'zjrq' },
             { title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ' },
+            
             {
                 title: '操作',
                 key: 'operation',
@@ -301,8 +352,10 @@ const lrb = React.createClass({
                 {this.state.views == 1 &&
                     <Add
                         onSubmit={this.handleSubmit.bind(this, 'add')}
-                        data={this.state.data}
+                        getFormEntity={this.getFormEntity}
+                        data={this.state.fileds}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
                 {this.state.views == 2 &&
@@ -311,6 +364,7 @@ const lrb = React.createClass({
                         data={this.state.fileds}
                         loading={this.state.dataLoading}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
             </div>

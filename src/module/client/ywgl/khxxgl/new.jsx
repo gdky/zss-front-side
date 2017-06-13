@@ -94,12 +94,13 @@ let EditForm = React.createClass({
             updateAction[this.props.type](value).then(resp => {
                 this.setFinished(true);
                 this.props.form.resetFields();
-                if(resp.code == '200'){
+                if(resp.code == '200' || resp.code =='201'){
                     notification.success({
                         duration: 2,
                         message: '修改成功',
                         description: '客户信息已保存'
                     });
+                    this.props.refresh();
                 }else {
                     notification.error({
                         duration: 10,
@@ -109,7 +110,7 @@ let EditForm = React.createClass({
                 }
 
             }).fail(e => {
-                message.error('网络访问故障');
+                message.error('网络故障');
             });
         })
 

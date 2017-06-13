@@ -1,11 +1,11 @@
 import React from 'react'
-import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon} from 'antd'
+import {Table,Col,Row,Tree,Tabs,Modal,Button,Spin,notification,Icon,message} from 'antd'
 import Panel from 'component/compPanel'
 import config from 'common/configuration'
 import {SelectorDQ,SelectorCS} from 'component/compSelector'
 import SearchForm from './searchForm.jsx'
 import model from './model.jsx'
-import req from 'reqwest'
+import req from 'common/request'
 import auth from 'common/auth.js'
 import {jsonCopy} from 'common/utils.js'
 
@@ -28,9 +28,9 @@ const khxxList = React.createClass({
             pagination: {
                 current: 1,
                 showSizeChanger: true,
-                pageSize: 10,
+                pageSize: 6,
                 showQuickJumper: true,
-                pageSizeOptions: ['5', '10', '20']
+                pageSizeOptions: ['6', '10', '20']
 
             }
         }
@@ -39,15 +39,12 @@ const khxxList = React.createClass({
     fetchCustomers(param = {page: 1, pageSize: 10}){
         const CUSTOMER_URL = config.HOST + config.URI_API_PROJECT + '/customers';
         const jid = auth.getJgid();
-        const token = auth.getToken();
         param.jid = jid;
 
         return req({
             url: CUSTOMER_URL,
             method: 'get',
-            type: 'json',
             data: param,
-            headers:{'x-auth-token':token}
         })
     },
 
@@ -148,9 +145,7 @@ const khxxList = React.createClass({
         req({
             url:CUSTOMER_URL + '/' +record.ID,
             method:'delete',
-            type:'json',
             data: JSON.stringify(record),
-            headers:{'x-auth-token':token}
         }).then(resp=>{
             notification.success({
                 duration: 2,
@@ -158,12 +153,8 @@ const khxxList = React.createClass({
                 description: '客户信息已更新'
             });
             this.handleRefresh();
-        }).fail(e=>{
-            notification.error({
-                duration: 2,
-                message: '操作失败',
-                description: '可能网络访问原因，请稍后尝试'
-            });
+        }).catch(e=>{
+            message.error('网络故障');
         })
     },
 
