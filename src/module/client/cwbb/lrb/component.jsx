@@ -232,7 +232,7 @@ const lrb = React.createClass({
     toNum(param) {
         return typeof param == 'number' ? param : 0
     },
-    dealWithChanged(field) {
+    dealWithChanged(field,lx) {
         let f = this.state.fileds;
         for (let prop in field) {
             f[prop] = field[prop]
@@ -271,6 +271,9 @@ const lrb = React.createClass({
         f.jlr.value = this.toNum(f.lrze.value)
             - this.toNum(f.sds.value);
         this.setState({ fileds: f });
+    },
+    getFormEntity(entity){
+        this.setState({fileds:entity});
     },
 
     render() {
@@ -347,8 +350,10 @@ const lrb = React.createClass({
                 {this.state.views == 1 &&
                     <Add
                         onSubmit={this.handleSubmit.bind(this, 'add')}
-                        data={this.state.data}
+                        getFormEntity={this.getFormEntity}
+                        data={this.state.fileds}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
                 {this.state.views == 2 &&

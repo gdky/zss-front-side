@@ -540,7 +540,7 @@ Updatelrb = Form.create({
         return props.data
     },
     onFieldsChange(props,field){
-        props.changed(field)
+        props.changed(field,'update')
     }
 })(Updatelrb);
 
