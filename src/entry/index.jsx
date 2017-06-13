@@ -62,7 +62,7 @@ const Index = React.createClass({
                 require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
                 require('../module/jggl/swsbgqktj'),
-/*
+
 
                 //人员管理
                 require('../module/rygl/rycx'),
@@ -212,13 +212,13 @@ const Index = React.createClass({
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
                 require('../module/client/swsrygl/rydr'),
-               */// 财务报表上传
+               // 财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
                 require('../module/client/cwbb/xjllb'),
                 require('../module/client/cwbb/zcfzb'),
                 require('../module/client/cwbb/zcmxb'),
-/*
+
                 //手动上报报表
                 require('../module/client/sdsb/swsjbqk'),
                 require('../module/client/sdsb/jygmtjb'),
@@ -228,7 +228,7 @@ const Index = React.createClass({
                 //年度检查
                 require('../module/client/swsnj'),//事务所年检
                 require('../module/client/zyswsnj'),//执业税务师年检
-*/
+
 
                 //业务管理
                 require('../module/client/ywgl/khxxgl'), //客户信息管理

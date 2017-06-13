@@ -280,9 +280,11 @@ const lrb = React.createClass({
         const column1 = [
             { title: '序号', dataIndex: 'key', key: 'key' },
             { title: '年度', dataIndex: 'nd', key: 'nd' },
+            { title: '性质', key: 'TIMEVALUE', dataIndex: 'TIMEVALUE' },
             { title: '机构名称', dataIndex: 'DWMC', key: 'DWMC' },
             { title: '自检时间', dataIndex: 'zjrq', key: 'zjrq' },
             { title: '状态', key: 'ZTBJ', dataIndex: 'ZTBJ' },
+            
             {
                 title: '操作',
                 key: 'operation',
