@@ -4,7 +4,7 @@ import config from 'common/configuration'
 import req from 'reqwest'
 import { isEmptyObject, jsonCopy } from 'common/utils'
 import Panel from 'component/compPanel'
-import { Col, Input, Row, Button, Icon, Form, Modal, notification, Spin, Alert,InputNumber } from 'antd'
+import { Col, Input, Row, Button, Icon, Form, Modal, notification, Spin, Alert,InputNumber,message } from 'antd'
 import { SelectorYear, SelectorXZ } from 'component/compSelector'
 import './style.css'
 
@@ -13,10 +13,11 @@ const ButtonGroup = Button.Group;
 const createForm = Form.create;
 const FormItem = Form.Item;
 const URL = config.HOST + config.URI_API_PROJECT + "/checkLrb";
+const GET_URL = config.HOST + config.URI_API_PROJECT + "/cwbb/getJgxx";
 
 let Addlrb = React.createClass({
     getInitialState() {
-        return { visible: false, checkNd: true, checkTimevalue: true, loading: false, helper: true };
+        return { visible: false, checkNd: true, checkTimevalue: true, loading: false, helper: true ,jgxx: {}};
     },
 
     getDefaultProps() {
@@ -42,7 +43,25 @@ let Addlrb = React.createClass({
             }
         });
     },
+    //获取表中单位信息
+    fetch_jgxx(params) {
+        const token = auth.getToken();
+        this.setState({ loading: true });
+        req({
+            url: GET_URL,
+            type: 'json',
+            method: 'get',
+            data: params,
+            headers: { 'x-auth-token': token }
+        }).then(resp => {
+            this.setState({ jgxx: resp.data, loading: false });
+        }).fail(e => {
+            this.setState({ loading: false });
+            message.error('网络访问故障');
+        })
+    },
     componentDidMount(){
+        this.fetch_jgxx();
         const {getFieldsValue} = this.props.form;
         const {getFormEntity} = this.props;
         let values = getFieldsValue();
@@ -203,7 +222,7 @@ let Addlrb = React.createClass({
                                 <tbody>
                                     <tr>
                                         <td>单位：</td>
-                                        <td colSpan="2">{'shiwusuo'}</td>
+                                        <td colSpan="2">{this.state.jgxx.DWMC}</td>
                                         <td>年度：</td>
                                         <td>
                                             <FormItem required>
