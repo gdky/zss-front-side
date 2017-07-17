@@ -179,13 +179,13 @@ let Updatelrb = React.createClass({
                             <Form horizontal onSubmit={this.handleSubmit}>
                                 <table>
                                     <colgroup>
-                                        <col className="col-2"></col>
-                                        <col className="col-9"></col>
-                                        <col className="col-2"></col>
-                                        <col className="col-3"></col>
-                                        <col className="col-4"></col>
-                                        <col className="col-2"></col>
-                                        <col className="col-2"></col>
+                                        <col className="col-2"/>
+                                        <col className="col-9"/>
+                                        <col className="col-2"/>
+                                        <col className="col-3"/>
+                                        <col className="col-4"/>
+                                        <col className="col-2"/>
+                                        <col className="col-2"/>
                                     </colgroup>
                                     <tbody>
                                         <tr>

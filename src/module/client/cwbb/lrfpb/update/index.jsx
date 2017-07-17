@@ -3,7 +3,7 @@ import auth from 'common/auth'
 import config from 'common/configuration'
 import req from 'reqwest'
 import Panel from 'component/compPanel'
-import { Col, Input, Row, Button, Icon, Form, Modal, Select, Spin, Alert } from 'antd'
+import { Col, Input, Row, Button, Icon, Form, Modal, Select, Spin, Alert,notification} from 'antd'
 import { SelectorYear, SelectorXZ } from 'component/compSelector'
 import './style.css'
 
@@ -326,21 +326,21 @@ let Updatelrfpb = React.createClass({
                             <Form horizontal onSubmit={this.handleSubmit}>
                                 <table>
                                     <colgroup>
-                                        <col className="col-2"></col>
-                                        <col className="col-5"></col>
-                                        <col className="col-2"></col>
-                                        <col className="col-4"></col>
-                                        <col className="col-3"></col>
-                                        <col className="col-3"></col>
-                                        <col className="col-3"></col>
-                                        <col className="col-2"></col>
+                                        <col className="col-2"/>
+                                        <col className="col-5"/>
+                                        <col className="col-2"/>
+                                        <col className="col-4"/>
+                                        <col className="col-3"/>
+                                        <col className="col-3"/>
+                                        <col className="col-3"/>
+                                        <col className="col-2"/>
                                     </colgroup>
                                     <tbody>
                                         <tr>
-                                            <td colSpan="2">单位：{data.DWMC}</td>
+                                            <td colSpan="2">单位：{getFieldProps('dwmc').value}</td>
                                             <td>
                                                 <FormItem required>
-                                                    <SelectorYear { ...getFieldProps('nd', { initialValue: data.ND + "", rules: [{ required: true, message: "请选择年度" }, { validator: this.checkNd }] }) } />
+                                                    <SelectorYear { ...getFieldProps('nd', {rules: [{ required: true, message: "请选择年度" }, { validator: this.checkNd }] }) } />
                                                 </FormItem>
                                             </td>
                                             <td>

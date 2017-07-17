@@ -56,8 +56,8 @@ const Index = React.createClass({
                 /* 模块预加载方式
                  { path: '/gn1(/)', component: gn1 },
                  */
-
-                /* 中心端 */
+/*
+                /!* 中心端 *!/
                 //机构管理
                 require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
@@ -211,7 +211,7 @@ const Index = React.createClass({
                 //人员管理
                 require('../module/client/swsrygl/zyrygl'),
                 require('../module/client/swsrygl/cyrygl'),
-                require('../module/client/swsrygl/rydr'),
+                require('../module/client/swsrygl/rydr'),*/
                // 财务报表上传
                 require('../module/client/cwbb/lrb'),
                 require('../module/client/cwbb/lrfpb'),
