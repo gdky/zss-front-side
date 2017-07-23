@@ -195,12 +195,10 @@ const lrb = React.createClass({
             entity = entityFormat(entity, entityModel);
             let fs = {};
             for (let prop in resp) {
-                if (resp[prop] != null) {
-                    if (prop == 'ND') {
-                        resp[prop] = resp[prop] + ''
-                    }
-                    fs[prop.toLowerCase()] = { value: resp[prop] }
+                if (prop == 'ND') {
+                    resp[prop] = resp[prop] + ''
                 }
+                fs[prop.toLowerCase()] = { value: resp[prop] }
             }
 
             this.setState({ entity: entity, fileds: fs, dataLoading: false });

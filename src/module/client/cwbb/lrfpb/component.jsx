@@ -1,6 +1,5 @@
 import React from 'react'
 import { Table, Modal, Row, Col, Button, Icon, Alert, message } from 'antd'
-import CompPageHead from 'component/CompPageHead'
 import Panel from 'component/compPanel'
 import { handleRowButton, columns, entityModel } from './model'
 import req from 'reqwest';
@@ -10,7 +9,6 @@ import Update from './Update'
 import auth from 'common/auth'
 import config from 'common/configuration'
 import cloneDeep from 'lodash/cloneDeep'
-import BaseTable from 'component/compBaseTable'
 import { entityFormat } from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
@@ -188,12 +186,11 @@ const lrfpb = React.createClass({
             let entity=cloneDeep(resp);
             entity = entityFormat(entity, entityModel);
             let fs = {};
-            for (var key in resp) {
-                let num = resp[key];
-                if(key=="ND"){
-                    num=num+"";
-                } 
-                fs[key] = num;
+            for (let prop in resp) {
+                if (prop == 'ND') {
+                    resp[prop] = resp[prop] + ''
+                }
+                fs[prop.toLowerCase()] = { value: resp[prop] }
             }
             this.setState({ entity: entity,fileds:fs, dataLoading: false });
         }).fail(err => {
@@ -231,6 +228,48 @@ const lrfpb = React.createClass({
             case 3: tl = "利润表查看"; break;
         }
         this.setState({ views: e, viewTitle: tl });
+    },
+    getFormEntity(entity){
+        this.setState({fileds:entity});
+    },
+    toNum(param) {
+        return typeof param == 'number' ? param : 0
+    },
+    dealWithChanged(field,lx) {
+        let f = this.state.fileds;
+        for (let prop in field) {
+            f[prop] = field[prop]
+        }
+        //【1行+2行+3行=4行】
+        f.kfplr.value = this.toNum(f.jlr.value)
+          + this.toNum(f.ncwfplr.value) + this.toNum(f.qtzr.value);
+        f.kfplrupyear.value = this.toNum(f.jlrupyear.value)
+          + this.toNum(f.ncwfplrupyear.value) + this.toNum(f.qtzrupyear.value);
+
+        //【4行-5行-6行-7行-8行-9行=10行】
+        f.tzzfplr.value = this.toNum(f.kfplr.value)
+          - this.toNum(f.yygj.value)
+          - this.toNum(f.jlfljj.value)
+          - this.toNum(f.cbjj.value)
+          - this.toNum(f.qyfzjj.value)
+          - this.toNum(f.lrghtz.value);
+        f.tzzfplrupyear.value = this.toNum(f.kfplrupyear.value)
+          - this.toNum(f.yygjupyear.value)
+          - this.toNum(f.jlfljjupyear.value)
+          - this.toNum(f.cbjjupyear.value)
+          - this.toNum(f.qyfzjjupyear.value)
+          - this.toNum(f.lrghtzupyear.value);
+        //【10行-11行-12行-13行=14行】
+        f.wfplr.value = this.toNum(f.tzzfplr.value)
+          - this.toNum(f.yxgl.value)
+          - this.toNum(f.ptgl.value)
+          - this.toNum(f.zhptgl.value);
+        f.wfplrupyear.value = this.toNum(f.tzzfplrupyear.value)
+          - this.toNum(f.yxglupyear.value)
+          - this.toNum(f.ptglupyear.value)
+          - this.toNum(f.zhptglupyear.value);
+
+        this.setState({ fileds: f });
     },
 
     render() {
@@ -305,8 +344,10 @@ const lrfpb = React.createClass({
                 {this.state.views == 1 &&
                     <Add
                         onSubmit={this.handleSubmit.bind(this, 'add')}
-                        data={this.state.data}
+                        getFormEntity={this.getFormEntity}
+                        data={this.state.fileds}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
                 {this.state.views == 2 &&
@@ -315,6 +356,7 @@ const lrfpb = React.createClass({
                         data={this.state.fileds}
                         loading={this.state.dataLoading}
                         btnloading={this.state.btnLoading}
+                        changed={this.dealWithChanged}
                         toback={this.handleViewChange.bind(this, 0)} />
                 }
             </div>

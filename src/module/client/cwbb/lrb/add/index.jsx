@@ -28,7 +28,7 @@ let Addlrb = React.createClass({
 
     handleSubmit(ztbj) {
         var mp = {};
-        let value = this.props.form.getFieldsValue()
+        let value = this.props.form.getFieldsValue();
         for (var key in value) {
             if (typeof (value[key]) == 'undefined' || (isNaN(value[key]) ? ("" == value[key]) : false)) {
                 value[key] = null;
@@ -211,13 +211,13 @@ let Addlrb = React.createClass({
                         <Form horizontal onSubmit={this.handleSubmit}>
                             <table>
                                 <colgroup>
-                                    <col className="col-2"></col>
-                                    <col className="col-9"></col>
-                                    <col className="col-2"></col>
-                                    <col className="col-3"></col>
-                                    <col className="col-4"></col>
-                                    <col className="col-2"></col>
-                                    <col className="col-2"></col>
+                                    <col className="col-2"/>
+                                    <col className="col-9"/>
+                                    <col className="col-2"/>
+                                    <col className="col-3"/>
+                                    <col className="col-4"/>
+                                    <col className="col-2"/>
+                                    <col className="col-2"/>
                                 </colgroup>
                                 <tbody>
                                     <tr>
