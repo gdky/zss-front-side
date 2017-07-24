@@ -9,7 +9,6 @@ import Panel from 'component/compPanel'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
-const Option = Select.Option;
 const ToolBar = Panel.ToolBar;
 const CheckNd_URL = config.HOST + config.URI_API_PROJECT + "/checkzcfz";
 
@@ -41,7 +40,7 @@ let Updatezcfzb = React.createClass({
             }
         }
         value.ztbj = ztbj;
-        value.id = obj.id;
+        value.id = obj.id.value;
         this.props.form.validateFields((errors, values) => {
             if (!errors) {
                 this.props.onSubmit(value);
@@ -156,9 +155,6 @@ let Updatezcfzb = React.createClass({
         </ToolBar>;
 
         const {getFieldProps} = this.props.form;
-        const data = this.props.data;
-        let xz = "0";
-
 
         return <div className="add">
             {this.state.helper && <Alert message="资产负债表检索查询帮助"
@@ -194,7 +190,7 @@ let Updatezcfzb = React.createClass({
                                             <FormItem> <SelectorYear  { ...getFieldProps('nd', {
                                                 rules: [{
                                                     require: true,
-                                                    message: '选择一个年度做自检',
+                                                    message: '选择一个年度',
                                                 },]
                                             }) } />
                                             </FormItem>
@@ -205,7 +201,7 @@ let Updatezcfzb = React.createClass({
                                             <SelectorXZ { ...getFieldProps('timevalue', {
                                                 rules: [{
                                                     require: true,
-                                                    message: '选择一个年度做自检',
+                                                    message: '选择一个时间段',
                                                 },]
                                             }) } />
                                         </Col>
@@ -227,12 +223,12 @@ let Updatezcfzb = React.createClass({
                                     <tr>
                                         <td style={{textAlign: 'center'}}>流动资产：</td>
                                         <td/>
-                                        <td ></td>
-                                        <td ></td>
+                                        <td />
+                                        <td />
                                         <td style={{textAlign: 'center'}}>流动负债：</td>
                                         <td/>
                                         <td />
-                                        <td ></td>
+                                        <td />
                                     </tr>
 
                                     <tr>
