@@ -213,7 +213,7 @@ const lrfpb = React.createClass({
         }
         return (
             <span>
-                <Button disabled={record.ZTBJ == "提交" ? true : false} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
+                <Button disabled={record.ZTBJ == "提交"} size="small" onClick={showDetail.bind(this, 2)} ><Icon type="edit" />编辑</Button>
                 <Button size="small" onClick={showDetail.bind(this, 3)} ><Icon type="book" />查看</Button>
             </span>
         )
