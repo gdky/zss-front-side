@@ -197,7 +197,7 @@ let Addlrb = React.createClass({
         let obj = [{}];
         if (this.props.data.length != 0) {
             obj = this.props.data;
-        };
+        }
 
         return <div className="add">
             {this.state.helper && <Alert message="利润表检索查询帮助"

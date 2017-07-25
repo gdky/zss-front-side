@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Input, Row, Button, Icon, Form, Modal, Select, Alert, Spin, InputNumber} from 'antd'
+import {Col, Input, Row, Button, Icon, Form, Modal, Alert, Spin, InputNumber,message} from 'antd'
 import {SelectorYear, SelectorXZ} from 'component/compSelector'
 import './style.css'
 import req from 'reqwest'
@@ -85,20 +85,14 @@ let Updatezcfzb = React.createClass({
             contentType: 'application/json',
         }).then(resp => {
             if (resp) {
-                callback('同一年度不能做两次上报，请选择其他年度');
+                callback('该年度报表已存在');
             } else {
                 callback();
             }
         }).fail(err => {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
+            message.error('网络访问故障');
+            callback("校验失败");
         })
     },
     //timevalue是否重复校验方法
@@ -115,20 +109,14 @@ let Updatezcfzb = React.createClass({
             contentType: 'application/json',
         }).then(resp => {
             if (resp) {
-                callback('该年度的上半年（或全年）已经填报上报表，请选择其他年度');
+                callback('该年度报表已存在');
             } else {
                 callback();
             }
         }).fail(err => {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>)
-            });
+            message.error('网络访问故障');
+            callback("校验失败");
         })
     },
 
@@ -189,7 +177,7 @@ let Updatezcfzb = React.createClass({
                                             label="年度：">
                                             <FormItem> <SelectorYear  { ...getFieldProps('nd', {
                                                 rules: [{
-                                                    require: true,
+                                                    required: true,
                                                     message: '选择一个年度',
                                                 },]
                                             }) } />
@@ -200,7 +188,7 @@ let Updatezcfzb = React.createClass({
                                         <td ><Col>
                                             <SelectorXZ { ...getFieldProps('timevalue', {
                                                 rules: [{
-                                                    require: true,
+                                                    required: true,
                                                     message: '选择一个时间段',
                                                 },]
                                             }) } />
@@ -412,9 +400,9 @@ let Updatezcfzb = React.createClass({
                                         <td ><InputNumber max={9999999999999} {...getFieldProps('cqtz_gq') }  /></td>
                                         <td style={{textAlign: 'center'}}>流动负债合计</td>
                                         <td>47</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('ldfz_hj_nc') } disabled/>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('ldfz_hj_nc') } disabled/>
                                         </td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('ldfz_hj') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('ldfz_hj') } disabled/></td>
                                     </tr>
 
                                     <tr>
@@ -430,9 +418,9 @@ let Updatezcfzb = React.createClass({
                                     <tr>
                                         <td style={{textAlign: 'center'}}>长期投资合计</td>
                                         <td>17</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('cqtz_hj_nc') } disabled/>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('cqtz_hj_nc') } disabled/>
                                         </td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('cqtz_hj') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('cqtz_hj') } disabled/></td>
                                         <td style={{textAlign: 'center'}}>长期借款</td>
                                         <td>48</td>
                                         <td ><InputNumber max={9999999999999} {...getFieldProps('cqfz_cqjk_nc') }  /></td>
@@ -538,9 +526,9 @@ let Updatezcfzb = React.createClass({
                                         <td ><InputNumber max={9999999999999} {...getFieldProps('gdzc_zjgc') }  /></td>
                                         <td style={{textAlign: 'center'}}>负债合计</td>
                                         <td>56</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('dysx_fzhj_nc') }
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('dysx_fzhj_nc') }
                                                           disabled/></td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('dysx_fzhj') } disabled/>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('dysx_fzhj') } disabled/>
                                         </td>
                                     </tr>
 
@@ -556,9 +544,9 @@ let Updatezcfzb = React.createClass({
                                     <tr>
                                         <td style={{textAlign: 'center'}}>固定资产合计</td>
                                         <td>26</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('gdzc_hj_nc') } disabled/>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('gdzc_hj_nc') } disabled/>
                                         </td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('gdzc_hj') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('gdzc_hj') } disabled/></td>
                                         <td style={{textAlign: 'center'}}>所有者权益（或股东权益）：</td>
                                         <td colSpan="3"/>
                                     </tr>
@@ -616,9 +604,9 @@ let Updatezcfzb = React.createClass({
                                     <tr>
                                         <td style={{textAlign: 'center'}}>无形资产和其他资产合计</td>
                                         <td>30</td>
-                                        <td ><InputNumber max={9999999999999}  {...getFieldProps('wxqt_hj_nc') } disabled/>
+                                        <td ><InputNumber max={99999999999999}  {...getFieldProps('wxqt_hj_nc') } disabled/>
                                         </td>
-                                        <td ><InputNumber max={9999999999999}  {...getFieldProps('wxqt_hj') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999}  {...getFieldProps('wxqt_hj') } disabled/></td>
                                         <td style={{textAlign: 'center'}}>盈余公积</td>
                                         <td>61</td>
                                         <td ><InputNumber max={9999999999999} {...getFieldProps('syzqy_yygj_nc') }  />
@@ -652,12 +640,12 @@ let Updatezcfzb = React.createClass({
                                     <tr>
                                         <td style={{textAlign: 'center'}}>资产总计</td>
                                         <td>32</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('zczj_nc') } disabled/></td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('zczj') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('zczj_nc') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('zczj') } disabled/></td>
                                         <td style={{textAlign: 'center'}}>负债和所有者权益(或股东权益)合计</td>
                                         <td>64</td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('fzsyzqy_hj_nc') } disabled/></td>
-                                        <td ><InputNumber max={9999999999999} {...getFieldProps('fzsyzqy_hj') } disabled/>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('fzsyzqy_hj_nc') } disabled/></td>
+                                        <td ><InputNumber max={99999999999999} {...getFieldProps('fzsyzqy_hj') } disabled/>
                                         </td>
                                     </tr>
 
