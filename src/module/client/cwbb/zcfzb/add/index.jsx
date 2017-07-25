@@ -104,12 +104,12 @@ let Addzcfzb = React.createClass({
         }).then(resp => {
             if (resp) {
                 this.setState({ checkNd: false });
-                if (this.state.checkTimevalue) {
-                    this.props.form.validateFields(['timevalue'], { force: true });
-                }
                 callback('该年度报表已存在');
             } else {
                 this.setState({ checkNd: true });
+                if (!this.state.checkTimevalue) {
+                    this.props.form.validateFields(['timevalue'], { force: true });
+                }
                 callback();
             }
         }).fail(err => {
@@ -119,7 +119,7 @@ let Addzcfzb = React.createClass({
         })
     },
     //timevalue是否重复校验方法
-    checkTimevalueIfExit(rule, value, callback) {
+    checkTimeValueIfExit(rule, value, callback) {
 
         const nd = this.props.form.getFieldValue("nd");
         const params = {where: encodeURIComponent(JSON.stringify({nd: nd, timevalue: value}))};
@@ -133,12 +133,12 @@ let Addzcfzb = React.createClass({
         }).then(resp => {
             if (resp) {
                 this.setState({ checkTimevalue: false });
-                if (!this.state.checkNd) {
-                    this.props.form.validateFields(['nd'], { force: true });
-                }
                 callback('该时间段报表已存在');
             } else {
                 this.setState({ checkTimevalue: true });
+                if (!this.state.checkNd) {
+                    this.props.form.validateFields(['nd'], { force: true });
+                }
                 callback();
             }
         }).fail(err => {
@@ -221,7 +221,7 @@ let Addzcfzb = React.createClass({
                                                     required: true,
                                                     message: '请选择一个性质',
                                                 }, {
-                                                    validator: this.checkTimevalueIfExit,
+                                                    validator: this.checkTimeValueIfExit,
                                                 }]
                                             }) } /></FormItem>
                                         </Col>
