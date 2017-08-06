@@ -92,7 +92,7 @@ const Index = React.createClass({
                 require('../module/ywgl/ywbbsjhz'),//业务报备数据汇
                 require('../module/ywgl/ywlxgl'),//业务类型管理
 
-
+*/
                 //财务报表
                 require('../module/cwbb/lrfpb'),
                 require('../module/cwbb/xjllb'),
@@ -108,6 +108,7 @@ const Index = React.createClass({
                 require('../module/sdsbbb/hyryqktj'),
                 require('../module/sdsbbb/jysrqktj'),
                 require('../module/sdsbbb/wsbbbcx'),
+              /*
                 //历史记录查询
                 require('../module/lsjlcx/swslsjl/bglsjl'),
                 require('../module/lsjlcx/swslsjl/yhbsws'),

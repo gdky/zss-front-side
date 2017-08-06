@@ -1,17 +1,15 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
-import CompPageHead from 'component/CompPageHead'
+import {Table,Modal,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
-import {columns,entityModel} from './model'
+import model from './model'
 import req from 'reqwest';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
-import BaseTable from 'component/compBaseTable'
 import {entityFormat} from 'common/utils'
 import DetailBox from './detailbox.jsx'
 
-
+const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjzcfzb/';
 const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/zcfzb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -98,17 +96,10 @@ const zcfzb = React.createClass({
             headers:{'x-auth-token':auth.getToken()},
             contentType: 'application/json'
         }).then(resp=> {
-            let entity = entityFormat(resp,entityModel);
+            let entity = entityFormat(resp,model.entityModel);
             this.setState({entity: entity,detailHide:false});
         }).fail(err=> {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
         })
     },
     //明细表关闭
@@ -139,14 +130,20 @@ const zcfzb = React.createClass({
             })
         }).fail(err=> {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
+        })
+    },
+    //处理退回
+    handleReject(record){
+        req({
+            url:RJ_URL + record.id,
+            method:'get',
+            headers: {'x-auth-token': auth.getToken()},
+            contentType: 'application/json'
+        }).then(resp=>{
+            this.handleRefresh()
+        }).fail(e=>{
+            message.error('网络访问故障')
         })
     },
 
@@ -173,6 +170,7 @@ const zcfzb = React.createClass({
         let helper = [];
         helper.push(<p key="helper-0">点击查询结果查看资产负债表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        model.setfunc(this.handleReject);
 
         return <div className="cwbb-zcfzb">
             <div className="wrap">
@@ -186,7 +184,7 @@ const zcfzb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                        <Table columns={model.columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}

@@ -114,7 +114,7 @@ const lrb = React.createClass({
     handleDetailClose(){
         this.setState({detailHide: true})
     },
-    //处理退回B
+    //处理退回
     handleReject(record){
         req({
             url:RJ_URL + record.id,

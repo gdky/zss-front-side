@@ -1,7 +1,7 @@
 import React from 'react'
-import {Table, Modal, Row, Col, Button, Icon, Alert} from 'antd'
+import {Table, Button, Icon, Alert,message} from 'antd'
 import Panel from 'component/compPanel'
-import {model,entityModel} from './model'
+import model from './model'
 import req from 'reqwest';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
@@ -9,7 +9,7 @@ import Lrfpbxx from './Lrfpbxx'
 import config from 'common/configuration'
 import Export from 'component/ComExcelExperss';
 
-
+const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjlrfpb/';
 const API_URL = config.HOST + config.URI_API_PROJECT + '/cwbb/lrfpb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -123,14 +123,7 @@ const lrfpb = React.createClass({
             }
         }).fail(err => {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
         })
     },
     //获取表的详细信息
@@ -145,14 +138,7 @@ const lrfpb = React.createClass({
         }).then(resp => {
             this.setState({entity: resp.data,});
         }).fail(err => {
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
         })
     },
     //明细表关闭
@@ -162,11 +148,22 @@ const lrfpb = React.createClass({
 
     //点击某行
     onSelect(record) {
-
         this.state.urls = record.id;
-
-        this.setState({detailHide: false})
+        this.setState({detailHide: false});
         this.fetch_lrfpbxx();
+    },
+    //处理退回
+    handleReject(record){
+        req({
+            url:RJ_URL + record.id,
+            method:'get',
+            headers: {'x-auth-token': auth.getToken()},
+            contentType: 'application/json'
+        }).then(resp=>{
+            this.handleRefresh()
+        }).fail(e=>{
+            message.error('网络访问故障')
+        })
     },
 
 
@@ -181,7 +178,7 @@ const lrfpb = React.createClass({
                 { this.state.searchToggle ? <Icon className="toggle-tip" type="circle-o-up"/> :
                     <Icon className="toggle-tip" type="circle-o-down"/>}
             </Button>
-            <Export resData={this.state.data} butName="导出" model={model} fileName={'利润表分配表'}
+            <Export resData={this.state.data} butName="导出" model={model.columns} fileName={'利润表分配表'}
                     getAllApi={this.genAllApi()} all />
 
             <ButtonGroup>
@@ -195,6 +192,8 @@ const lrfpb = React.createClass({
         helper.push(<p key="helper-0">本功能主要提供利润分配表查询</p>);
         helper.push(<p key="helper-1">查询相关事务所利润分配表</p>);
 
+        model.setfunc(this.handleReject);
+
         return <div className="cwbb-lrfpb">
             <div className="wrap">
                 {this.state.helper && <Alert message="利润分配表使用帮助"
@@ -207,7 +206,7 @@ const lrfpb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={model}
+                        <Table columns={model.columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}

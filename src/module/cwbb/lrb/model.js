@@ -3,6 +3,7 @@
  */
 import numeral from 'numeral'
 import React from 'react'
+import {Popconfirm} from 'antd'
 
 function reject(record){}
 
@@ -37,9 +38,11 @@ const model = {
             width: 120,
             render: (text, record)=> {
                 let actGroup = <span className="act-group">
-                    <a onClick={()=> {
+                    <Popconfirm title="确认要退回？"  onConfirm={()=> {
                         reject(record)
-                    }}>退回</a>
+                    }} >
+                    <a href="#">退回</a>
+                    </Popconfirm>
                 </span>;
                 return actGroup
             }

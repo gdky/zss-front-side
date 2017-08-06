@@ -73,9 +73,9 @@ let Updatezcfzb = React.createClass({
 
     //年检年度是否重复校验方法
     checkNdIfExit(rule, value, callback) {
-        var id = this.state.entity.id;
+        let id = this.props.data.id.value;
         const timevalue = this.props.form.getFieldValue("timevalue");
-        const params = {where: encodeURIComponent(JSON.stringify({nd: value, timevalue: timevalue, sbid: id})),}
+        const params = {where: encodeURIComponent(JSON.stringify({nd: value, timevalue: timevalue, sbid: id}))};
         req({
             url: CheckNd_URL,
             type: 'json',
@@ -102,9 +102,9 @@ let Updatezcfzb = React.createClass({
     },
     //timevalue是否重复校验方法
     checkTimeValueIfExit(rule, value, callback) {
-        var id = this.state.entity.id;
+        let id = this.props.data.id.value;
         const nd = this.props.form.getFieldValue("nd") + "";
-        const params = {where: encodeURIComponent(JSON.stringify({nd: nd, timevalue: value, sbid: id})),}
+        const params = {where: encodeURIComponent(JSON.stringify({nd: nd, timevalue: value, sbid: id}))};
         req({
             url: CheckNd_URL,
             type: 'json',
