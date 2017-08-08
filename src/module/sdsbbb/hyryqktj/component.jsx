@@ -1,14 +1,14 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import {Table,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
-import {columns} from './model'
+import model from './model'
 import req from 'reqwest';
 import auth from 'common/auth'
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
 
-
+const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjb2/';
 const API_URL = config.HOST + config.URI_API_PROJECT + '/hyryqk1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -114,14 +114,20 @@ const lrb = React.createClass({
             })
         }).fail(err=> {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
+        })
+    },
+    //处理退回
+    handleReject(record){
+        req({
+            url:RJ_URL + record.ID,
+            method:'get',
+            headers:{'x-auth-token':auth.getToken()},
+            type:'json'
+        }).then(resp=>{
+            this.handleRefresh()
+        }).catch(e=>{
+            message.error('网络访问故障')
         })
     },
 
@@ -148,6 +154,7 @@ const lrb = React.createClass({
         let helper = [];
         helper.push(<p key="helper-0">点击查询结果查看执业税务师行业人员情况统计表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        model.setfunc(this.handleReject);
 
         return <div className="hyryqktj">
             <div className="wrap">
@@ -161,7 +168,7 @@ const lrb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                        <Table columns={model.columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}

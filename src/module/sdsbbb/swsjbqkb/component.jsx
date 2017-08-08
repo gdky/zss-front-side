@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table,Modal,Button,Icon,Alert,message} from 'antd'
+import {Table,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
 import model from './model'
 import req from 'common/request';
@@ -111,14 +111,7 @@ const lrb = React.createClass({
             })
         }).catch(err=> {
             this.setState({loading: false});
-            Modal.error({
-                title: '数据获取错误',
-                content: (
-                    <div>
-                        <p>无法从服务器返回数据，需检查应用服务工作情况</p>
-                        <p>Status: {err.status}</p>
-                    </div>  )
-            });
+            message.error('网络访问故障')
         })
     },
     //处理退回

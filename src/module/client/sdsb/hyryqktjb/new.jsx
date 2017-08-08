@@ -67,13 +67,13 @@ let Editfrom = React.createClass({
                                 let rs=getFieldValue([key.replace(fir,'zysws')]);
                                 if (zj>(typeof(rs)=="undefined"?0:rs)) {
                                     callback("其中：股东或合伙人人数不能大于执业注册税务师人数");
-                                };
+                                }
                             }else{
                                 let rs=getFieldValue([key.replace(fir,'qtcyry')]);
                                 if (zj>(typeof(rs)=="undefined"?0:rs)) {
                                     callback("其中人数不能大于其他从业人员人数");
-                                };
-                            };
+                                }
+                            }
                     }else{
                         let num = Number(key.split('bz')[1])
                         if (num>24) {
@@ -85,8 +85,8 @@ let Editfrom = React.createClass({
                                 let rs =getFieldValue(['bz'+(num%8==0?16:num%8+8)]);
                                 if (zj>(typeof(rs)=="undefined"?0:rs)) {
                                             callback("其中：股东或合伙人人数不能大于执业注册税务师人数");
-                                        };
-                        };
+                                        }
+                        }
                     }
             }
             callback();
@@ -109,10 +109,11 @@ let Editfrom = React.createClass({
             case 'zckjs' : num=5;break;
             case 'zcpgs' : num=6;break;
             case 'ls' : num=7;break;
-        };
+        }
         let rddb=sumCol(getFieldsValue(['bz'+(1+num*8),'bz'+(2+num*8),'bz'+(3+num*8),'bz'+(4+num*8)]));
         let zxwy=sumCol(getFieldsValue(['bz'+(5+num*8),'bz'+(6+num*8),'bz'+(7+num*8),'bz'+(8+num*8)]));
-        let zj=(typeof(value)=="undefined"?0:value)
+        let zj=(typeof(value)=="undefined"?0:value);
+        console.log(zj,xls)
             if (zj!=xls) {
                 callback("横向学历合计人数须等于总计")
             }else if (zj!=nls) {
@@ -125,7 +126,7 @@ let Editfrom = React.createClass({
                 callback("横向政协委员合计人数不能大于总计")
             }else if (zj<nv) {
                 callback("其中女的人数须小于总计")
-            };
+            }
             callback();
         function sumCol(colums){
            let rs = 0;
@@ -133,7 +134,7 @@ let Editfrom = React.createClass({
                 rs+=(typeof(colums[key])=="undefined"?0:colums[key])
            }
            return rs;
-        };
+        }
     },
     commit(){
         const {validateFieldsAndScroll} = this.props.form;
