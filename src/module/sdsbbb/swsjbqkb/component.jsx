@@ -1,13 +1,13 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert} from 'antd'
+import {Table,Modal,Button,Icon,Alert,message} from 'antd'
 import Panel from 'component/compPanel'
-import {columns} from './model'
+import model from './model'
 import req from 'common/request';
 import SearchForm from './searchForm'
 import config from 'common/configuration'
 import DetailBox from './detailbox.jsx'
 
-
+const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjb1/';
 const API_URL = config.HOST + config.URI_API_PROJECT + '/swsjbqk1';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -121,6 +121,17 @@ const lrb = React.createClass({
             });
         })
     },
+    //处理退回
+    handleReject(record){
+        req({
+            url:RJ_URL + record.id,
+            method:'get',
+        }).then(resp=>{
+            this.handleRefresh()
+        }).catch(e=>{
+            message.error('网络访问故障')
+        })
+    },
 
     componentDidMount(){
         this.fetchData();
@@ -145,6 +156,7 @@ const lrb = React.createClass({
         let helper = [];
         helper.push(<p key="helper-0">点击查询结果查看事务所基本情况表明细</p>);
         helper.push(<p key="helper-1">检索功能只显示前1000条记录</p>);
+        model.setfunc(this.handleReject);
 
         return <div className="swsjbqkb">
             <div className="wrap">
@@ -158,7 +170,7 @@ const lrb = React.createClass({
                     {this.state.searchToggle && <SearchForm
                         onSubmit={this.handleSearchSubmit}/>}
                     <div className="h-scroll-table">
-                        <Table columns={columns}
+                        <Table columns={model.columns}
                                dataSource={this.state.data}
                                pagination={this.state.pagination}
                                loading={this.state.loading}

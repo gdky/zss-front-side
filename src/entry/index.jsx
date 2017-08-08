@@ -126,6 +126,7 @@ const Index = React.createClass({
                // 监督检查
                 require('../module/jdjc/zyswsnjb'),
                 require('../module/jdjc/swsnj'),
+                */
                     //逐级审核
                 require('../module/spsh'),
                 require('../module/spshlsjl'),
@@ -151,6 +152,7 @@ const Index = React.createClass({
                 require('../module/spsh/module/43'),
                 require('../module/spsh/module/44'),
                 require('../module/spsh/module/46'),
+                /*
                 // 数据统计分析 - 年检数据分析
                 require('../module/xtsjfx/njsjfx/rynjsjfx'),//人员年检数据分析
                 require('../module/xtsjfx/njsjfx/jgnjsjfxb'),//机构年检数据分析
