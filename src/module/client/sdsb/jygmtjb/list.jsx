@@ -169,6 +169,11 @@ const list = React.createClass({
                 <Button  onClick={this.handleRefresh}><Icon type="reload"/></Button>
             </ButtonGroup>
 
+            <ButtonGroup>
+                <Button type="primary" disabled={this.state.addDisabled} onClick={this.handleNew}><Icon
+                    type="file-text"/> 添加</Button>
+            </ButtonGroup>
+
         </ToolBar>;
         return <div>
             {this.state.helper && <Alert message={helperTitle}

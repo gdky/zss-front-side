@@ -126,7 +126,7 @@ const lrb = React.createClass({
             type:'json'
         }).then(resp=>{
             this.handleRefresh()
-        }).catch(e=>{
+        }).fail(e=>{
             message.error('网络访问故障')
         })
     },
