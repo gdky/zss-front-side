@@ -9,7 +9,6 @@ import Jygmtjbxx from './Jygmtjbxx'
 import config from 'common/configuration'
 
 
-const RJ_URL = config.HOST  + config.URI_API_PROJECT + '/rjb5/';
 const API_URL = config.HOST + config.URI_API_PROJECT + '/sdsb/jygmtjb';
 const ToolBar = Panel.ToolBar;
 const ButtonGroup = Button.Group;
@@ -144,19 +143,6 @@ const jygmtjb = React.createClass({
         this.fetch_jygmtjbxx();
     },
 
-    //处理退回
-    handleReject(record){
-        req({
-            url:RJ_URL + record.id,
-            method:'get',
-            headers:{'x-auth-token':auth.getToken()},
-            type: 'json',
-        }).then(resp=>{
-            this.handleRefresh()
-        }).fail(e=>{
-            message.error('网络访问故障')
-        })
-    },
 
     componentDidMount(){
         this.fetchData();
@@ -180,7 +166,6 @@ const jygmtjb = React.createClass({
         let helper = [];
         helper.push(<p key="helper-0">本功能主要提供查询</p>);
         helper.push(<p key="helper-1">查询相关事务所现</p>);
-        model.setfunc(this.handleReject);
 
         return <div className="sdsb-jygmtjb">
             <div className="wrap">

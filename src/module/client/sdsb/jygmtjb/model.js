@@ -12,7 +12,7 @@ const model = {
         title: '机构名称',
         dataIndex: 'DWMC',
         key: 'DWMC',
-        width: 200
+        width: 250
     },{
         title: '年度',
         key: 'nd',

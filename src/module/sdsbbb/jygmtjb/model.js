@@ -2,7 +2,6 @@
  * Created by ming on 2016/4/11.
  */
 import React from 'react'
-import {Popconfirm} from 'antd'
 
 function reject(record) {
 }
@@ -48,19 +47,6 @@ const model = {
         title: '状态',
         key: 'ZTBJ',
         dataIndex: 'ZTBJ',
-    },  {
-        title: '操作',
-        key: 'operation',
-        render: (text, record) => {
-            let actGroup = <span className="act-group">
-                    <Popconfirm title="确认要退回？" onConfirm={() => {
-                        reject(record)
-                    }}>
-                    <a href="#">退回</a>
-                    </Popconfirm>
-                </span>;
-            return actGroup
-        }
     }]
 };
 
