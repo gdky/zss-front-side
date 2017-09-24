@@ -36,7 +36,11 @@ const c = React.createClass({
     },
     //打开详情信息视图
     openDetail(record){
-        this.setState({detail: true, entity: record})
+        let rs = {};
+        for (let prop in record) {
+            rs[prop] = { value: record[prop] }
+        }
+        this.setState({detail: true, entity: rs})
     },
     //关闭详情视图
     closeDetail(){

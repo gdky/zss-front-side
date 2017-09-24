@@ -427,7 +427,7 @@ let form = React.createClass({
                         <FormItem
                             labelCol={{span: 4}} wrapperCol={{span: 6}}
                             label="委托项目类型">
-                            <SelectorYWLX  {...ywlxProps}/>
+                            <SelectorYWLX isqy  {...ywlxProps}/>
                         </FormItem>
                     </Col>
                 </Row>

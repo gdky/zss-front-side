@@ -113,7 +113,7 @@ let searchForm = React.createClass({
       wrapperCol: { span: 12 },
     };
     return <div className="swslogin-form">
-      <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+      <Form horizontal onSubmit={this.handleSubmit} >
         <FormItem
           {...formItemLayout}
           label="单位名称" >

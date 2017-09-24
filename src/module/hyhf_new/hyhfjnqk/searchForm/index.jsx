@@ -33,7 +33,7 @@ let searchForm = React.createClass({
       };
       const yearOptions = yy.map(year => <Option key={year}>{year}</Option>);
         return <div className="search-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit} >
                     <Row>
                             <Col span="8">
                                     <FormItem label="事务所名称：" {...formItemLayout}>

@@ -34,7 +34,7 @@ let searchForm = React.createClass({
       const yearOptions = yy.map(year => <Option key={year}>{year}</Option>);
       const curryear=new Date(this.props.year).getFullYear();
         return <div className="search-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit} >
                                 <Row>
                                         <Col span="10">
                         <FormItem label="单位名称：" {...formItemLayout}>

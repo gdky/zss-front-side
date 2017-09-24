@@ -41,7 +41,7 @@ let searchForm = React.createClass({
             wrapperCol: {span: 20}
         };
         return <Modal title="查询" wrapClassName="vertical-center-modal" visible={true} footer={footer} onCancel={this.handleCancel} >
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit} >
                         <Row>
                         <Col span="24">
                         <FormItem

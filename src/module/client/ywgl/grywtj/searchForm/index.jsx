@@ -39,7 +39,7 @@ let searchForm = React.createClass({
         };
         const bbnd=new Date().getFullYear();
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit} >
                 <Row type="flex" justify="space-around" align="middle">
                     <Col span="10">
                         <FormItem

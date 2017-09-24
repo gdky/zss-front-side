@@ -74,7 +74,7 @@ let searchForm = React.createClass({
       rules: [{type: 'date', },{ validator: this.disabledEndDate, }]
     });
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit} >
                      <Row>
                     <Col span="8">
                        {this.props.isJG?<FormItem

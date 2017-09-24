@@ -84,7 +84,7 @@ handleSubmit(e){
       ]
     });
         return <div className="search-form">
-            <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+            <Form horizontal onSubmit={this.handleSubmit} >
                 <Row>
                     <Col span="8">
                         <FormItem

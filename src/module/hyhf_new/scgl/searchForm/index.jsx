@@ -27,7 +27,7 @@ let searchForm = React.createClass({
     };  
     const { getFieldProps } = this.props.form;//获取表单输入组件值的特定写法
         return <div className="search-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit} >
                     <Row>
                             <Col span="10">
                                     <FormItem label="所属年份：" {...formItemLayout}>

@@ -103,7 +103,7 @@ getInitialState(){
         return <div className="khd-jggl-swszx">
         <div className="fix-table table-bordered table-striped">
                 <Panel title="事务所注销申请" >
-                               <Form horizontal onSubmit={this.showConfirm} form={this.props.form}>
+                               <Form horizontal onSubmit={this.showConfirm}>
                                   {!!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所注销审批中，无需重复操作</h3>}
                                 <table >
                                             <tbody>

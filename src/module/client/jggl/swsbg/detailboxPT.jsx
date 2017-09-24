@@ -110,7 +110,7 @@ let detailBox = React.createClass({
             nbzs.push(<tr key="0009"><td key="0010" colSpan='10' ><div key="0005"><table key="0006"> <tbody key="0007">{nbzsRow}</tbody></table></div></td></tr>);
         };
         return <div className="fix-table table-bordered table-striped">
-         <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+         <Form horizontal onSubmit={this.handleSubmit} >
               <h2 className="sm">普通项目变更</h2>
             <table >
                 <tbody>

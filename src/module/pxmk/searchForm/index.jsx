@@ -94,7 +94,7 @@ let searchForm = React.createClass({
               ]
             });
         return <div className="search-form">
-                <Form horizontal onSubmit={this.handleSubmit} form={this.props.form}>
+                <Form horizontal onSubmit={this.handleSubmit} >
                     <Row>
                             <Col span="10">
                                     <FormItem label="标题：" {...formItemLayout}>
