@@ -28,8 +28,5 @@
     border-bottom: none;
 }
 .gutter-box {
-    background: #2db7f5;
-    height: 80px;
-    line-height: 80px;
-    border-radius: 6px;
+    background: #fff;
 }
