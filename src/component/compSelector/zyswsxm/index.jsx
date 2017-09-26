@@ -59,7 +59,7 @@ const selectorXm = React.createClass({
 
     render() {
         const options = this.getJgOptions();
-        return <Select {...this.props}  notFoundContent="无法找到" allowClear onChange={this.handleChange}>
+        return <Select allowClear {...this.props}  notFoundContent="无法找到"  onChange={this.handleChange}>
             {options}
         </Select>
     }

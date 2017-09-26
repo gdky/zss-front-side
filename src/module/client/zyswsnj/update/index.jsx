@@ -2,7 +2,7 @@ import React from 'react'
 import req from 'reqwest'
 import config from 'common/configuration'
 import auth from 'common/auth'
-import { Col, Input, Row, Button, Icon, Form, Modal, Select, Checkbox, DatePicker } from 'antd'
+import { Col, Input, Row, Button, Icon, Form, Modal, Select, Checkbox, DatePicker,Spin } from 'antd'
 import { SelectorYear, SelectorXZ, SelectorNames, SelectorXm } from 'component/compSelector'
 import './style.css'
 import Panel from 'component/compPanel'
@@ -48,7 +48,6 @@ let Updateswsnjb = React.createClass({
         }
         value.ztdm = ztdm;
         value['id'] = obj.ID;
-
         this.props.onSubmit(value);
     },
 
@@ -75,7 +74,8 @@ let Updateswsnjb = React.createClass({
 
 
 
-            }
+            },
+            loading:true
         };
     },
 
@@ -101,6 +101,9 @@ let Updateswsnjb = React.createClass({
     },
     //处理姓名下拉框改变事件
     handleXmChange(value) {
+        this.setState({
+            loading: true
+        });
         this.props.form.setFieldsValue({ sws_id: value });
         req({
             url: API_URL + '/' + value,
@@ -109,7 +112,7 @@ let Updateswsnjb = React.createClass({
             headers: { 'x-auth-token': auth.getToken() },
             contentType: 'application/json'
         }).then(resp => {
-            this.setState({ swsdata: resp });
+            this.setState({ swsdata: resp,loading: false });
         }).fail(err => {
             Modal.error({
                 title: '数据获取错误',
@@ -123,7 +126,11 @@ let Updateswsnjb = React.createClass({
 
 
     },
-
+    componentWillReceiveProps(nextProps){//检测父组件state变化
+        if (this.props.data!=nextProps.data&&typeof nextProps.data.sws_id !='undefined') {
+            this.handleXmChange(nextProps.data.sws_id);
+        };
+    },
 
     render() {
 
@@ -138,7 +145,7 @@ let Updateswsnjb = React.createClass({
         const { getFieldProps } = this.props.form;
         const data = this.props.data;
         const obj1 = this.state.swsdata;
-
+        const initialName=data.sws_id+""
 
         var obj2 = {};
         var obj3 = {};
@@ -162,6 +169,7 @@ let Updateswsnjb = React.createClass({
         }
 
         return <div className="add">
+            <Spin spinning={this.state.loading}>
             <Panel title="执业税务师年检表修改" toolbar={toolbar}>
                 <div className="fix-table table-bordered table-striped" >
                     <Form horizontal onSubmit={this.handleSubmit}>
@@ -400,6 +408,7 @@ let Updateswsnjb = React.createClass({
 
                 </div>
             </Panel>
+            </Spin>
         </div>
     }
 });

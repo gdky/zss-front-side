@@ -6,6 +6,7 @@ import Model from './model.js'
 
 const FormItem = Form.Item;
 const createForm = Form.create;
+let oldNbjgData=[];
 const TrWrapper = React.createClass({
     render(){
         return <tr>{this.props.children}</tr>
@@ -31,15 +32,24 @@ let detailBox = React.createClass({
                 return;
           }
         let value = values;
+        let changedTab=[];
         if (!!this.props.nbjgsz) {
                 let nbjgsz=[];
-                for (let i = 0; i < this.props.nbjgsz.rowNum; i++) {
+                for (let i = 0; i < (this.props.nbsj.length>5?this.props.nbsj.length:this.props.nbjgsz.rowNum); i++) {//循环行
                     let nbzsRow=[];
-                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
+                    for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {//循环列
                         let prop = this.props.nbjgsz.rows[j];
                         let values=value[prop.dataIndex+'_'+(i+1)+'_'+j];
-                        nbzsRow.push(!values?null:values);
+                        if(oldNbjgData[i][j+1]!=value[prop.dataIndex+'_'+(i+1)+'_'+j]){//判断是否更新内部机构内容
+                            changedTab.push(prop.dataIndex+'_'+(i+1)+'_'+j);//添加更新标志
+                        }
+                        nbzsRow.push(!values?null:values);//添加列
                         delete value[prop.dataIndex+'_'+(i+1)+'_'+j];
+                    }
+                    if(!nbzsRow.includes(oldNbjgData[i][0])){//无列id则添加
+                        nbzsRow.push(oldNbjgData[i][0]);
+                    }else{
+                        nbzsRow[3]=null;
                     }
                     nbjgsz.push(nbzsRow);
                 }
@@ -60,7 +70,7 @@ let detailBox = React.createClass({
                     };
             };
         };
-        if (ls.length!=0) {
+        if (ls.length!=0||changedTab.length!=0) {
             value.bgjl=ls;
             this.props.onSubmit(value);
         }else{
@@ -100,6 +110,15 @@ let detailBox = React.createClass({
                     for (var j = 0;j < this.props.nbjgsz.rows.length; j++) {
                         let prop = this.props.nbjgsz.rows[j];
                         if (!!target) {
+                            if(typeof oldNbjgData[i-1] =='undefined'){//构造全局内部机构数据源数据
+                                oldNbjgData.push([]);
+                            }
+                            if(oldNbjgData[i-1].length<this.props.nbjgsz.rows.length+1&&typeof target[j+3] !='undefined'){//添加内部机构数据源数据
+                                if(!oldNbjgData[i-1].includes(target[1])){
+                                    oldNbjgData[i-1].push(target[1]);
+                                }
+                                oldNbjgData[i-1].push(target[j+3]);
+                            }
                         nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j,{ initialValue: target[j+3]})}/></td>);
                         }else{
                         nbzsCol.push(<td key={'td-nbjgsz-'+prop.dataIndex} className="prop-name"><Input { ...getFieldProps(prop.dataIndex+'_'+i+'_'+j)}/></td>);

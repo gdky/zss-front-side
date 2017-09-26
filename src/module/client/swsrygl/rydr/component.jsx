@@ -23,7 +23,6 @@ let rydr = React.createClass({
 
 
 handleSubmit(ry){
-        
         this.props.form.validateFieldsAndScroll((errors, values) => {//条件校验处理
               if (!!errors) {
                     Modal.info({ title: '提示', content: (<div><p><b>请填写所有必填项</b></p> </div>)});
@@ -62,7 +61,8 @@ handleSubmit(ry){
                                 let squrls="";
                                 let ls = {ryid:resp[0].id};
                                 let med="put";
-                                switch(ry){
+                                const rytab=ry+"";
+                                switch(rytab){
                                     case '1': squrls=API_URL_ZYDR;med="post";break;
                                     case '2': squrls=API_URL_CYDR;break;
                                     case '5':squrls=API_URL_FZYZZY;ls.ydw=resp[0].ZZDW;med="post";break;
@@ -137,7 +137,7 @@ handleSubmit(ry){
         let tabConst = <div style={{textAlign:'center'}}>
                     <p className="nbjgsz">
                         <span style={{'color':'red',fontSize:'large'}}>*</span>
-                        {tabk==1||tabk==3?"证书编号：":tabk==5?"非执业注册编号：":"姓名："}<Input style={{width:'215px'}} { ...getFieldProps("xming", { rules: [{ required: true}]})}/>
+                        {tabk==1||tabk==3?"执业注册（备案）编号：":tabk==5?"非执业注册编号：":"姓名："}<Input style={{width:'215px'}} { ...getFieldProps("xming", { rules: [{ required: true}]})}/>
                     </p>
                     <p style={{padding:'20px'}}>
                         <span style={{'color':'red',fontSize:'large'}}>*</span>

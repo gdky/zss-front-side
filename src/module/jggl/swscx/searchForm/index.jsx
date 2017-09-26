@@ -49,7 +49,7 @@ let searchForm = React.createClass({
     },
     disabledStartDate(rule, value, callback) {//日期校验规则方法
      const form = this.props.form;
-     if (value && value.getTime() >= Date.now()) {
+     if (value && value.getTime() > Date.now()) {
       callback(new Error('这是个将来的时间'));
     } else if (value &&value.getTime() > form.getFieldValue('clsj2').getTime()) {
       callback(new Error('最小时间大于最大时间'));

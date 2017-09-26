@@ -153,6 +153,9 @@ const zyswsnj = React.createClass({
                 if (key == "ND") {
                     num = num + "";
                 }
+                if (key == "sws_id") {
+                    num = num + "";
+                }
                 fs[key] = num;
             }
             this.setState({entity: entity, fileds: fs, dataLoading: false});

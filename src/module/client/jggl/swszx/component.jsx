@@ -1,24 +1,28 @@
 import React from 'react'
-import {Table,Modal,Row,Col,Button,Icon,Alert,Tooltip,Spin,Form,Input,Select,Upload,message } from 'antd'
+import {Table,Modal,Row,Col,Button,Icon,Alert,Tooltip,Spin,Form,Input,Select,message } from 'antd'
 import Panel from 'component/compPanel'
 import auth from 'common/auth'
 import req from 'reqwest';
 import config from 'common/configuration'
+import Upload from 'component/uploadFile'
 
 
 const API_URL = config.HOST + config.URI_API_PROJECT + '/spapi/spsq/jgzxsq';
-const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/jgzx/';
+const API_URL_C = config.HOST + config.URI_API_PROJECT + '/commont/checksping/checkBeforeDelete';
 const createForm = Form.create;
 const Option = Select.Option;
 let swszxP = React.createClass({
 getInitialState(){
             return {
                 checked: false,
+                confirmLoading:false
             }
         },
     handleSubmit(value){
           this.setState({sqLoading:true});
             var ls = value;
+            ls.FJURL=this.refs.uploadFile.getURL();
+            ls.FJNAME=this.refs.uploadFile.getFileName();
              req({
                 url: API_URL,
                 type: 'json',
@@ -35,12 +39,12 @@ getInitialState(){
                                     <p>提交成功，请等待管理中心审核</p>
                                 </div>  ),
                             onOk() {
-                                      that.setState({checked: false, })
+                                      that.setState({checked: true, })
                                     },
                         });
-                      this.setState({sqLoading:false});
+                      this.setState({sqLoading:false,confirmLoading:false});
             }).fail(err=> {
-                this.setState({sqLoading:false});
+                this.setState({sqLoading:false,confirmLoading:false});
                 Modal.error({
                     title: '数据获取错误',
                     content: (
@@ -59,14 +63,16 @@ getInitialState(){
           Modal.confirm({
             title: '您是否确认要提交注销申请？',
             content: '省管理中心审核通过后，事务所将不存在，并无法登录系统',
+            confirmLoading:this.state.confirmLoading,
             onOk() {
+              that.setState({confirmLoading:true})
               that.handleSubmit(value);
             },
           });
         },
       componentDidMount(){
      req({
-            url: API_URL_C+auth.getJgid(),
+            url: API_URL_C,
             type: 'json',
             method: 'get',
             headers:{'x-auth-token':auth.getToken()}
@@ -86,25 +92,12 @@ getInitialState(){
 
     render(){
         const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-        const props = {
-              name: 'file',
-              action: '/api/zs/swszx/swszxfjPost1',
-              headers:{'x-auth-token':auth.getToken()},
-              onChange(info) {
-                if (info.file.status !== 'uploading') {
-                }
-                if (info.file.status === 'done') {
-                  message.success(`${info.file.name} 上传成功。`);
-                } else if (info.file.status === 'error') {
-                  message.error(`${info.file.name} 上传失败。`);
-                }
-              },
-            };
+        
         return <div className="khd-jggl-swszx">
         <div className="fix-table table-bordered table-striped">
                 <Panel title="事务所注销申请" >
-                               <Form horizontal onSubmit={this.showConfirm}>
-                                  {!!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所注销审批中，无需重复操作</h3>}
+                               <Form horizontal onSubmit={this.showConfirm} form={this.props.form}>
+                                  {!!this.state.checked&&<h3 style={{'padding':'5px','color':'red'}}>事务所存在审批中事项，请等待中心完成审核后再进行操作</h3>}
                                 <table >
                                             <tbody>
                                                     <tr>
@@ -123,14 +116,13 @@ getInitialState(){
                                                     <tr>
                                                             <td ><b>附 件：</b></td>
                                                             <td colSpan="3" > 
-                                                                    <Upload  {...props} {...getFieldProps('zxupload', {valuePropName: 'file',})}>
-                                                                                <Button type="ghost"><Icon type="upload" /> 点击上传</Button>
-                                                                      </Upload>
+                                                                    <Upload ref="uploadFile" />
                                                            </td>
                                                     </tr>
                                                     <tr >
                                                             <td ></td>
-                                                            <td ><p style={{'color':'red'}}>*省管理中心审核通过后，事务所将不存在，不能再登录系统</p>
+                                                            <td ><p style={{'color':'red'}}>*机构及机构内税务师均不存在审批中事项方可进行注销；</p>
+                                                            <p style={{'color':'red'}}>*省管理中心审核通过后，事务所将不存在，不能再登录系统</p>
                                                                     <Button style={{float:'right'}} type="primary" disabled={this.state.checked} oading={this.state.sqLoading} htmlType="submit" >提交</Button>
                                                             </td>
                                                     </tr>

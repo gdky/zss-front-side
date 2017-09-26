@@ -43,7 +43,7 @@
     "webpack-dev-server": "^1.14.0"
   },
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors",
+    "dev": "node --max-old-space-size=4096 ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.dev.js -d --port 8001 --progress --colors",
     "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack --config webpack.dist.js --progress",
     "test": "webpack-dev-server --config webpack.test.js -d --port 8002 --progress --colors --hot --content-base src/test"
   }

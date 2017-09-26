@@ -70,7 +70,7 @@ let detailBox = React.createClass({
         const check = this.props.check;
         var dd = null;
         var zj = null;
-        if (!!obj) {
+        if (!!obj&&obj.clsj) {
             dd = new Date(obj.clsj.toString().replace(/-/g, "/"));//String 转Date
             zj = String(obj.zczj);
         };

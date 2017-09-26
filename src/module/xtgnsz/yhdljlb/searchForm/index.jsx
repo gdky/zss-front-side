@@ -25,7 +25,7 @@ let searchForm = React.createClass({
     },
  disabledStartDate(rule, value, callback) {//日期校验规则方法
      const form = this.props.form;
-     if (value && value.getTime() >= Date.now()) {
+     if (value && value.getTime() > Date.now()) {
       callback(new Error('这是个将来的时间'));
     } else if (form.getFieldValue('dlsj2')) {
        if (value.getTime() > form.getFieldValue('dlsj2').getTime() ) {

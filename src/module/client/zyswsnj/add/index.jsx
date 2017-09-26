@@ -143,7 +143,7 @@ let Addzyswsnj = React.createClass({
 
     //时间范围校验
     checkBirthday(rule, value, callback) {
-        if (value && value.getTime() >= Date.now()) {
+        if (value && value.getTime() > Date.now()) {
             callback(new Error('请不要选择一个未来的时间'));
         } else {
             callback();
