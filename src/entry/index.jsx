@@ -63,11 +63,9 @@ const Index = React.createClass({
                 require('../module/jggl/swsslsp'),
                 require('../module/jggl/swsbgqktj'), //事务所变动情况统计
 
-/*
                 //人员管理
                 require('../module/rygl/rycx'),
                 require('../module/rygl/swsbdtj'), //税务师变动情况统计
-
 
                 //系统功能设置
                 require('../module/xtgnsz/mkgl'),
@@ -248,7 +246,7 @@ const Index = React.createClass({
 
                 //培训报名
                 require('../module/client/wsbm'),
-*/
+
                 //公用功能
                 //修改密码
                 require('../module/updatepass')
