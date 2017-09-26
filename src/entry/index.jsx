@@ -62,7 +62,7 @@ const Index = React.createClass({
                 require('../module/jggl/swscx'),
                 require('../module/jggl/swsslsp'),
                 require('../module/jggl/swsbgqktj'), //事务所变动情况统计
-
+/*
                 //人员管理
                 require('../module/rygl/rycx'),
                 require('../module/rygl/swsbdtj'), //税务师变动情况统计
@@ -239,7 +239,7 @@ const Index = React.createClass({
                 require('../module/client/ywgl/grywtj'), //个人业务统计
                 require('../module/client/ywgl/swsywtj'), //事务所业务统计
                 require('../module/client/ywgl/ywhztj'), //业务汇总统计
-
+*/
                 //站内短信
                 require('../module/zndx'),
                 require('../module/inbox'),
